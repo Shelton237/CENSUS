@@ -9,22 +9,22 @@ defineProps({
 const partners = [
     {
         name: 'UNFPA',
-        src: '/assets/images/partenaires/unfpa.png',
+        src: '/assets/images/partenaire/unfpa.png',
         href: 'https://cameroon.unfpa.org',
     },
     {
         name: 'HISWACA',
-        src: '/assets/images/partenaires/hiswaca-e1770819554832.jpg',
+        src: '/assets/images/partenaire/hiswaca-e1770819554832.jpg',
         href: '#',
     },
     {
         name: 'World Bank Group',
-        src: '/assets/images/partenaires/worldbank.svg',
+        src: '/assets/images/partenaire/worldbank.svg',
         href: 'https://www.worldbank.org',
     },
     {
         name: 'FAO',
-        src: '/assets/images/partenaires/fao.svg',
+        src: '/assets/images/partenaire/fao.svg',
         href: 'https://www.fao.org',
     },
 ];
