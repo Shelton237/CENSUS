@@ -53,7 +53,7 @@
     <body class="font-sans antialiased">
         <!-- GLOBAL LOADER -->
         <div id="global-loader">
-            <img src="/assets/images/logo-rgph.png" alt="Logo" class="loader-logo">
+            <img src="/assets/images/badge.png" alt="Logo" class="loader-logo" style="width: 180px;">
             <div class="loader-spinner"></div>
         </div>
 
