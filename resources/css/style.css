@@ -117,17 +117,28 @@ body {
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
+    .landing-container {
+        justify-content: flex-start;
+        padding-top: 4rem;
+        overflow-y: auto;
+    }
+
     .language-selector {
         flex-direction: column;
         gap: 15px;
     }
     
     .central-badge {
-        max-width: 90vw;
+        max-width: 75vw;
+        margin-bottom: 20px;
     }
     
     .btn {
         width: 100%;
         text-align: center;
+    }
+
+    .description-container p {
+        margin-top: 20px;
     }
 }
