@@ -48,7 +48,7 @@ onMounted(() => {
         <!-- ===================== ANNONCE URGENTE ===================== -->
         <div class="announcement-bar" id="announcement-bar">
             <div class="scrolling-text">
-                <span>⚠️ Texte d'annonce urgente à insérer ici — Le recensement national 2024 est en cours — Participez pour être comptés ! &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⚠️ Texte d'annonce urgente à insérer ici — Le recensement national 2024 est en cours — Participez pour être comptés !</span>
+                <span>⚠️ Le 4ème Recensement Général de la Population et de l'Habitat (RGPH) est en cours au Cameroun — Soyez comptés pour bâtir l'avenir de notre pays ! &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⚠️ Participez massivement au dénombrement pour une planification précise du développement national.</span>
             </div>
         </div>
 
@@ -92,13 +92,13 @@ onMounted(() => {
         <div class="hero-infobar">
             <div class="container infobar-inner">
                 <div class="info-item">
-                    <span>Small descriptive text to insert here lorem impsum dolores</span>
+                    <span>Plus de 30 000 agents recenseurs mobilisés sur tout le territoire national</span>
                 </div>
                 <div class="info-item">
-                    <span>Small descriptive text to insert here lorem impsum dolores</span>
+                    <span>Une technologie de collecte 100% numérique pour une fiabilité maximale</span>
                 </div>
                 <div class="info-item">
-                    <span>Small descriptive text to insert here lorem impsum dolores</span>
+                    <span>Une planification stratégique basée sur des données démographiques fiables</span>
                 </div>
             </div>
         </div>
@@ -118,8 +118,8 @@ onMounted(() => {
                         </div>
                         <div class="tl-phase completed">
                             <div class="tl-box">
-                                <span class="tl-title">Phase Pré-XXX</span>
-                                <span class="tl-desc">Collecte initiale et délimitation des zones.</span>
+                                <span class="tl-title">Cartographie</span>
+                                <span class="tl-desc">Délimitation des zones de dénombrement (S1 2024).</span>
                             </div>
                         </div>
                         <div class="tl-phase active">
@@ -131,20 +131,20 @@ onMounted(() => {
                                 </svg>
                             </div>
                             <div class="tl-box">
-                                <span class="tl-title">Phase Pré-XXX</span>
-                                <span class="tl-desc">Test grandeur nature sur zones échantillons.</span>
+                                <span class="tl-title">Recensement Pilote</span>
+                                <span class="tl-desc">Test grandeur nature sur zones échantillons (S2 2024).</span>
                             </div>
                         </div>
                         <div class="tl-phase upcoming">
                             <div class="tl-box">
-                                <span class="tl-title">Phase Pré-XXX</span>
-                                <span class="tl-desc">Collecte nationale sur l'ensemble du territoire.</span>
+                                <span class="tl-title">Dénombrement National</span>
+                                <span class="tl-desc">Collecte nationale sur l'ensemble du territoire (2025).</span>
                             </div>
                         </div>
                         <div class="tl-phase upcoming">
                             <div class="tl-box">
-                                <span class="tl-title">Phase Pré-XXX</span>
-                                <span class="tl-desc">Codification, saisie et publication des résultats.</span>
+                                <span class="tl-title">Analyse et Publication</span>
+                                <span class="tl-desc">Traitement des données et diffusion des résultats finaux (2026).</span>
                             </div>
                         </div>
                         <div class="tl-endpoint tl-end">
@@ -184,9 +184,9 @@ onMounted(() => {
                         </div>
                     </div>
                     <div class="alaune-hero-card">
-                        <span class="tag">Info</span>
-                        <h3>Title inser here</h3>
-                        <p>Title inser here</p>
+                        <span class="tag">Événement</span>
+                        <h3>Lancement officiel du RGPH</h3>
+                        <p>Le Ministre de l'Économie a présidé la cérémonie de lancement du dénombrement pilote.</p>
                         <Link href="/article" class="alaune-link">Lire le contenu</Link>
                     </div>
                 </div>
@@ -265,18 +265,18 @@ onMounted(() => {
                     <!-- Les posts sociaux sont reproduits à l'identique -->
                     <div class="social-post" v-for="i in 5" :key="i">
                         <div class="post-header">
-                            <img src="/assets/images/logo-rgae.jpg" alt="UNFPA" class="post-avatar">
+                            <img src="/assets/images/logo-rgae.jpg" alt="Organisme" class="post-avatar">
                             <div class="post-meta">
-                                <strong>UNFPA Cameroun</strong>
-                                <span class="post-handle">@UNFPACameroon · Dec 15</span>
+                                <strong>Census Kamerun</strong>
+                                <span class="post-handle">@CensusCam · March 24</span>
                             </div>
                         </div>
-                        <p>Pour garantir la fiabilité des données 4e Recensement Général de la Population... <a href="#" class="post-more">En voir plus</a></p>
+                        <p>Ensemble pour le développement ! Le recensement permet d'ajuster les services publics de santé et d'éducation... <a href="#" class="post-more">En voir plus</a></p>
                         <div class="post-img-wrap">
                             <img src="/assets/images/accueil/495229d6739ec5d681e8f133d30bce3835dd8d3d.jpg" alt="Post image">
                         </div>
                         <div class="post-footer">
-                            <div class="post-stats"><span>1 ❤</span><span>↩ 3</span><span>♺ 11</span></div>
+                            <div class="post-stats"><span>24 ❤</span><span>↩ 12</span><span>♺ 5</span></div>
                             <span class="post-tag">Facebook</span>
                         </div>
                     </div>
