@@ -1,0 +1,103 @@
+<script setup>
+import { ref } from 'vue';
+import MainLayout from '@/Layouts/MainLayout.vue';
+import { Link } from '@inertiajs/vue3';
+
+const articles = [
+    { category: 'communique', tag: 'Communiqué', date: '12 oct. 2024', title: 'Démarrage du dénombrement', excerpt: 'Le Gouverneur informe les populations que les équipes sont actives.', imgClass: 'article-img--green' },
+    { category: 'activite', tag: 'Activité', date: '8 oct. 2024', title: 'Cartographie achevée', excerpt: "L'INS annonce l'achèvement de la phase de cartographie.", imgClass: 'article-img--gold' },
+    { category: 'publication', tag: 'Publication', date: '5 oct. 2024', title: 'Rapport préliminaire', excerpt: "L'Institut National de la Statistique publie le rapport.", imgClass: 'article-img--teal' },
+    { category: 'communique', tag: 'Communiqué', date: '01 oct. 2024', title: 'Note aux personnels', excerpt: 'Déploiement des équipes techniques sur le terrain.', imgClass: 'article-img--green' }
+];
+</script>
+
+<template>
+    <MainLayout>
+        <main class="article-detail-page">
+            <!-- Header Section (Breadcrumb + Title) -->
+            <section class="article-detail-header">
+                <div class="container">
+                    <nav class="breadcrumb">
+                        <Link href="/">Accueil</Link> &gt; 
+                        <Link href="/actualites">Actualités</Link> &gt; 
+                        <span>Détails de l'article</span>
+                    </nav>
+                    <div class="article-header-content" style="margin-top: 20px;">
+                        <span class="article-tag tag-communique">Communiqué</span>
+                        <h1 class="article-main-title" style="font-size: 42px; font-weight: 900; color: #295E4D; line-height: 1.2; margin-top: 15px;">Démarrage officiel du dénombrement : ce qu'il faut savoir</h1>
+                        <div class="article-meta-info" style="margin-top: 15px; display: flex; gap: 20px; color: #666; font-size: 14px;">
+                            <span>Publié le 12 Octobre 2024</span>
+                            <span style="display: flex; align-items: center; gap: 6px;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> 124 vues
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="container article-layout" style="margin-top: 40px; display: grid; grid-template-columns: 1fr 340px; gap: 60px;">
+                <!-- Article Content Left -->
+                <div class="article-left">
+                    <div class="article-featured-img" style="width: 100%; height: 450px; background: #eee; border-radius: 12px; margin-bottom: 30px; overflow: hidden;">
+                        <img src="/assets/images/accueil/495229d6739ec5d681e8f133d30bce3835dd8d3d.jpg" alt="Featured" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    
+                    <div class="article-content-rich" style="line-height: 1.8; color: #333; font-size: 16px;">
+                        <p style="margin-bottom: 20px;">Le Gouverneur de la région du Centre informe les populations que les équipes de recensement sont désormais actives sur le terrain dans le cadre du 4e Recensement Général de la Population et de l'Habitat (RGPH) et du Recensement Général de l'Agriculture et de l'Élevage (RGAE).</p>
+                        <p style="margin-bottom: 20px;">Cette opération d'envergure nationale vise à collecter des données précises pour orienter les politiques de développement. Tous les habitants sont invités à réserver un bon accueil aux agents recenseurs munis de leur badge officiel et de leur gilet.</p>
+                        <blockquote style="border-left: 4px solid #E8AA00; padding-left: 20px; font-style: italic; margin: 30px 0; color: #555;">
+                            "La réussite de ce recensement dépend de la sincérité de vos réponses. Votre participation est un acte citoyen pour le futur du Cameroun."
+                        </blockquote>
+                        <p>Les données collectées restent strictement confidentielles et serviront uniquement à des fins statistiques.</p>
+                    </div>
+
+                    <!-- Social Share -->
+                    <div class="article-share" style="border-top: 1px solid #EEE; border-bottom: 1px solid #EEE; padding: 20px 0; margin-top: 50px; display: flex; align-items: center; gap: 15px;">
+                        <span style="font-weight: bold; font-size: 14px;">PARTAGER L'ARTICLE :</span>
+                        <a href="#" class="share-btn-round" style="background:#3b5998; width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="18" height="18" fill="white" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
+                        <a href="#" class="share-btn-round" style="background:#000; width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="18" height="18" fill="white" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a>
+                    </div>
+                </div>
+
+                <!-- Documentation Sidebar Right -->
+                <aside class="article-right">
+                    <div class="doc-sidebar-card" style="background: #F8FAF9; padding: 25px; border-radius: 15px; border: 1px solid #E9F0EE; position: sticky; top: 120px;">
+                        <h4 style="font-size: 18px; font-weight: 700; color: #295E4D; margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                            DOCUMENTS
+                        </h4>
+                        <ul class="doc-list" style="list-style: none; display: flex; flex-direction: column; gap: 15px;">
+                            <li><a href="#" class="doc-item-link" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; color: #444; font-size: 14px; padding-bottom: 10px; border-bottom: 1px solid #EEE;">
+                                <span>Note Circulaire No 2024-05</span>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8AA00" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            </a></li>
+                            <li><a href="#" class="doc-item-link" style="display: flex; justify-content: space-between; align-items: center; text-decoration: none; color: #444; font-size: 14px; padding-bottom: 10px; border-bottom: 1px solid #EEE;">
+                                <span>Décret de nomination</span>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8AA00" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            </a></li>
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+
+            <!-- Autres Articles Slider -->
+            <section class="other-articles-section" style="margin-top: 100px; padding: 60px 0; background: #FFF;">
+                <div class="container">
+                    <h2 class="other-articles-title" style="font-size: 28px; font-weight: 800; margin-bottom: 35px; color: #295E4D;">Autres articles</h2>
+                    <div class="other-articles-grid" style="display: flex; gap: 24px; overflow-x: auto; scroll-snap-type: x mandatory; -ms-overflow-style: none; scrollbar-width: none; padding-bottom: 20px;">
+                        <article v-for="(art, idx) in articles" :key="idx" class="article-card" style="flex: 0 0 calc(31% - 16px); scroll-snap-align: start;">
+                            <Link href="/article" class="article-card-link">
+                                <div class="article-img" :class="art.imgClass"></div>
+                                <div class="article-card-body">
+                                    <div class="article-meta"><span class="article-tag" :class="`tag-${art.category}`">{{ art.tag }}</span> <time class="article-date">{{ art.date }}</time></div>
+                                    <h3 class="article-card-title">{{ art.title }}</h3>
+                                    <span class="article-read-more">Lire la suite</span>
+                                </div>
+                            </Link>
+                        </article>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </MainLayout>
+</template>

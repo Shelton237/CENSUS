@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(update-config)",
+      "Bash(plink -pw \"Me@24Pr!SeRV_DeF\" mepro@195.24.205.157 \"docker ps -a\")",
+      "WebFetch(domain:www.figma.com)"
+    ]
+  }
+}
