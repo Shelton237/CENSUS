@@ -1,1 +1,0 @@
-import{_ as o}from"./_plugin-vue_export-helper-DlAUqK2U.js";import{o as c,c as t}from"./app-EDCeUKmU.js";const e={},s={src:"/assets/images/badge.png",alt:"Logo CENSUS",class:"h-10 w-auto object-contain"};function a(n,r){return c(),t("img",s)}const m=o(e,[["render",a]]);export{m as A};
