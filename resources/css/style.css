@@ -6,10 +6,11 @@
 }
 
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Outfit', sans-serif;
     color: #FFFFFF;
-    background-color: #295E4D; /* Solid bottom color */
+    background-color: #204138;
     overflow-x: hidden;
+    letter-spacing: -0.01em;
 }
 
 .landing-container {
@@ -29,12 +30,14 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    height: 50vh; /* Approximate top half */
+    height: 55vh;
     background-image: url('/assets/images/pattern.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center top;
     z-index: -1;
+    mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
 }
 
 .content-wrapper {
@@ -55,18 +58,24 @@ body {
 }
 
 .central-badge {
-    max-width: 612px;
+    max-width: 580px;
     width: 100%;
     height: auto;
-    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.3));
+    filter: drop-shadow(0 25px 45px rgba(0, 0, 0, 0.45));
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.central-badge:hover {
+    transform: scale(1.03);
 }
 
 /* Description Section */
 .description-container p {
-    font-size: 16px;
-    line-height: 1.5;
-    color: #FFFFFF;
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.9);
     max-width: 800px;
+    font-weight: 300;
 }
 
 /* Language Selector (Buttons) */
@@ -87,13 +96,17 @@ body {
 }
 
 .btn-gold {
-    background-color: #DAA520; /* Color Gold from Figma */
-    color: #295E4D; /* Contrast color (Dark Green) */
+    background: linear-gradient(135deg, #EDAF11 0%, #D49C0D 100%);
+    color: #152B25;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255,255,255,0.3);
+    border: none;
 }
 
 .btn-gold:hover {
-    background-color: #C0941B; /* Darker Gold for hover effect */
-    transform: translateY(-2px);
+    background: #FFFFFF;
+    color: #152B25;
+    transform: translateY(-4px);
+    box-shadow: 0 15px 30px rgba(237, 175, 17, 0.3);
 }
 
 /* Partners Section */
