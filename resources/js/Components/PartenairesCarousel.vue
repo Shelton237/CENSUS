@@ -14,7 +14,7 @@ const partners = [
     },
     {
         name: 'HISWACA',
-        src: '/assets/images/partenaires/HISWACA-e1770819554832.jpg',
+        src: '/assets/images/partenaires/hiswaca-e1770819554832.jpg',
         href: '#',
     },
     {
