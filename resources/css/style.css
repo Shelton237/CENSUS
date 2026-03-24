@@ -96,17 +96,18 @@ body {
 }
 
 .btn-gold {
-    background: linear-gradient(135deg, #EDAF11 0%, #D49C0D 100%);
+    background: #EDAF11; /* Solid Institutional Gold */
     color: #152B25;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255,255,255,0.3);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     border: none;
+    position: relative;
 }
 
 .btn-gold:hover {
     background: #FFFFFF;
     color: #152B25;
-    transform: translateY(-4px);
-    box-shadow: 0 15px 30px rgba(237, 175, 17, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
 /* Partners Section */
