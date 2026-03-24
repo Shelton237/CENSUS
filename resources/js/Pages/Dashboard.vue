@@ -4,10 +4,16 @@ import { Head } from '@inertiajs/vue3';
 import PageHeader from '@/Components/PageHeader.vue';
 import AdminCard from '@/Components/AdminCard.vue';
 
+const props = defineProps({
+    articles_count: Number,
+    partners_count: Number,
+    recent_articles: Array
+});
+
 const stats = [
     { title: 'Population Estimée', value: '28 644 120', trend: '+2.4%', icon: 'users' },
-    { title: 'Ménages Recensés', value: '5 420 115', trend: '+12k', icon: 'chart' },
-    { title: 'Cartographie', value: '98%', trend: 'Phase finale', icon: 'map' },
+    { title: 'Actualités Publiées', value: props.articles_count, trend: 'En ligne', icon: 'chart' },
+    { title: 'Partenaires Officiels', value: props.partners_count, trend: 'Actifs', icon: 'map' },
 ];
 </script>
 
@@ -81,19 +87,18 @@ const stats = [
                         </div>
                     </div>
 
-                    <!-- Carte Activités Récentes -->
                     <div class="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
                         <h3 class="text-xl font-bold text-[#204138] mb-6">Dernières Activités</h3>
                         <div class="space-y-4">
-                            <div v-for="i in 3" :key="i" class="flex items-center gap-4 p-4 border-l-2 border-gray-100 hover:border-[#EDAF11] transition-all bg-[#f9fbfb]/50 rounded-r-xl">
+                            <div v-for="article in recent_articles" :key="article.title" class="flex items-center gap-4 p-4 border-l-2 border-gray-100 hover:border-[#EDAF11] transition-all bg-[#f9fbfb]/50 rounded-r-xl">
                                 <div class="w-10 h-10 rounded-full bg-white border border-[#204138]/10 flex items-center justify-center text-[#204138] shrink-0 shadow-sm">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                 </div>
                                 <div class="flex-1">
-                                    <p class="text-sm font-medium text-gray-800">Mise à jour de la cartographie (Zone Centre)</p>
-                                    <p class="text-xs text-gray-400">Il y a 2 heures par Admin RGPH</p>
+                                    <p class="text-sm font-medium text-gray-800">{{ article.title }}</p>
+                                    <p class="text-xs text-gray-400">{{ article.created_at }}</p>
                                 </div>
-                                <span class="text-[10px] font-bold px-2 py-1 rounded bg-[#204138]/5 text-[#204138] uppercase">Log</span>
+                                <span class="text-[10px] font-bold px-2 py-1 rounded bg-[#204138]/5 text-[#204138] uppercase">Article</span>
                             </div>
                         </div>
                     </div>

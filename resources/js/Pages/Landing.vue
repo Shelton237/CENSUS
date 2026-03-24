@@ -15,8 +15,8 @@ onMounted(() => {
 
 <template>
     <Head>
-        <title>Bienvenue</title>
-        <meta name="description" content="Portail officiel du 4ème Recensement Général de la Population et de l'Habitat (RGPH) et du RGAE au Cameroun.">
+        <title>{{ __('Bienvenue') }}</title>
+        <meta name="description" :content="__('Portail officiel description')">
     </Head>
     
     <main class="landing-container">

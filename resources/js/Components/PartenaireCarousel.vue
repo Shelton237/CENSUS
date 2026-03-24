@@ -1,33 +1,34 @@
 <script setup>
-defineProps({
+import { computed } from 'vue';
+
+const props = defineProps({
     title: {
         type: String,
         default: 'Partenaires au Recensement'
+    },
+    partners: {
+        type: Array,
+        default: () => []
     }
 });
 
-const partners = [
-    {
-        name: 'UNFPA',
-        src: '/assets/images/partenaire/unfpa.png',
-        href: 'https://cameroon.unfpa.org',
-    },
-    {
-        name: 'HISWACA',
-        src: '/assets/images/partenaire/hiswaca-e1770819554832.jpg',
-        href: '#',
-    },
-    {
-        name: 'World Bank Group',
-        src: '/assets/images/partenaire/worldbank.svg',
-        href: 'https://www.worldbank.org',
-    },
-    {
-        name: 'FAO',
-        src: '/assets/images/partenaire/fao.svg',
-        href: 'https://www.fao.org',
-    },
+const defaultPartners = [
+    { name: 'UNFPA', src: '/assets/images/partenaire/unfpa.png', href: 'https://cameroon.unfpa.org' },
+    { name: 'HISWACA', src: '/assets/images/partenaire/hiswaca-e1770819554832.jpg', href: '#' },
+    { name: 'World Bank Group', src: '/assets/images/partenaire/worldbank.svg', href: 'https://www.worldbank.org' },
+    { name: 'FAO', src: '/assets/images/partenaire/fao.svg', href: 'https://www.fao.org' },
 ];
+
+const displayPartners = computed(() => {
+    if (props.partners && props.partners.length > 0) {
+        return props.partners.map(p => ({
+            name: p.name,
+            src: `/storage/${p.logo}`,
+            href: p.website || '#'
+        }));
+    }
+    return defaultPartners;
+});
 </script>
 
 <template>
@@ -35,7 +36,7 @@ const partners = [
         <!-- Titre aligné à gauche, exactement comme sur la maquette -->
         <div class="container mx-auto px-6 mb-8">
             <h2 style="font-size: 56px; font-weight: 900; color: #111111; line-height: 1.15; font-family: inherit;">
-                {{ title }}
+                {{ __(title) }}
             </h2>
         </div>
 
@@ -52,7 +53,7 @@ const partners = [
             <div class="partners-track">
                 <template v-for="pass in [1, 2, 3, 4]" :key="pass">
                     <a
-                        v-for="partner in partners"
+                        v-for="partner in displayPartners"
                         :key="pass + '-' + partner.name"
                         :href="partner.href"
                         target="_blank"

@@ -8,25 +8,15 @@ Route::get('/', function () {
     return Inertia::render('Landing');
 });
 
-Route::get('/accueil', function () {
-    return Inertia::render('Accueil');
-});
+Route::get('/accueil', \App\Http\Controllers\AccueilController::class)->name('accueil');
 
-Route::get('/actualites', function () {
-    return Inertia::render('Actualites');
-});
+Route::get('/apropos', function () { return Inertia::render('Apropos'); });
+Route::get('/activites', function () { return Inertia::render('Activites'); });
 
-Route::get('/apropos', function () {
-    return Inertia::render('Apropos');
-});
-
-Route::get('/activites', function () {
-    return Inertia::render('Activites');
-});
-
-Route::get('/article', function () {
-    return Inertia::render('Article');
-});
+use App\Http\Controllers\ArticleController;
+Route::get('/actualites', [ArticleController::class, 'index'])->name('actualites.index');
+Route::get('/actualites/{article}', [ArticleController::class, 'show'])->name('actualites.show');
+Route::get('/article', function () { return redirect()->route('actualites.index'); }); 
 
 Route::get('/contact', function () {
     return Inertia::render('Contact');
@@ -52,5 +42,25 @@ Route::get('/set-locale/{locale}', function ($locale, Request $request) {
 })->name('set-locale');
 
 Route::post('/newsletter', [NewsletterController::class, 'store'])->name('newsletter.store');
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard', [
+            'articles_count' => \App\Models\Article::count(),
+            'partners_count' => \App\Models\Partner::count(),
+            'recent_articles' => \App\Models\Article::latest()->take(3)->get()->map(function($a) {
+                return [
+                    'title' => $a->title_fr,
+                    'created_at' => $a->created_at->diffForHumans(),
+                ];
+            }),
+        ]);
+    })->name('dashboard');
+
+    Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+        Route::resource('articles', \App\Http\Controllers\Admin\ArticleController::class);
+        Route::resource('partners', \App\Http\Controllers\Admin\PartnerController::class);
+    });
+});
 
 require __DIR__.'/auth.php';

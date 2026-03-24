@@ -550,6 +550,13 @@ body {
     position: relative;
     /* Space at bottom for years */
     z-index: 1;
+    overflow-x: auto;
+    padding-bottom: 20px;
+    scrollbar-width: none;
+}
+
+.timeline-wrapper::-webkit-scrollbar {
+    display: none;
 }
 
 /* Grille partagée — rangée principale + rangée années */
@@ -557,7 +564,8 @@ body {
 .tl-years-row {
     display: grid;
     grid-template-columns: 90px 1fr 1fr 1fr 1fr 90px;
-    min-width: 900px;
+    /* min-width: 900px;  Supprimé pour éviter l'overflow mobile, remplacé par un scroll horizontal sur le parent */
+    width: max-content;
 }
 
 /* Rangée principale */
@@ -1221,6 +1229,11 @@ body {
     margin-bottom: 36px;
     overflow-x: auto;
     padding-bottom: 8px;
+    scrollbar-width: none;
+}
+
+.social-feed-grid::-webkit-scrollbar {
+    display: none;
 }
 
 .social-post {
@@ -1611,7 +1624,7 @@ body {
     }
 
     .alaune-cards-row {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr); /* 2 colonnes sur tablette */
     }
 
     /* Footer Tablette (3 colonnes) */

@@ -41,6 +41,20 @@ const showingNavigationDropdown = ref(false);
                                     Tableau de Bord
                                 </NavLink>
                                 <NavLink
+                                    :href="route('admin.articles.index')"
+                                    :active="route().current('admin.articles.*')"
+                                    class="text-[#204138] font-bold"
+                                >
+                                    Actualités
+                                </NavLink>
+                                <NavLink
+                                    :href="route('admin.partners.index')"
+                                    :active="route().current('admin.partners.*')"
+                                    class="text-[#204138] font-bold"
+                                >
+                                    Partenaires
+                                </NavLink>
+                                <NavLink
                                     href="#"
                                     class="text-gray-400 cursor-not-allowed"
                                 >

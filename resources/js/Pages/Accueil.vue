@@ -2,31 +2,36 @@
 import { ref, onMounted } from 'vue';
 import MainLayout from '@/Layouts/MainLayout.vue';
 import { Link, Head } from '@inertiajs/vue3';
-import PartenairesCarousel from '@/Components/PartenairesCarousel.vue';
+import PartenaireCarousel from '@/Components/PartenaireCarousel.vue';
 import CallCenterBanner from '@/Components/CallCenterBanner.vue';
+
+const props = defineProps({
+    partners: Array,
+    latestArticles: Array
+});
 
 // Slider state
 const activeSlide = ref(0);
 const slides = [
     { 
-        image: '/assets/images/slides/phase_prepa.jpg', 
+        image: '/assets/images/slides/495229d6739ec5d681e8f133d30bce3835dd8d3d.jpg', 
         title: 'Phase de Préparation', 
-        text: "La phase préparatoire du 4<sup>ème</sup> RGPH et du RGAE mobilise toutes les ressources techniques et logistiques." 
+        text: 'La phase préparatoire' 
     },
     { 
         image: '/assets/images/slides/phase_epc.jpg', 
         title: 'Recensement de Terrain', 
-        text: "La collecte des données sur le terrain permet de cartographier précisément la population camerounaise." 
+        text: 'La collecte des données' 
     },
     { 
         image: '/assets/images/slides/phase_analyse.jpg', 
         title: 'Traitement et Analyse', 
-        text: "Des experts s'attellent à l'analyse rigoureuse des données collectées pour une planification optimale." 
+        text: 'Des experts s\'attellent' 
     },
     { 
-        image: '/assets/images/slides/phase_publication.jpg', 
+        image: '/assets/images/slides/495229d6739ec5d681e8f133d30bce3835dd8d3d.jpg', 
         title: 'Diffusion des Résultats', 
-        text: "La publication officielle des résultats finaux pour éclairer les politiques publiques de développement." 
+        text: 'La publication officielle' 
     }
 ];
 
@@ -53,7 +58,7 @@ onMounted(() => {
         <!-- ===================== ANNONCE URGENTE ===================== -->
         <div class="announcement-bar" id="announcement-bar">
             <div class="scrolling-text">
-                <span>⚠️ Le 4ème Recensement Général de la Population et de l'Habitat (RGPH) est en cours au Cameroun — Soyez comptés pour bâtir l'avenir de notre pays ! &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⚠️ Participez massivement au dénombrement pour une planification précise du développement national.</span>
+                <span>{{ __('Annonce défilement') }}</span>
             </div>
         </div>
 
@@ -66,21 +71,21 @@ onMounted(() => {
                     <div class="slide-overlay"></div>
                     <div class="container slide-content">
                         <div class="hero-card">
-                            <h1 v-html="slide.title"></h1>
-                            <p>{{ slide.text }}</p>
-                            <a href="#" class="btn-read">Lire le contenu</a>
+                            <h1 v-html="__(slide.title)"></h1>
+                            <p v-html="__(slide.text)"></p>
+                            <Link href="/article" class="btn-read">{{ __('En savoir plus') }}</Link>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Flèches latérales -->
-            <button @click="prevSlide" class="slider-arrow arrow-prev" id="slider-prev" aria-label="Précédent">
+            <button @click="prevSlide" class="slider-arrow arrow-prev" id="slider-prev" :aria-label="__('Précédent')">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="15 18 9 12 15 6"></polyline>
                 </svg>
             </button>
-            <button @click="nextSlide" class="slider-arrow arrow-next" id="slider-next" aria-label="Suivant">
+            <button @click="nextSlide" class="slider-arrow arrow-next" id="slider-next" :aria-label="__('Suivant')">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="9 18 15 12 9 6"></polyline>
                 </svg>
@@ -97,13 +102,13 @@ onMounted(() => {
         <div class="hero-infobar">
             <div class="container infobar-inner">
                 <div class="info-item">
-                    <span>Plus de 30 000 agents recenseurs mobilisés sur tout le territoire national</span>
+                    <span>{{ __('Mobilisation Info') }}</span>
                 </div>
                 <div class="info-item">
-                    <span>Une technologie de collecte 100% numérique pour une fiabilité maximale</span>
+                    <span>{{ __('Technologie Info') }}</span>
                 </div>
                 <div class="info-item">
-                    <span>Une planification stratégique basée sur des données démographiques fiables</span>
+                    <span>{{ __('Planification Info') }}</span>
                 </div>
             </div>
         </div>
@@ -112,48 +117,48 @@ onMounted(() => {
         <section class="chronogramme-section" id="chronogramme">
             <div class="container">
                 <div class="section-header chron-header">
-                    <h2>Chronogramme</h2>
-                    <p>Suivez le chronogramme des activités en temps réel</p>
+                    <h2>{{ __('Chronogramme des activités') }}</h2>
+                    <p>{{ __('Consultez les étapes') }}</p>
                 </div>
 
                 <div class="timeline-wrapper">
                     <div class="timeline-row">
                         <div class="tl-endpoint tl-start">
-                            <span>Début du<br>processus</span>
+                            <span>{{ __('Début du') }}<br>{{ __('processus') }}</span>
                         </div>
                         <div class="tl-phase completed">
                             <div class="tl-box">
-                                <span class="tl-title">Cartographie</span>
-                                <span class="tl-desc">Délimitation des zones de dénombrement (S1 2024).</span>
+                                <span class="tl-title">{{ __('Cartographie') }}</span>
+                                <span class="tl-desc">{{ __('Cartographie desc') }}</span>
                             </div>
                         </div>
                         <div class="tl-phase active">
                             <div class="tl-now-marker">
-                                <span>Nous sommes ici</span>
+                                <span>{{ __('Nous sommes ici') }}</span>
                                 <svg width="22" height="30" viewBox="0 0 22 30" fill="none">
                                     <path d="M11 0C4.925 0 0 4.925 0 11C0 19.25 11 30 11 30C11 30 22 19.25 22 11C22 4.925 17.075 0 11 0Z" fill="#2E6B5E"/>
                                     <circle cx="11" cy="11" r="5" fill="#E8AA00"/>
                                 </svg>
                             </div>
                             <div class="tl-box">
-                                <span class="tl-title">Recensement Pilote</span>
-                                <span class="tl-desc">Test grandeur nature sur zones échantillons (S2 2024).</span>
+                                <span class="tl-title">{{ __('Recensement Pilote') }}</span>
+                                <span class="tl-desc">{{ __('Recensement Pilote desc') }}</span>
                             </div>
                         </div>
                         <div class="tl-phase upcoming">
                             <div class="tl-box">
-                                <span class="tl-title">Dénombrement National</span>
-                                <span class="tl-desc">Collecte nationale sur l'ensemble du territoire (2025).</span>
+                                <span class="tl-title">{{ __('Dénombrement National') }}</span>
+                                <span class="tl-desc">{{ __('Dénombrement National desc') }}</span>
                             </div>
                         </div>
                         <div class="tl-phase upcoming">
                             <div class="tl-box">
-                                <span class="tl-title">Analyse et Publication</span>
-                                <span class="tl-desc">Traitement des données et diffusion des résultats finaux (2026).</span>
+                                <span class="tl-title">{{ __('Analyse et Publication') }}</span>
+                                <span class="tl-desc">{{ __('Analyse et Publication desc') }}</span>
                             </div>
                         </div>
                         <div class="tl-endpoint tl-end">
-                            <span>Fin du<br>processus</span>
+                            <span>{{ __('Fin du') }}<br>{{ __('processus') }}</span>
                         </div>
                     </div>
 
@@ -177,7 +182,7 @@ onMounted(() => {
         <!-- ===================== A LA UNE ===================== -->
         <section class="alaune-section" id="a-la-une">
             <div class="container">
-                <h2 class="alaune-title">A la Une</h2>
+                <h2 class="alaune-title">{{ __('A la Une') }}</h2>
 
                 <div class="alaune-hero">
                     <div class="alaune-hero-img-wrap">
@@ -189,62 +194,32 @@ onMounted(() => {
                         </div>
                     </div>
                     <div class="alaune-hero-card">
-                        <span class="tag">Événement</span>
-                        <h3>Lancement officiel du RGPH</h3>
-                        <p>Le Ministre de l'Économie a présidé la cérémonie de lancement du dénombrement pilote.</p>
-                        <Link href="/article" class="alaune-link">Lire le contenu</Link>
+                        <span class="tag">{{ __('Événement') }}</span>
+                        <h3>{{ __('Lancement officiel du RGPH') }}</h3>
+                        <p>{{ __('Le Ministre de l\'Économie') }}</p>
+                        <Link href="/article" class="alaune-link">{{ __('Lire le contenu') }}</Link>
                     </div>
                 </div>
 
                 <div class="alaune-cards-row">
-                    <article class="article-card" data-category="communique">
-                        <Link href="/article" class="article-card-link">
-                            <div class="article-img article-img--green"></div>
+                    <article v-for="(article, index) in latestArticles" :key="index" class="article-card" :data-category="article.category">
+                        <Link :href="route('actualites.show', article.slug)" class="article-card-link">
+                            <div class="article-img" :class="article.imgClass || `article-img--${article.category === 'communique' ? 'green' : (article.category === 'activite' ? 'gold' : 'teal')}`"></div>
                             <div class="article-card-body">
                                 <div class="article-meta">
-                                    <span class="article-tag tag-communique">Communiqué</span>
-                                    <time class="article-date">12 oct. 2024</time>
+                                    <span class="article-tag" :class="`tag-${article.category}`">{{ __(article.tag) }}</span>
+                                    <time class="article-date">{{ article.date }}</time>
                                 </div>
-                                <h3 class="article-card-title">Communiqué officiel : démarrage du dénombrement</h3>
-                                <p class="article-card-excerpt">Le Gouverneur de la région du Centre informe les populations que les équipes de recensement sont désormais actives.</p>
-                                <span class="article-read-more">Lire la suite</span>
-                            </div>
-                        </Link>
-                    </article>
-
-                    <article class="article-card" data-category="activite">
-                        <Link href="/article" class="article-card-link">
-                            <div class="article-img article-img--gold"></div>
-                            <div class="article-card-body">
-                                <div class="article-meta">
-                                    <span class="article-tag tag-activite">Activité</span>
-                                    <time class="article-date">8 oct. 2024</time>
-                                </div>
-                                <h3 class="article-card-title">Cartographie achevée : 98% des zones délimitées</h3>
-                                <p class="article-card-excerpt">L'INS annonce l'achèvement de la phase de cartographie, avec 98% des zones de dénombrement délimitées.</p>
-                                <span class="article-read-more">Lire la suite</span>
-                            </div>
-                        </Link>
-                    </article>
-
-                    <article class="article-card" data-category="publication">
-                        <Link href="/article" class="article-card-link">
-                            <div class="article-img article-img--teal"></div>
-                            <div class="article-card-body">
-                                <div class="article-meta">
-                                    <span class="article-tag tag-publication">Publication</span>
-                                    <time class="article-date">5 oct. 2024</time>
-                                </div>
-                                <h3 class="article-card-title">Rapport préliminaire de la phase de cartographie</h3>
-                                <p class="article-card-excerpt">L'Institut National de la Statistique publie le rapport préliminaire de la phase de cartographie.</p>
-                                <span class="article-read-more">Lire la suite</span>
+                                <h3 class="article-card-title">{{ article.title }}</h3>
+                                <p class="article-card-excerpt">{{ article.excerpt }}</p>
+                                <span class="article-read-more">{{ __('Lire la suite') }}</span>
                             </div>
                         </Link>
                     </article>
                 </div>
 
                 <div class="alaune-footer">
-                    <Link href="/actualites" class="btn-green-pill">Voir plus de nouvelles</Link>
+                    <Link href="/actualites" class="btn-green-pill">{{ __('Voir plus de nouvelles') }}</Link>
                 </div>
             </div>
         </section>
@@ -254,9 +229,9 @@ onMounted(() => {
             <div class="visitors-banner-bg" style="background-image: url('/assets/images/accueil/495229d6739ec5d681e8f133d30bce3835dd8d3d.jpg')"></div>
             <div class="visitors-banner-overlay"></div>
             <div class="visitors-banner-content">
-                <p class="visitors-banner-label">Visiteurs sur le site</p>
-                <span class="visitors-banner-number">2 348 visiteurs</span>
-                <p class="visitors-banner-sub">48 visiteurs aujourd'hui</p>
+                <p class="visitors-banner-label">{{ __('Visiteurs sur le site') }}</p>
+                <span class="visitors-banner-number">{{ __('2 348 visiteurs') }}</span>
+                <p class="visitors-banner-sub">{{ __('48 visiteurs aujourd\'hui') }}</p>
             </div>
         </section>
 
@@ -264,7 +239,7 @@ onMounted(() => {
         <section class="social-section" id="reseaux-sociaux">
             <div class="container">
                 <div class="section-header" style="text-align:left; margin-bottom:28px;">
-                    <h2>Réseaux sociaux</h2>
+                    <h2>{{ __('Réseaux sociaux') }}</h2>
                 </div>
                 <div class="social-feed-grid">
                     <!-- Les posts sociaux sont reproduits à l'identique -->
@@ -276,7 +251,7 @@ onMounted(() => {
                                 <span class="post-handle">@CensusCam · March 24</span>
                             </div>
                         </div>
-                        <p>Ensemble pour le développement ! Le recensement permet d'ajuster les services publics de santé et d'éducation... <a href="#" class="post-more">En voir plus</a></p>
+                        <p>{{ __('Social post content') }} <a href="#" class="post-more">{{ __('En voir plus') }}</a></p>
                         <div class="post-img-wrap">
                             <img src="/assets/images/accueil/495229d6739ec5d681e8f133d30bce3835dd8d3d.jpg" alt="Post image">
                         </div>
@@ -288,7 +263,7 @@ onMounted(() => {
                 </div>
 
                 <div class="follow-us-banner">
-                    <span>Suivez nous sur les réseaux sociaux</span>
+                    <span>{{ __('Suivez nous sur les réseaux sociaux') }}</span>
                     <div class="follow-icons">
                         <a href="#" class="follow-icon fb"><svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
                         <a href="#" class="follow-icon x"><svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a>
@@ -302,6 +277,6 @@ onMounted(() => {
         <CallCenterBanner />
 
         <!-- ===================== PARTENAIRES ===================== -->
-        <PartenairesCarousel />
+        <PartenaireCarousel :partners="partners" />
     </MainLayout>
 </template>

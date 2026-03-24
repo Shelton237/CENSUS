@@ -60,8 +60,8 @@ onMounted(() => {
                         <ul>
                             <li><Link href="/accueil" class="nav-link" :class="{ active: $page.component === 'Accueil' }">{{ __('Accueil') }}</Link></li>
                             <li><Link href="/apropos" class="nav-link" :class="{ active: $page.component === 'Apropos' }">{{ __('A propos') }}</Link></li>
-                            <li><Link href="/activites" class="nav-link" :class="{ active: $page.component === 'Activites' }">{{ __('Activites') }}</Link></li>
-                            <li><Link href="/actualites" class="nav-link" :class="{ active: $page.component === 'Actualites' }">{{ __('Actualites') }}</Link></li>
+                            <li><Link href="/activites" class="nav-link" :class="{ active: $page.component === 'Activites' }">{{ __('Activités') }}</Link></li>
+                            <li><Link href="/actualites" class="nav-link" :class="{ active: $page.component === 'Actualites' }">{{ __('Actualités') }}</Link></li>
                             <li class="nav-search">
                                 <button @click="toggleSearch" class="search-btn" aria-label="Rechercher">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#295E4D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
@@ -85,7 +85,7 @@ onMounted(() => {
             <div class="search-modal-content">
                 <button @click="toggleSearch" class="close-search-btn" id="close-search-btn">&times;</button>
                 <form action="/recherche" method="GET" class="search-form">
-                    <input type="text" name="q" placeholder="Rechercher..." class="search-input" required>
+                    <input type="text" name="q" :placeholder="__('Rechercher...')" class="search-input" required>
                     <button type="submit" class="search-submit">{{ __('Recherche') }}</button>
                 </form>
             </div>
