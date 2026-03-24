@@ -12,9 +12,9 @@ const showingNavigationDropdown = ref(false);
 
 <template>
     <div>
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-screen bg-[#f8faf9]">
             <nav
-                class="border-b border-gray-100 bg-white"
+                class="border-b border-[#204138]/10 bg-white/70 backdrop-blur-md sticky top-0 z-50 shadow-sm"
             >
                 <!-- Primary Navigation Menu -->
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -36,8 +36,15 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink
                                     :href="route('dashboard')"
                                     :active="route().current('dashboard')"
+                                    class="text-[#204138] font-bold"
                                 >
-                                    Dashboard
+                                    Tableau de Bord
+                                </NavLink>
+                                <NavLink
+                                    href="#"
+                                    class="text-gray-400 cursor-not-allowed"
+                                >
+                                    Données
                                 </NavLink>
                             </div>
                         </div>
