@@ -3,7 +3,10 @@ import { Head, Link } from '@inertiajs/vue3';
 </script>
 
 <template>
-    <Head title="Recensement Général 2024 - Cameroun" />
+    <Head>
+        <title>Bienvenue</title>
+        <meta name="description" content="Portail officiel du 4ème Recensement Général de la Population et de l'Habitat (RGPH) et du RGAE au Cameroun.">
+    </Head>
     
     <main class="landing-container">
         <div class="content-wrapper">

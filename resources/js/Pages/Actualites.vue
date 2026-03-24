@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import MainLayout from '@/Layouts/MainLayout.vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, Head } from '@inertiajs/vue3';
 
 const activeFilter = ref('all');
 const articles = [
@@ -20,6 +20,11 @@ const filteredArticles = () => {
 </script>
 
 <template>
+    <Head>
+        <title>Actualités</title>
+        <meta name="description" content="Découvrez les derniers communiqués, activités et rapports officiels du recensement national au Cameroun.">
+    </Head>
+
     <MainLayout>
         <main class="actu-page" style="padding-top: 50px; padding-bottom: 80px;">
             <div class="container">

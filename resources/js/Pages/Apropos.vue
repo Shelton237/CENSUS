@@ -1,10 +1,15 @@
 <script setup>
 import { ref } from 'vue';
 import MainLayout from '@/Layouts/MainLayout.vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, Head } from '@inertiajs/vue3';
 </script>
 
 <template>
+    <Head>
+        <title>À propos</title>
+        <meta name="description" content="Découvrez les enjeux, les objectifs et l'organisation du 4ème Recensement Général de la Population et de l'Habitat (RGPH) au Cameroun.">
+    </Head>
+
     <MainLayout>
         <main class="inner-page" style="padding: 80px 0; background: #FFF;">
             <div class="container">

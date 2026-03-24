@@ -1,10 +1,15 @@
 <script setup>
 import { ref } from 'vue';
 import MainLayout from '@/Layouts/MainLayout.vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, Head } from '@inertiajs/vue3';
 </script>
 
 <template>
+    <Head>
+        <title>Activités</title>
+        <meta name="description" content="Consultez le chronogramme officiel et suivez l'évolution en temps réel des différentes phases du 4ème RGPH au Cameroun.">
+    </Head>
+
     <MainLayout>
         <!-- ===================== CHRONOGRAMME ===================== -->
         <section class="chron-page" style="padding: 100px 0; background: #FFF;">

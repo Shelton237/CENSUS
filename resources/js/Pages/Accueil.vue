@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import MainLayout from '@/Layouts/MainLayout.vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, Head } from '@inertiajs/vue3';
 import PartenairesCarousel from '@/Components/PartenairesCarousel.vue';
 import CallCenterBanner from '@/Components/CallCenterBanner.vue';
 
@@ -44,6 +44,11 @@ onMounted(() => {
 </script>
 
 <template>
+    <Head>
+        <title>Accueil</title>
+        <meta name="description" content="Suivez l'actualité, les activités et le chronogramme du recensement national au Cameroun. Soyez comptés !">
+    </Head>
+
     <MainLayout>
         <!-- ===================== ANNONCE URGENTE ===================== -->
         <div class="announcement-bar" id="announcement-bar">

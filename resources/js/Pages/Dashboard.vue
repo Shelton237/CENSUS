@@ -12,7 +12,7 @@ const stats = [
 </script>
 
 <template>
-    <Head title="Tableau de Bord - CENSUS" />
+    <Head title="Tableau de Bord" />
 
     <AuthenticatedLayout>
         <div class="py-10 bg-[#f8faf9] min-h-[calc(100vh-64px)]">
