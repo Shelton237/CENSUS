@@ -69,10 +69,33 @@ const prevSlide = () => {
     activeSlide.value = (activeSlide.value - 1 + slides.length) % slides.length;
 };
 
+// Preuve sociale (Social Proof)
+const showSocialProof = ref(false);
+const currentProofIndex = ref(0);
+const socialProofs = ref([
+    { icon: 'users', text: 'personnes consultent ce portail en ce moment', value: 'online' },
+    { icon: 'eye', text: 'visiteurs ont déjà exploré le recensement', value: 'total' },
+    { icon: 'check', text: 'nouveaux agents recrutés aujourd\'hui', value: 'today' }
+]);
+
+const cycleSocialProof = () => {
+    setInterval(() => {
+        showSocialProof.value = false;
+        setTimeout(() => {
+            currentProofIndex.value = (currentProofIndex.value + 1) % socialProofs.value.length;
+            showSocialProof.value = true;
+        }, 1000);
+    }, 12000);
+};
+
 onMounted(() => {
     setInterval(nextSlide, 7000);
     setTimeout(animateStats, 500);
     setTimeout(animateVisitors, 1000);
+    setTimeout(() => {
+        showSocialProof.value = true;
+        cycleSocialProof();
+    }, 5000);
 });
 
 // Visiteurs dynamiques
@@ -398,39 +421,29 @@ const handleRegionLeave = () => {
             </div>
         </section>
 
-        <!-- ===================== VISITEURS WIDGET (FLOTANT) ===================== -->
-        <div class="fixed bottom-8 left-8 z-[100] group">
-            <div class="bg-white/80 backdrop-blur-xl border border-white p-4 rounded-3xl shadow-2xl flex items-center gap-4 hover:shadow-green-900/10 transition-all duration-300">
-                <div class="relative">
-                    <div class="w-12 h-12 bg-[#204138]/10 rounded-2xl flex items-center justify-center">
-                        <svg class="w-6 h-6 text-[#204138]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                        </svg>
-                    </div>
-                    <!-- Indicateur de statut "En Direct" -->
-                    <span class="absolute -top-1 -right-1 flex h-3 w-3">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-                    </span>
-                </div>
-                <div>
-                    <div class="flex items-center gap-2 mb-0.5">
-                        <p class="text-[10px] font-black uppercase tracking-widest text-[#204138]/40 leading-none">
-                            {{ __('En Direct') }}
-                        </p>
-                        <span class="text-xs font-bold text-green-600 tabular-nums">{{ visitorStats.online }}</span>
+        <!-- ===================== PREUVE SOCIALE (NOTIF) ===================== -->
+        <Transition name="proof-fade">
+            <div v-if="showSocialProof" class="fixed bottom-8 left-8 z-[100] max-w-[320px]">
+                <div class="bg-white/95 backdrop-blur-2xl border border-white p-3 rounded-2xl shadow-2xl flex items-center gap-4 hover:scale-105 transition-transform duration-300">
+                    <div class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center relative flex-shrink-0">
+                        <svg v-if="socialProofs[currentProofIndex].icon === 'users'" class="w-6 h-6 text-[#204138]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                        <svg v-else-if="socialProofs[currentProofIndex].icon === 'eye'" class="w-6 h-6 text-[#204138]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                        <svg v-else class="w-6 h-6 text-[#204138]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <!-- Puce "En Direct" -->
+                        <span class="absolute -top-1 -right-1 flex h-3 w-3">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                        </span>
                     </div>
                     <div class="flex flex-col">
-                        <span class="text-lg font-black text-[#204138] leading-none tabular-nums">
-                            {{ visitorStats.total.toLocaleString() }}
-                        </span>
-                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-tight">
-                            {{ __('Visiteurs au total') }}
+                        <p class="text-xs leading-snug font-bold text-[#204138]">
+                            <span class="text-lg font-black text-[#EDAF11]">{{ visitorStats[socialProofs[currentProofIndex].value].toLocaleString() }}</span>
+                            {{ ' ' + __(socialProofs[currentProofIndex].text) }}
                         </p>
                     </div>
                 </div>
             </div>
-        </div>
+        </Transition>
 
         <!-- ===================== RESEAUX SOCIAUX ===================== -->
         <section class="social-section" id="reseaux-sociaux">
@@ -494,5 +507,21 @@ const handleRegionLeave = () => {
     padding: 2.5rem;
     border: 1px solid rgba(255, 255, 255, 0.5);
     transition: all 0.3s ease;
+}
+
+/* Transitions Preuve Sociale */
+.proof-fade-enter-active,
+.proof-fade-leave-active {
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.proof-fade-enter-from {
+    opacity: 0;
+    transform: translateX(-50px) scale(0.9);
+}
+
+.proof-fade-leave-to {
+    opacity: 0;
+    transform: translateX(-20px) scale(0.95);
 }
 </style>
