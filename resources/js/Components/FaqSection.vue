@@ -26,6 +26,11 @@ const faqs = ref([
         question: "Mes données sont-elles protégées ?",
         answer: "Absolument. Conformément à la loi sur le secret statistique, vos informations individuelles sont strictement confidentielles. Elles sont anonymisées et utilisées uniquement pour produire des statistiques globales.",
         open: false
+    },
+    {
+        question: "Comment participer au recrutement des agents ?",
+        answer: "Vous pouvez postuler directement sur ce portail via le bouton 'Devenir Agent Recenseur'. Les critères incluent le niveau d'étude (minimum Baccalauréat), la maîtrise des langues locales et la résidence dans la zone de collecte.",
+        open: false
     }
 ]);
 
@@ -112,11 +117,19 @@ const toggleFaq = (index) => {
 }
 
 .faq-grid {
-    max-width: 800px;
+    max-width: 1140px;
     margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    align-items: start;
+}
+
+@media (max-width: 1024px) {
+    .faq-grid {
+        grid-template-columns: 1fr;
+        max-width: 700px;
+    }
 }
 
 .faq-item {
