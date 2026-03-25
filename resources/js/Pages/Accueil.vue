@@ -249,7 +249,7 @@ const handleRegionLeave = () => {
                         </p>
                         
                         <!-- Panneau de statistiques d'informations -->
-                        <div class="region-info-panel min-h-[220px] bg-white rounded-3xl p-8 shadow-xl border border-gray-100 transition-all duration-300 relative overflow-hidden">
+                        <div class="region-info-panel">
                             <div v-if="hoveredRegionData" class="region-details">
                                 <h3 class="text-3xl font-black text-[#EDAF11] mb-6">{{ __(hoveredRegionData.name) }}</h3>
                                 <div class="grid grid-cols-2 gap-6">
@@ -402,11 +402,21 @@ const handleRegionLeave = () => {
 
 <style scoped>
 .cartographie-section {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.88)), 
-                      url('https://census-cameroon.com/assets/images/slider/revolution/bg13.jpg');
+    background-image: url('/assets/images/backgrounds/map-bg.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: scroll;
+}
+
+.region-info-panel {
+    min-height: 220px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    border-radius: 24px;
+    padding: 2.5rem;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
 }
 </style>
