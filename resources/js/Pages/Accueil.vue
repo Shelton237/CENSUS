@@ -72,7 +72,62 @@ const prevSlide = () => {
 onMounted(() => {
     setInterval(nextSlide, 7000);
     setTimeout(animateStats, 500);
+    setTimeout(animateVisitors, 1000);
 });
+
+// Visiteurs dynamiques
+const visitorStats = ref({
+    total: 0,
+    today: 0,
+    online: 0
+});
+
+const animateVisitors = () => {
+    // Total
+    let startTotal = 0;
+    const targetTotal = 2348;
+    const intervalTotal = setInterval(() => {
+        startTotal += 20;
+        if (startTotal >= targetTotal) {
+            visitorStats.value.total = targetTotal;
+            clearInterval(intervalTotal);
+        } else {
+            visitorStats.value.total = startTotal;
+        }
+    }, 16);
+
+    // Aujourd'hui
+    let startToday = 0;
+    const targetToday = 212;
+    const intervalToday = setInterval(() => {
+        startToday += 2;
+        if (startToday >= targetToday) {
+            visitorStats.value.today = targetToday;
+            clearInterval(intervalToday);
+        } else {
+            visitorStats.value.today = startToday;
+        }
+    }, 20);
+
+    // En ligne
+    let startOnline = 0;
+    const targetOnline = 42;
+    const intervalOnline = setInterval(() => {
+        startOnline += 1;
+        if (startOnline >= targetOnline) {
+            visitorStats.value.online = targetOnline;
+            clearInterval(intervalOnline);
+            
+            // Fluctuation légère pour le réalisme
+            setInterval(() => {
+                const diff = Math.floor(Math.random() * 3) - 1; // -1, 0, or 1
+                visitorStats.value.online = Math.max(38, Math.min(52, visitorStats.value.online + diff));
+            }, 5000);
+        } else {
+            visitorStats.value.online = startOnline;
+        }
+    }, 30);
+};
 
 // Données régionales pour la carte interactive
 const regionalStats = ref({
@@ -343,16 +398,39 @@ const handleRegionLeave = () => {
             </div>
         </section>
 
-        <!-- ===================== VISITEURS BANNER ===================== -->
-        <section class="visitors-banner-section">
-            <div class="visitors-banner-bg" style="background-image: url('/assets/images/accueil/495229d6739ec5d681e8f133d30bce3835dd8d3d.jpg')"></div>
-            <div class="visitors-banner-overlay"></div>
-            <div class="visitors-banner-content">
-                <p class="visitors-banner-label">{{ __('Visiteurs sur le site') }}</p>
-                <span class="visitors-banner-number">{{ __('2 348 visiteurs') }}</span>
-                <p class="visitors-banner-sub">{{ __('48 visiteurs aujourd\'hui') }}</p>
+        <!-- ===================== VISITEURS WIDGET (FLOTANT) ===================== -->
+        <div class="fixed bottom-8 left-8 z-[100] group">
+            <div class="bg-white/80 backdrop-blur-xl border border-white p-4 rounded-3xl shadow-2xl flex items-center gap-4 hover:shadow-green-900/10 transition-all duration-300">
+                <div class="relative">
+                    <div class="w-12 h-12 bg-[#204138]/10 rounded-2xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-[#204138]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </div>
+                    <!-- Indicateur de statut "En Direct" -->
+                    <span class="absolute -top-1 -right-1 flex h-3 w-3">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                    </span>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2 mb-0.5">
+                        <p class="text-[10px] font-black uppercase tracking-widest text-[#204138]/40 leading-none">
+                            {{ __('En Direct') }}
+                        </p>
+                        <span class="text-xs font-bold text-green-600 tabular-nums">{{ visitorStats.online }}</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-lg font-black text-[#204138] leading-none tabular-nums">
+                            {{ visitorStats.total.toLocaleString() }}
+                        </span>
+                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-tight">
+                            {{ __('Visiteurs au total') }}
+                        </p>
+                    </div>
+                </div>
             </div>
-        </section>
+        </div>
 
         <!-- ===================== RESEAUX SOCIAUX ===================== -->
         <section class="social-section" id="reseaux-sociaux">
