@@ -506,8 +506,10 @@ const handleRegionLeave = () => {
         <!-- ===================== RESEAUX SOCIAUX ===================== -->
         <section class="social-section" id="reseaux-sociaux">
             <div class="container">
-                <div class="section-header" style="text-align:left; margin-bottom:28px;">
-                    <h2>{{ __('Réseaux sociaux') }}</h2>
+                <div class="social-header">
+                    <span class="social-badge">{{ __('Communauté') }}</span>
+                    <h2>{{ __('Suivez l\'actualité sur nos réseaux') }}</h2>
+                    <p>{{ __('Rejoignez les milliers de citoyens qui nous suivent quotidiennement.') }}</p>
                 </div>
                 <div class="social-feed-grid">
                     <div v-for="(post, index) in socialPosts" :key="index" class="social-post" :class="`post-${post.platform}`">
