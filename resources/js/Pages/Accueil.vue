@@ -377,20 +377,19 @@ const handleRegionLeave = () => {
                 <h2 class="alaune-title">{{ __('A la Une') }}</h2>
 
                 <!-- Hero News (First one) -->
-                <div class="alaune-hero group cursor-pointer" v-if="latestArticles[0]">
-                    <Link :href="route('actualites.show', latestArticles[0].slug)" class="flex flex-col lg:flex-row w-full overflow-hidden rounded-3xl bg-white shadow-xl hover:shadow-2xl transition-all border border-gray-100">
-                        <div class="alaune-hero-img-wrap lg:w-3/5 overflow-hidden">
+                <div class="alaune-hero" v-if="latestArticles[0]">
+                    <Link :href="route('actualites.show', latestArticles[0].slug)" class="alaune-hero-card-container transition-all">
+                        <div class="alaune-hero-img-wrap">
                             <img :src="latestArticles[0].image ? `/storage/${latestArticles[0].image}` : '/assets/images/accueil/495229d6739ec5d681e8f133d30bce3835dd8d3d.jpg'" 
-                                 :alt="latestArticles[0].title"
-                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                                 :alt="latestArticles[0].title">
                         </div>
-                        <div class="alaune-hero-card lg:w-2/5 p-10 flex flex-col justify-center">
-                            <span class="tag mb-4 shadow-sm" :class="`tag-${latestArticles[0].category}`">{{ __(latestArticles[0].tag) }}</span>
-                            <h3 class="text-3xl font-black text-[#204138] mb-4 leading-tight group-hover:text-[#EDAF11] transition-colors">{{ latestArticles[0].title }}</h3>
-                            <p class="text-gray-500 mb-8 leading-relaxed">{{ latestArticles[0].excerpt }}</p>
-                            <div class="alaune-link !mt-auto flex items-center gap-2 font-bold text-[#204138]">
+                        <div class="alaune-hero-content">
+                            <span class="tag" :class="`tag-${latestArticles[0].category}`">{{ __(latestArticles[0].tag) }}</span>
+                            <h3>{{ latestArticles[0].title }}</h3>
+                            <p>{{ latestArticles[0].excerpt }}</p>
+                            <div class="alaune-hero-link">
                                 {{ __('Lire le contenu') }}
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                             </div>
                         </div>
                     </Link>
@@ -512,8 +511,6 @@ const handleRegionLeave = () => {
     backdrop-filter: blur(8px);
     border-radius: 24px;
     padding: 2.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    transition: all 0.3s ease;
 }
 
 /* Transitions Preuve Sociale */
