@@ -3,7 +3,7 @@ import { ref, onMounted } from 'vue';
 import MainLayout from '@/Layouts/MainLayout.vue';
 import { Link, Head } from '@inertiajs/vue3';
 import PartenaireCarousel from '@/Components/PartenaireCarousel.vue';
-import CallCenterBanner from '@/Components/CallCenterBanner.vue';
+import FaqSection from '@/Components/FaqSection.vue';
 import CarteInteractive from '@/Components/CarteInteractive.vue';
 
 const props = defineProps({
@@ -490,8 +490,8 @@ const handleRegionLeave = () => {
             </div>
         </section>
 
-        <!-- ===================== CALL CENTER ===================== -->
-        <CallCenterBanner />
+        <!-- ===================== FAQ ===================== -->
+        <FaqSection />
 
         <!-- ===================== PARTENAIRES ===================== -->
         <PartenaireCarousel :partners="partners" />
