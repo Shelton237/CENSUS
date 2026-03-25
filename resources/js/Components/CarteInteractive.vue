@@ -3,7 +3,7 @@ import { ref, defineEmits } from 'vue';
 
 const emit = defineEmits(['region-hover', 'region-leave']);
 
-const hoveredRegion = ref(null);
+const hoveredRegion = ref('central');
 
 const regions = [
     {
@@ -64,7 +64,7 @@ const onMouseEnter = (region) => {
 };
 
 const onMouseLeave = (region) => {
-    hoveredRegion.value = null;
+    // We keep the last one highlighted for better data display
     emit('region-leave', region);
 };
 </script>

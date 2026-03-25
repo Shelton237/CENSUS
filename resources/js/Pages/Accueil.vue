@@ -88,14 +88,14 @@ const regionalStats = ref({
     'southwest': { name: 'Sud-Ouest', population: 1619623, agents: 1800, surface: '25 410 km²' }
 });
 
-const hoveredRegionData = ref(null);
+const hoveredRegionData = ref(regionalStats.value['central']);
 
 const handleRegionHover = (region) => {
     hoveredRegionData.value = regionalStats.value[region.id] || null;
 };
 
 const handleRegionLeave = () => {
-    hoveredRegionData.value = null;
+    // We stay on the current one by default
 };
 </script>
 
