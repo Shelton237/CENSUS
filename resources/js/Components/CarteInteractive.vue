@@ -95,6 +95,13 @@ const onMouseLeave = (region) => {
     width: 100%;
     max-width: 600px;
     margin: 0 auto;
+    padding: 2.5rem;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
 }
 
 .cameroon-map {

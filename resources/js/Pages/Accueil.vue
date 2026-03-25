@@ -237,7 +237,7 @@ const handleRegionLeave = () => {
 
 
         <!-- ===================== CARTE INTERACTIVE ===================== -->
-        <section class="carte-section bg-gray-50/50 py-24 relative overflow-hidden" id="carte-regions">
+        <section class="carte-section py-24 relative overflow-hidden cartographie-section" id="carte-regions">
             <div class="container relative z-10 w-full max-w-7xl mx-auto px-4">
                 <div class="flex flex-col lg:flex-row items-center gap-12">
                     <div class="lg:w-1/2 w-full text-center lg:text-left">
@@ -399,3 +399,14 @@ const handleRegionLeave = () => {
         <PartenaireCarousel :partners="partners" />
     </MainLayout>
 </template>
++
++<style scoped>
++.cartographie-section {
++    background-image: linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.88)), 
++                      url('https://census-cameroon.com/assets/images/slider/revolution/bg13.jpg');
++    background-size: cover;
++    background-position: center;
++    background-repeat: no-repeat;
++    background-attachment: scroll; /* safer than fixed for now */
++}
++</style>
