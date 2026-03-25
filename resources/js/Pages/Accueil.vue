@@ -410,12 +410,10 @@ const handleRegionLeave = () => {
 }
 
 .region-info-panel {
-    min-height: 220px;
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(8px);
     border-radius: 24px;
     padding: 2.5rem;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.5);
     transition: all 0.3s ease;
 }
