@@ -11,16 +11,18 @@ import { Link, Head } from '@inertiajs/vue3';
     </Head>
 
     <MainLayout>
-        <main class="inner-page" style="padding: 80px 0; background: #FFF;">
+        <!-- Hero -->
+        <section class="relative pt-32 pb-20 overflow-hidden bg-[#204138]">
+            <div class="absolute inset-0 z-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+            <div class="container relative z-10 text-center">
+                <span class="inline-block py-1 px-3 rounded-full bg-[#EDAF11]/20 text-[#EDAF11] font-bold text-sm tracking-widest uppercase mb-4">{{ __('Qui sommes-nous ?') }}</span>
+                <h1 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">{{ __('À propos du Recensement') }}</h1>
+                <p class="text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">{{ __('Comprendre les enjeux, les objectifs et les acteurs du 4ème RGPH du Cameroun.') }}</p>
+            </div>
+        </section>
+
+        <main class="inner-page" style="padding: 60px 0; background: #FFF;">
             <div class="container">
-                <nav class="breadcrumb" style="margin-bottom: 20px;">
-                    <Link href="/">{{ __('Accueil') }}</Link> &gt; 
-                    <span>{{ __('A propos') }}</span>
-                </nav>
-                <div class="section-header" style="text-align: left; margin-bottom: 50px;">
-                    <h1 style="font-size: 42px; font-weight: 900; color: #295E4D; margin-bottom: 15px;">{{ __('A propos du Recensement') }}</h1>
-                    <p style="color: #666; font-size: 18px; max-width: 800px;">{{ __('Comprendre les enjeux') }}</p>
-                </div>
 
                 <div class="inner-content-grid" style="display: grid; grid-template-columns: 1fr 340px; gap: 60px;">
                     <div class="inner-left">

@@ -12,24 +12,26 @@ const props = defineProps({
 <template>
     <MainLayout>
         <main class="article-detail-page">
-            <!-- Header Section (Breadcrumb + Title) -->
-            <section class="article-detail-header">
-                <div class="container">
-                    <nav class="breadcrumb">
-                        <Link href="/">{{ __('Accueil') }}</Link> &gt; 
-                        <Link href="/actualites">{{ __('Actualités') }}</Link> &gt; 
-                        <span>{{ __('Détails de l\'article') }}</span>
+            <!-- Hero dynamique -->
+            <section class="relative pt-32 pb-20 overflow-hidden bg-[#204138]">
+                <div class="absolute inset-0 z-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+                <div class="container relative z-10 text-center">
+                    <nav class="flex justify-center items-center gap-2 text-white/50 text-sm mb-5">
+                        <Link href="/" class="hover:text-white/80 transition-colors">{{ __('Accueil') }}</Link>
+                        <span>/</span>
+                        <Link href="/actualites" class="hover:text-white/80 transition-colors">{{ __('Actualités') }}</Link>
+                        <span>/</span>
+                        <span class="text-white/70">{{ __('Article') }}</span>
                     </nav>
-                    <div class="article-header-content" style="margin-top: 20px;">
-                        <span class="article-tag" :class="`tag-${article.category}`">{{ __(article.tag) }}</span>
-                        <h1 class="article-main-title" style="font-size: 42px; font-weight: 900; color: #295E4D; line-height: 1.2; margin-top: 15px;">{{ article.title }}</h1>
-                        <div class="article-meta-info" style="margin-top: 15px; display: flex; gap: 20px; color: #666; font-size: 14px;">
-                            <span>{{ __('Publié le') }} {{ article.date }}</span>
-                            <span style="display: flex; align-items: center; gap: 6px;">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> {{ article.views || 0 }} {{ __('vues') }}
-                            </span>
-                        </div>
-                    </div>
+                    <span class="inline-block py-1 px-3 rounded-full bg-[#EDAF11]/20 text-[#EDAF11] font-bold text-sm tracking-widest uppercase mb-4">{{ __(article.tag) }}</span>
+                    <h1 class="text-3xl md:text-4xl font-black text-white mb-5 leading-tight max-w-3xl mx-auto">{{ article.title }}</h1>
+                    <p class="text-white/60 text-sm flex items-center justify-center gap-4">
+                        <span>{{ __('Publié le') }} {{ article.date }}</span>
+                        <span class="flex items-center gap-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            {{ article.views || 0 }} {{ __('vues') }}
+                        </span>
+                    </p>
                 </div>
             </section>
 

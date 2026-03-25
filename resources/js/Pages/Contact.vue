@@ -17,13 +17,19 @@ const submit = () => {
 
 <template>
     <MainLayout>
-        <main class="inner-page" style="padding: 100px 0; background: #FDFDFD;">
+        <!-- Hero -->
+        <section class="relative pt-32 pb-20 overflow-hidden bg-[#204138]">
+            <div class="absolute inset-0 z-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+            <div class="container relative z-10 text-center">
+                <span class="inline-block py-1 px-3 rounded-full bg-[#EDAF11]/20 text-[#EDAF11] font-bold text-sm tracking-widest uppercase mb-4">Contactez-nous</span>
+                <h1 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">Nous contacter</h1>
+                <p class="text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">Une question sur le recensement ou une requête administrative ? Notre équipe vous répondra dans les meilleurs délais.</p>
+            </div>
+        </section>
+
+        <main class="inner-page" style="padding: 60px 0; background: #FDFDFD;">
             <div class="container">
                 <div style="max-width: 650px; margin: 0 auto; background: white; padding: 50px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.06); border: 1px solid #F0F0F0;">
-                    <h1 style="font-size: 38px; font-weight: 900; color: #295E4D; margin-bottom: 25px;">Nous contacter</h1>
-                    <p style="color: #666; font-size: 16px; line-height: 1.7; margin-bottom: 40px;">
-                        Une question sur le recensement ou une requête administrative ? Notre équipe vous répondra dans les meilleurs délais.
-                    </p>
 
                     <form @submit.prevent="submit">
                         <div style="margin-bottom: 25px;">

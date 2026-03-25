@@ -11,17 +11,19 @@ import { Link, Head } from '@inertiajs/vue3';
     </Head>
 
     <MainLayout>
+        <!-- Hero -->
+        <section class="relative pt-32 pb-20 overflow-hidden bg-[#204138]">
+            <div class="absolute inset-0 z-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+            <div class="container relative z-10 text-center">
+                <span class="inline-block py-1 px-3 rounded-full bg-[#EDAF11]/20 text-[#EDAF11] font-bold text-sm tracking-widest uppercase mb-4">{{ __('Calendrier') }}</span>
+                <h1 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">{{ __('Chronogramme des Activités') }}</h1>
+                <p class="text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">{{ __('Consultez les étapes clés du processus de recensement, de la conception à la publication.') }}</p>
+            </div>
+        </section>
+
         <!-- ===================== CHRONOGRAMME ===================== -->
-        <section class="chron-page" style="padding: 100px 0; background: #FFF;">
+        <section class="chron-page" style="padding: 60px 0; background: #FFF;">
             <div class="container">
-                <div class="section-header" style="text-align: left; margin-bottom: 60px;">
-                    <nav class="breadcrumb" style="margin-bottom: 20px;">
-                        <Link href="/">{{ __('Accueil') }}</Link> &gt; 
-                        <span>{{ __('Activités') }}</span>
-                    </nav>
-                    <h1 style="font-size: 42px; font-weight: 900; color: #295E4D; margin-bottom: 15px;">{{ __('Chronogramme des Activités') }}</h1>
-                    <p style="color: #666; font-size: 18px; max-width: 800px;">{{ __('Consultez les étapes') }}</p>
-                </div>
 
                 <div class="timeline-wrapper" style="margin-top: 50px;">
                     <div class="timeline-row">

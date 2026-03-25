@@ -98,11 +98,11 @@ onMounted(() => {
 
         <!-- ===================== FOOTER ===================== -->
         <footer class="main-footer">
-            <div class="container grid gap-10 py-14" style="grid-template-columns: 1.5fr 1fr 1.2fr 1.5fr 1.2fr; align-items: start;">
+            <div class="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 py-14 items-start">
                 <!-- Col 1: Badge GPHC -->
-                <div class="flex items-center justify-center">
+                <div class="flex items-center justify-center lg:justify-start">
                     <Link href="/">
-                        <img src="/assets/images/badge.png" alt="Badge Recensement" class="footer-badge">
+                        <img src="/assets/images/badge.png" alt="Badge Recensement" class="footer-badge max-w-[150px] h-auto">
                     </Link>
                 </div>
                 
@@ -171,9 +171,9 @@ onMounted(() => {
                 </div>
 
                 <!-- Col 5: Logos RGAE/RGPH -->
-                <div class="flex items-center justify-center gap-5">
-                    <img src="/assets/images/logo-rgae.jpg" alt="Logo RGAE" class="w-[120px] h-[120px] rounded-full object-contain bg-white p-0.5">
-                    <img src="/assets/images/logo-rgph.png" alt="Logo RGPH" class="w-[120px] h-[120px] rounded-full object-cover bg-white p-0.5 border-2 border-gray-300">
+                <div class="flex flex-wrap items-center justify-center lg:justify-end gap-5">
+                    <img src="/assets/images/logo-rgae.jpg" alt="Logo RGAE" class="w-[80px] h-[80px] md:w-[100px] md:h-[100px] lg:w-[110px] lg:h-[110px] rounded-full object-contain bg-white p-1">
+                    <img src="/assets/images/logo-rgph.png" alt="Logo RGPH" class="w-[80px] h-[80px] md:w-[100px] md:h-[100px] lg:w-[110px] lg:h-[110px] rounded-full object-cover bg-white p-1 border-2 border-gray-300">
                 </div>
             </div>
             <div class="border-t border-white/10 mt-10">

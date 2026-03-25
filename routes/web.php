@@ -22,6 +22,11 @@ Route::get('/contact', function () {
     return Inertia::render('Contact');
 });
 
+Route::get('/candidature', function () {
+    return Inertia::render('Candidature');
+})->name('candidature');
+Route::post('/candidature', [\App\Http\Controllers\CandidatureController::class, 'store'])->name('candidature.store');
+
 Route::get('/recherche', function () {
     return Inertia::render('Recherche');
 });

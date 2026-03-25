@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Map Test</title>
+  <style>
+    svg { width: 800px; height: 800px; border: 1px solid black; }
+    path { stroke: white; stroke-width: 0.05; cursor: pointer; }
+    path:hover { opacity: 0.7; }
+  </style>
+</head>
+<body>
+  <div id="tooltip" style="position: absolute; display: none; background: rgba(0,0,0,0.8); color: white; padding: 5px; border-radius: 5px;"></div>
+  <svg id="map" viewBox="-0.5 -0.5 2 2">
+  </svg>
+  <script>
+    fetch('paths.json').then(r => r.json()).then(data => {
+      const svg = document.getElementById('map');
+      const tooltip = document.getElementById('tooltip');
+      const colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4caf50', '#8bc34a', '#cddc39', '#ffeb3b', '#ffc107', '#ff9800'];
+      
+      data.forEach((p, i) => {
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        path.setAttribute("d", p.d);
+        path.setAttribute("id", p.id);
+        path.setAttribute("fill", colors[i % colors.length]);
+        
+        path.onmousemove = (e) => {
+          tooltip.style.display = 'block';
+          tooltip.style.left = e.pageX + 10 + 'px';
+          tooltip.style.top = e.pageY + 10 + 'px';
+          tooltip.textContent = `ID: ${p.id} Length: ${p.d_length} Index: ${i}`;
+        };
+        path.onmouseout = () => {
+          tooltip.style.display = 'none';
+        };
+        svg.appendChild(path);
+      });
+    });
+  </script>
+</body>
+</html>
