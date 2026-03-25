@@ -53,7 +53,7 @@ import { Link, Head } from '@inertiajs/vue3';
                                     <p>{{ __('Les activités de mutualisation ont été instruites en 2019 par le Premier Ministre, Chef du Gouvernement, dans l’optique d’optimiser les coûts liés à l’opérationnalisation desdites activités.') }}</p>
                                 </div>
                                 <div class="section-image">
-                                    <img src="/assets/images/apropos-placeholder.jpg" alt="Contexte du Recensement" onerror="this.style.display='none';this.parentElement.classList.add('img-placeholder')">
+                                    <img src="/assets/images/apropos/contexte.jpg" alt="Signature Décret" onerror="this.style.display='none';this.parentElement.classList.add('img-placeholder')">
                                 </div>
                             </div>
                         </article>
@@ -61,14 +61,21 @@ import { Link, Head } from '@inertiajs/vue3';
                         <!-- Section 2 : Objectifs -->
                         <article class="content-section">
                             <h2 class="section-title">{{ __('Objectifs du Recensement') }}</h2>
-                            <div class="flex flex-col gap-6">
-                                <div class="p-6 bg-green-50/50 border-l-4 border-[#204138] rounded-r-xl">
-                                    <h4 class="font-black text-[#204138] mb-2 uppercase text-xs tracking-wider">{{ __('Objectif 4ème RGPH') }}</h4>
-                                    <p class="!mb-0 italic text-gray-700">{{ __('Le 4ème RGPH a pour objectif général de rendre disponibles les données nécessaires à la planification du développement et à la prise en compte du dividende démographique dans l’élaboration des politiques permettant l’évolution du Cameroun vers l’émergence.') }}</p>
+                            <div class="section-with-image mb-8">
+                                <div class="section-text">
+                                    <div class="flex flex-col gap-6">
+                                        <div class="p-6 bg-green-50/50 border-l-4 border-[#204138] rounded-r-xl">
+                                            <h4 class="font-black text-[#204138] mb-2 uppercase text-xs tracking-wider">{{ __('Objectif 4ème RGPH') }}</h4>
+                                            <p class="!mb-0 italic text-gray-700">{{ __('Le 4ème RGPH a pour objectif général de rendre disponibles les données nécessaires à la planification du développement et à la prise en compte du dividende démographique dans l’élaboration des politiques permettant l’évolution du Cameroun vers l’émergence.') }}</p>
+                                        </div>
+                                        <div class="p-6 bg-yellow-50/50 border-l-4 border-[#EDAF11] rounded-r-xl">
+                                            <h4 class="font-black text-[#EDAF11] mb-2 uppercase text-xs tracking-wider">{{ __('Objectif RGAE') }}</h4>
+                                            <p class="!mb-0 italic text-gray-700">{{ __('Le RGAE a en revanche pour objectif général de rendre disponibles les informations statistiques structurelles suffisamment désagrégées sur toutes les exploitations agropastorales et aquacoles, et à élaborer les bases de sondage pour les modules complémentaire et thématique et les enquêtes du Système Permanent et Intégré des Statistiques Agropastorales (SPISA).') }}</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="p-6 bg-yellow-50/50 border-l-4 border-[#EDAF11] rounded-r-xl">
-                                    <h4 class="font-black text-[#EDAF11] mb-2 uppercase text-xs tracking-wider">{{ __('Objectif RGAE') }}</h4>
-                                    <p class="!mb-0 italic text-gray-700">{{ __('Le RGAE a en revanche pour objectif général de rendre disponibles les informations statistiques structurelles suffisamment désagrégées sur toutes les exploitations agropastorales et aquacoles, et à élaborer les bases de sondage pour les modules complémentaire et thématique et les enquêtes du Système Permanent et Intégré des Statistiques Agropastorales (SPISA).') }}</p>
+                                <div class="section-image">
+                                    <img src="/assets/images/apropos/objectifs.jpg" alt="Formation des Agents" onerror="this.style.display='none';this.parentElement.classList.add('img-placeholder')">
                                 </div>
                             </div>
                         </article>
@@ -88,23 +95,30 @@ import { Link, Head } from '@inertiajs/vue3';
                         <!-- Section 4 : Méthodologie -->
                         <article class="content-section">
                             <h2 class="section-title">{{ __('Méthodologie de travail') }}</h2>
-                            <p>{{ __('L\'opération adopte une approche numérique moderne (CAPI - Computer Assisted Personal Interviewing) utilisant des tablettes et smartphones pour garantir la qualité et la célérité de la collecte.') }}</p>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                                <div class="p-4 bg-gray-50 rounded-xl border border-gray-100">
-                                    <span class="font-bold text-[#204138] block mb-1">01. {{ __('Cartographie') }}</span>
-                                    <p class="text-xs !mb-0">{{ __('Découpage du pays en zones de dénombrement (ZD).') }}</p>
+                            <div class="section-with-image items-center">
+                                <div class="section-text">
+                                    <p>{{ __('L\'opération adopte une approche numérique moderne (CAPI - Computer Assisted Personal Interviewing) utilisant des tablettes et smartphones pour garantir la qualité et la célérité de la collecte.') }}</p>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                                        <div class="p-4 bg-gray-50 rounded-xl border border-gray-100">
+                                            <span class="font-bold text-[#204138] block mb-1">01. {{ __('Cartographie') }}</span>
+                                            <p class="text-xs !mb-0">{{ __('Découpage du pays en zones de dénombrement (ZD).') }}</p>
+                                        </div>
+                                        <div class="p-4 bg-gray-50 rounded-xl border border-gray-100">
+                                            <span class="font-bold text-[#204138] block mb-1">02. {{ __('Pilote') }}</span>
+                                            <p class="text-xs !mb-0">{{ __('Test grandeur nature des outils et de l\'organisation.') }}</p>
+                                        </div>
+                                        <div class="p-4 bg-gray-50 rounded-xl border border-gray-100">
+                                            <span class="font-bold text-[#204138] block mb-1">03. {{ __('Dénombrement') }}</span>
+                                            <p class="text-xs !mb-0">{{ __('Collecte effective des données auprès des ménages.') }}</p>
+                                        </div>
+                                        <div class="p-4 bg-gray-50 rounded-xl border border-gray-100">
+                                            <span class="font-bold text-[#204138] block mb-1">04. {{ __('Analyse') }}</span>
+                                            <p class="text-xs !mb-0">{{ __('Traitement, apurement et publication des résultats.') }}</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="p-4 bg-gray-50 rounded-xl border border-gray-100">
-                                    <span class="font-bold text-[#204138] block mb-1">02. {{ __('Pilote') }}</span>
-                                    <p class="text-xs !mb-0">{{ __('Test grandeur nature des outils et de l\'organisation.') }}</p>
-                                </div>
-                                <div class="p-4 bg-gray-50 rounded-xl border border-gray-100">
-                                    <span class="font-bold text-[#204138] block mb-1">03. {{ __('Dénombrement') }}</span>
-                                    <p class="text-xs !mb-0">{{ __('Collecte effective des données auprès des ménages.') }}</p>
-                                </div>
-                                <div class="p-4 bg-gray-50 rounded-xl border border-gray-100">
-                                    <span class="font-bold text-[#204138] block mb-1">04. {{ __('Analyse') }}</span>
-                                    <p class="text-xs !mb-0">{{ __('Traitement, apurement et publication des résultats.') }}</p>
+                                <div class="section-image">
+                                    <img src="/assets/images/apropos/methodologie.jpg" alt="Travail de terrain" onerror="this.style.display='none';this.parentElement.classList.add('img-placeholder')">
                                 </div>
                             </div>
                         </article>
