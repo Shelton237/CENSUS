@@ -53,7 +53,7 @@ import { Link, Head } from '@inertiajs/vue3';
                                     <p>{{ __('Les activités de mutualisation ont été instruites en 2019 par le Premier Ministre, Chef du Gouvernement, dans l’optique d’optimiser les coûts liés à l’opérationnalisation desdites activités.') }}</p>
                                 </div>
                                 <div class="section-image">
-                                    <img src="/assets/images/apropos/contexte.jpg" alt="Signature Décret" onerror="this.style.display='none';this.parentElement.classList.add('img-placeholder')">
+                                    <img src="/assets/images/apropos/contexte.webp" alt="Signature Décret" loading="lazy">
                                 </div>
                             </div>
                         </article>
@@ -75,7 +75,7 @@ import { Link, Head } from '@inertiajs/vue3';
                                     </div>
                                 </div>
                                 <div class="section-image">
-                                    <img src="/assets/images/apropos/objectifs.jpg" alt="Formation des Agents" onerror="this.style.display='none';this.parentElement.classList.add('img-placeholder')">
+                                    <img src="/assets/images/apropos/objectifs.webp" alt="Formation des Agents" loading="lazy">
                                 </div>
                             </div>
                         </article>
@@ -118,7 +118,7 @@ import { Link, Head } from '@inertiajs/vue3';
                                     </div>
                                 </div>
                                 <div class="section-image">
-                                    <img src="/assets/images/apropos/methodologie.jpg" alt="Travail de terrain" onerror="this.style.display='none';this.parentElement.classList.add('img-placeholder')">
+                                    <img src="/assets/images/apropos/methodologie.webp" alt="Travail de terrain" loading="lazy">
                                 </div>
                             </div>
                         </article>

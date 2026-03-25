@@ -371,9 +371,9 @@
 /* Section with image (Section 1) */
 .section-with-image {
     display: grid;
-    grid-template-columns: 1fr 260px;
-    gap: 28px;
-    align-items: flex-start;
+    grid-template-columns: 1fr 340px;
+    gap: 40px;
+    align-items: center;
 }
 
 .section-image {
