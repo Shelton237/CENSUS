@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\NewsletterController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
     return Inertia::render('Landing');
@@ -66,6 +67,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('articles', \App\Http\Controllers\Admin\ArticleController::class);
         Route::resource('partners', \App\Http\Controllers\Admin\PartnerController::class);
     });
+
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__.'/auth.php';
