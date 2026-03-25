@@ -159,6 +159,58 @@ const animateVisitors = () => {
     }, 30);
 };
 
+// Social Posts Data
+const socialPosts = ref([
+    {
+        platform: 'fb',
+        platformName: 'Facebook',
+        user: 'Census Kamerun',
+        handle: '@CensusCam',
+        date: '24 Mar.',
+        content: "Démarrage des opérations de cartographie numérique dans la région du Centre. Nos équipes sont sur le terrain ! #Census2026 #Cameroun",
+        image: '/assets/images/accueil/495229d6739ec5d681e8f133d30bce3835dd8d3d.jpg',
+        likes: '1.2k',
+        comments: '85',
+        shares: '120'
+    },
+    {
+        platform: 'x',
+        platformName: 'X',
+        user: 'REDAE Cameroon',
+        handle: '@RedaeCam',
+        date: '23 Mar.',
+        content: "Le numéro vert 1515 est désormais actif pour répondre à toutes vos interrogations sur le recensement agropastoral. Appelez-nous ! 📞 #RGAE",
+        image: null,
+        likes: '450',
+        comments: '12',
+        shares: '56'
+    },
+    {
+        platform: 'ig',
+        platformName: 'Instagram',
+        user: 'BUCREP Official',
+        handle: '@bucrep_cm',
+        date: '22 Mar.',
+        content: "Formation intensive des superviseurs régionaux à Yaoundé. La technologie CAPI au cœur de notre stratégie de collecte. 💻🛡️ #Statistiques #Numérique",
+        image: '/assets/images/activites/986c57709a3bf8768a415053b878204642930267.jpg',
+        likes: '2.8k',
+        comments: '42',
+        shares: null
+    },
+    {
+        platform: 'fb',
+        platformName: 'Facebook',
+        user: 'INS Cameroun',
+        handle: '@ins_cameroun',
+        date: '20 Mar.',
+        content: "Saviez-vous que le recensement est une obligation civique ? Vos données sont protégées par le secret statistique. 🔒 #Civisme",
+        image: '/assets/images/accueil/00e84c980336215ee76aa8cbe7b06822262cc8d3.jpg',
+        likes: '890',
+        comments: '34',
+        shares: '45'
+    }
+]);
+
 // Données régionales pour la carte interactive
 const regionalStats = ref({
     'far-north': { name: 'Extrême-Nord', population: 4325490, agents: 4500, surface: '34 263 km²' },
@@ -458,22 +510,32 @@ const handleRegionLeave = () => {
                     <h2>{{ __('Réseaux sociaux') }}</h2>
                 </div>
                 <div class="social-feed-grid">
-                    <!-- Les posts sociaux sont reproduits à l'identique -->
-                    <div class="social-post" v-for="i in 5" :key="i">
+                    <div v-for="(post, index) in socialPosts" :key="index" class="social-post" :class="`post-${post.platform}`">
                         <div class="post-header">
-                            <img src="/assets/images/logo-rgae.jpg" alt="Organisme" class="post-avatar">
+                            <div class="post-avatar-wrap">
+                                <img src="/assets/images/logo-rgae.jpg" alt="Organisme" class="post-avatar">
+                                <div class="post-platform-icon" :class="post.platform">
+                                    <svg v-if="post.platform === 'fb'" viewBox="0 0 24 24" fill="white" width="12" height="12"><path d="M12 2.04c-5.5 0-10 4.5-10 10s4.5 10 10 10 10-4.5 10-10-4.5-10-10-10zm3.18 10h-2.18v7h-3v-7h-1.5v-2.5h1.5v-1.5c0-2.12 1.25-3.25 3.12-3.25.9 0 1.68.07 1.9.1v2.18h-1.28c-1.02 0-1.22.48-1.22 1.2v1.27h2.5l-.34 2.5z"/></svg>
+                                    <svg v-else-if="post.platform === 'x'" viewBox="0 0 24 24" fill="white" width="12" height="12"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+                                    <svg v-else-if="post.platform === 'ig'" viewBox="0 0 24 24" fill="white" width="12" height="12"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8A3.6 3.6 0 0 0 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6A3.6 3.6 0 0 0 16.4 4H7.6m4.4 3a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m5-1a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/></svg>
+                                </div>
+                            </div>
                             <div class="post-meta">
-                                <strong>Census Kamerun</strong>
-                                <span class="post-handle">@CensusCam · March 24</span>
+                                <strong>{{ post.user }}</strong>
+                                <span class="post-handle">{{ post.handle }} · {{ post.date }}</span>
                             </div>
                         </div>
-                        <p>{{ __('Social post content') }} <a href="#" class="post-more">{{ __('En voir plus') }}</a></p>
-                        <div class="post-img-wrap">
-                            <img src="/assets/images/accueil/495229d6739ec5d681e8f133d30bce3835dd8d3d.jpg" alt="Post image">
+                        <p class="post-text">{{ post.content }}</p>
+                        <div v-if="post.image" class="post-img-wrap">
+                            <img :src="post.image" alt="Post image">
                         </div>
                         <div class="post-footer">
-                            <div class="post-stats"><span>24 ❤</span><span>↩ 12</span><span>♺ 5</span></div>
-                            <span class="post-tag">Facebook</span>
+                            <div class="post-stats">
+                                <span v-if="post.likes">❤️ {{ post.likes }}</span>
+                                <span v-if="post.comments">💬 {{ post.comments }}</span>
+                                <span v-if="post.shares">🔄 {{ post.shares }}</span>
+                            </div>
+                            <span class="platform-badge" :class="post.platform">{{ post.platformName }}</span>
                         </div>
                     </div>
                 </div>
