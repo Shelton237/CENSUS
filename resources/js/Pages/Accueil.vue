@@ -399,14 +399,14 @@ const handleRegionLeave = () => {
         <PartenaireCarousel :partners="partners" />
     </MainLayout>
 </template>
-+
-+<style scoped>
-+.cartographie-section {
-+    background-image: linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.88)), 
-+                      url('https://census-cameroon.com/assets/images/slider/revolution/bg13.jpg');
-+    background-size: cover;
-+    background-position: center;
-+    background-repeat: no-repeat;
-+    background-attachment: scroll; /* safer than fixed for now */
-+}
-+</style>
+
+<style scoped>
+.cartographie-section {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.88)), 
+                      url('https://census-cameroon.com/assets/images/slider/revolution/bg13.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+}
+</style>

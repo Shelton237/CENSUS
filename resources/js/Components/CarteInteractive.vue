@@ -70,7 +70,7 @@ const onMouseLeave = (region) => {
 </script>
 
 <template>
-    <div class="carte-interactive-container">
+    <div class="">
         <svg 
             xmlns="http://www.w3.org/2000/svg" 
             viewBox="0 0 793 1160" 
@@ -91,18 +91,6 @@ const onMouseLeave = (region) => {
 </template>
 
 <style scoped>
-.carte-interactive-container {
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 2.5rem;
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-radius: 40px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
-}
 
 .cameroon-map {
     width: 100%;
