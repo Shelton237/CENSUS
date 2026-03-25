@@ -6,54 +6,106 @@ import { Link, Head } from '@inertiajs/vue3';
 
 <template>
     <Head>
-        <title>{{ __('À propos') }}</title>
-        <meta name="description" :content="__('Apropos description')">
+        <title>{{ __('À Propos') }}</title>
+        <meta name="description" :content="__('En savoir plus sur le 4ème Recensement Général de la Population et de l\'Habitat et le Recensement Général de l\'Agriculture et de l\'Élevage - Cameroun 2024')">
     </Head>
 
     <MainLayout>
-        <!-- Hero -->
-        <section class="relative pt-32 pb-20 overflow-hidden bg-[#204138]">
-            <div class="absolute inset-0 z-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
-            <div class="container relative z-10 text-center">
-                <span class="inline-block py-1 px-3 rounded-full bg-[#EDAF11]/20 text-[#EDAF11] font-bold text-sm tracking-widest uppercase mb-4">{{ __('Qui sommes-nous ?') }}</span>
-                <h1 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">{{ __('À propos du Recensement') }}</h1>
-                <p class="text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">{{ __('Comprendre les enjeux, les objectifs et les acteurs du 4ème RGPH du Cameroun.') }}</p>
-            </div>
-        </section>
-
-        <main class="inner-page" style="padding: 60px 0; background: #FFF;">
+        <!-- ===================== MAIN CONTENT ===================== -->
+        <main class="inner-page">
             <div class="container">
 
-                <div class="inner-content-grid" style="display: grid; grid-template-columns: 1fr 340px; gap: 60px;">
-                    <div class="inner-left">
-                        <section style="margin-bottom: 60px;">
-                            <h2 style="font-size: 28px; font-weight: 800; color: #2E6B5E; margin-bottom: 20px; border-bottom: 2px solid #F0F0F0; padding-bottom: 10px;">{{ __('Pourquoi un recensement ?') }}</h2>
-                            <p style="font-size: 16px; color: #444; line-height: 1.8; margin-bottom: 20px;">{{ __('Pourquoi desc') }}</p>
-                        </section>
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb" aria-label="Fil d'Ariane">
+                    <Link :href="route('accueil')" class="bc-link">{{ __('Accueil') }}</Link>
+                    <span class="bc-sep">/</span>
+                    <span class="bc-current">{{ __('A propos') }}</span>
+                </nav>
 
-                        <section style="margin-bottom: 60px;">
-                            <h2 style="font-size: 28px; font-weight: 800; color: #2E6B5E; margin-bottom: 20px; border-bottom: 2px solid #F0F0F0; padding-bottom: 10px;">{{ __('Nos principaux objectifs') }}</h2>
-                            <ul style="list-style: none; display: grid; gap: 15px;">
-                                <li style="display: flex; align-items: flex-start; gap: 12px; font-size: 16px; color: #444;">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E8AA00" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                                    <span>{{ __('Objectif 1') }}</span>
-                                </li>
-                                <li style="display: flex; align-items: flex-start; gap: 12px; font-size: 16px; color: #444;">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E8AA00" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                                    <span>{{ __('Objectif 2') }}</span>
-                                </li>
+                <!-- Page Title -->
+                <h1 class="page-title">
+                    {{ __('A propos du Recensement Général') }}
+                </h1>
+
+                <!-- Main Layout : Content + Sidebar -->
+                <div class="inner-layout">
+
+                    <!-- Content Column -->
+                    <div class="content-col">
+
+                        <!-- Section 1 -->
+                        <article class="content-section">
+                            <h2 class="section-title">{{ __('Présentation du Recensement') }}</h2>
+                            <div class="section-with-image">
+                                <div class="section-text">
+                                    <p>{{ __('Le Cameroun s\'apprête à réaliser le 4ème Recensement Général de la Population et de l\'Habitat (RGPH4), combiné pour la première fois avec le Recensement Général de l\'Agriculture et de l\'Élevage (RGAE). Cette opération d\'envergure nationale constitue un outil fondamental de planification du développement.') }}</p>
+                                    <p>{{ __('Ce double recensement permettra de collecter des données démographiques, socio-économiques et agricoles essentielles pour orienter les politiques publiques, la distribution des ressources, et la planification de services essentiels tels que l\'éducation, la santé, l\'eau et l\'assainissement.') }}</p>
+                                    <p>{{ __('Vingt ans après le dernier dénombrement, le Cameroun est sur le point d\'organiser un événement statistique majeur qui permettra de disposer de données actualisées sur la population et les ménages, l\'agriculture et l\'élevage, ainsi que le cadre de vie.') }}</p>
+                                    <a href="#" class="doc-pill">
+                                        {{ __('Rapport XXXXXX/XX') }}
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"></path></svg>
+                                    </a>
+                                </div>
+                                <div class="section-image">
+                                    <img src="/assets/images/apropos-placeholder.jpg" alt="Recensement Général" onerror="this.style.display='none';this.parentElement.classList.add('img-placeholder')">
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Section 2 -->
+                        <article class="content-section">
+                            <h2 class="section-title">{{ __('Objectifs du Recensement') }}</h2>
+                            <p>{{ __('Le recensement général poursuit plusieurs objectifs stratégiques visant à doter le Cameroun d\'une base de données statistiques fiable et actualisée :') }}</p>
+                            <ul class="content-list">
+                                <li>{{ __('Dénombrer et localiser l\'ensemble de la population résidant sur le territoire national.') }}</li>
+                                <li>{{ __('Collecter des informations socio-démographiques sur les ménages et les individus.') }}</li>
+                                <li>{{ __('Répertorier les exploitations agricoles, les élevages et les activités connexes.') }}</li>
+                                <li>{{ __('Fournir des données désagrégées pour la planification au niveau régional et local.') }}</li>
+                                <li>{{ __('Alimenter les indicateurs de développement durable et de suivi des programmes nationaux.') }}</li>
                             </ul>
-                        </section>
+                            <p>{{ __('Ce recensement constitue la principale source de référence pour l\'actualisation des projections démographiques, la délimitation des circonscriptions administratives et la mise à jour des registres officiels.') }}</p>
+                            <a href="#" class="doc-pill">
+                                {{ __('Rapport XXXXXX/XX') }}
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"></path></svg>
+                            </a>
+                        </article>
+
+                        <!-- Section 3 -->
+                        <article class="content-section">
+                            <h2 class="section-title">{{ __('Cadre Juridique et Institutionnel') }}</h2>
+                            <p>{{ __('La réalisation du RGPH4/RGAE repose sur un cadre juridique solide, composé de plusieurs textes législatifs et réglementaires qui définissent les responsabilités des différents acteurs et garantissent la confidentialité des données collectées.') }}</p>
+                            <p>{{ __('Le recensement est placé sous la tutelle du Ministère de l\'Économie, de la Planification et de l\'Aménagement du Territoire, avec l\'appui technique de l\'Institut National de la Statistique (INS). Il est financé conjointement par l\'État camerounais et ses partenaires techniques et financiers, notamment l\'UNFPA, la Banque Mondiale, la FAO et le PNUD.') }}</p>
+                            <p>{{ __('Conformément aux principes fondamentaux de la statistique officielle des Nations Unies, les données collectées sont strictement confidentielles et ne peuvent être utilisées qu\'à des fins statistiques. Aucune information individuelle ne peut être divulguée ou utilisée à des fins administratives, judiciaires ou fiscales.') }}</p>
+                            <a href="#" class="doc-pill">
+                                {{ __('Décret XXXXXXX/XXXX') }}
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"></path></svg>
+                            </a>
+                        </article>
+
                     </div>
 
-                    <aside class="inner-right">
-                        <div style="background: #F8FAF9; padding: 25px; border-radius: 15px; border: 1px solid #E9F0EE;">
-                            <h4 style="font-weight: 900; color: #295E4D; margin-bottom: 15px;">{{ __('COORDONNÉ PAR') }}</h4>
-                            <p style="font-size: 14px; color: #666; margin-bottom: 20px;">{{ __('BUCREP desc') }}</p>
+                    <!-- Sidebar Documentation -->
+                    <aside class="sidebar-col">
+                        <div class="sidebar-card">
+                            <h3 class="sidebar-title">{{ __('Documentation') }}</h3>
+                            <p class="sidebar-subtitle">{{ __('Les documentations de cette phase (décrets, publications)') }}</p>
+                            <ul class="doc-list">
+                                <li v-for="i in 6" :key="i">
+                                    <a href="#" class="doc-item">
+                                        <span>{{ __('Décret XXXXXXX/XXXX') }}</span>
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"></path></svg>
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
                     </aside>
+
                 </div>
             </div>
         </main>
     </MainLayout>
 </template>
+
+<style scoped>
+@import "../../css/inner.css";
+</style>
