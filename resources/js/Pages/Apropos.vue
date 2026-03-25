@@ -11,6 +11,16 @@ import { Link, Head } from '@inertiajs/vue3';
     </Head>
 
     <MainLayout>
+        <!-- Hero -->
+        <section class="relative pt-32 pb-20 overflow-hidden bg-[#204138]">
+            <div class="absolute inset-0 z-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+            <div class="container relative z-10 text-center">
+                <span class="inline-block py-1 px-3 rounded-full bg-[#EDAF11]/20 text-[#EDAF11] font-bold text-sm tracking-widest uppercase mb-4">{{ __('Qui sommes-nous ?') }}</span>
+                <h1 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">{{ __('À Propos du Recensement') }}</h1>
+                <p class="text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">{{ __('Comprendre les enjeux, les objectifs et le cadre institutionnel du 4ème RGPH du Cameroun.') }}</p>
+            </div>
+        </section>
+
         <!-- ===================== MAIN CONTENT ===================== -->
         <main class="inner-page">
             <div class="container">
