@@ -28,7 +28,15 @@ class AccueilController extends Controller
                         'slug' => $article->slug,
                         'image' => $article->image,
                     ];
-                })
+                }),
+            'stats' => [
+                'total_candidatures' => \App\Models\Candidature::count(),
+                'today_candidatures' => \App\Models\Candidature::whereDate('created_at', now()->toDateString())->count(),
+                'total_partners' => \App\Models\Partner::count(),
+                'total_articles' => \App\Models\Article::count(),
+                'total_subscribers' => \App\Models\Subscriber::count(),
+                'online_users' => \Illuminate\Support\Facades\DB::table('sessions')->count(),
+            ]
         ]);
     }
 }

@@ -8,7 +8,8 @@ import CarteInteractive from '@/Components/CarteInteractive.vue';
 
 const props = defineProps({
     partners: Array,
-    latestArticles: Array
+    latestArticles: Array,
+    stats: Object
 });
 
 // Slider state
@@ -74,8 +75,8 @@ const showSocialProof = ref(false);
 const currentProofIndex = ref(0);
 const socialProofs = ref([
     { icon: 'users', text: 'personnes consultent ce portail en ce moment', value: 'online' },
-    { icon: 'eye', text: 'visiteurs ont déjà exploré le recensement', value: 'total' },
-    { icon: 'check', text: 'nouveaux agents recrutés aujourd\'hui', value: 'today' }
+    { icon: 'eye', text: 'agents se sont déjà inscrits sur le portail', value: 'total' },
+    { icon: 'check', text: 'nouvelles candidatures reçues aujourd\'hui', value: 'today' }
 ]);
 
 const cycleSocialProof = () => {
@@ -98,7 +99,7 @@ onMounted(() => {
     }, 5000);
 });
 
-// Visiteurs dynamiques
+// Visiteurs dynamiques (Now based on Real stats)
 const visitorStats = ref({
     total: 0,
     today: 0,
@@ -106,46 +107,52 @@ const visitorStats = ref({
 });
 
 const animateVisitors = () => {
-    // Total
+    // Total (Real Candidatures)
     let startTotal = 0;
-    const targetTotal = 2348;
+    const targetTotal = props.stats?.total_candidatures || 0;
     const intervalTotal = setInterval(() => {
-        startTotal += 20;
+        if (targetTotal === 0) {
+            visitorStats.value.total = 0;
+            return clearInterval(intervalTotal);
+        }
+        startTotal += Math.max(1, Math.floor(targetTotal / 50));
         if (startTotal >= targetTotal) {
             visitorStats.value.total = targetTotal;
             clearInterval(intervalTotal);
         } else {
             visitorStats.value.total = startTotal;
         }
-    }, 16);
+    }, 20);
 
-    // Aujourd'hui
+    // Aujourd'hui (Real today)
     let startToday = 0;
-    const targetToday = 212;
+    const targetToday = props.stats?.today_candidatures || 0;
     const intervalToday = setInterval(() => {
-        startToday += 2;
+        if (targetToday === 0) {
+            visitorStats.value.today = 0;
+            return clearInterval(intervalToday);
+        }
+        startToday += 1;
         if (startToday >= targetToday) {
             visitorStats.value.today = targetToday;
             clearInterval(intervalToday);
         } else {
             visitorStats.value.today = startToday;
         }
-    }, 20);
+    }, 50);
 
-    // En ligne
+    // En ligne (Real Sessions)
     let startOnline = 0;
-    const targetOnline = 42;
+    const targetOnline = props.stats?.online_users || 1;
     const intervalOnline = setInterval(() => {
+        if (targetOnline <= 1) {
+            visitorStats.value.online = 1;
+            return clearInterval(intervalOnline);
+        }
         startOnline += 1;
         if (startOnline >= targetOnline) {
             visitorStats.value.online = targetOnline;
             clearInterval(intervalOnline);
-            
-            // Fluctuation légère pour le réalisme
-            setInterval(() => {
-                const diff = Math.floor(Math.random() * 3) - 1; // -1, 0, or 1
-                visitorStats.value.online = Math.max(38, Math.min(52, visitorStats.value.online + diff));
-            }, 5000);
         } else {
             visitorStats.value.online = startOnline;
         }
