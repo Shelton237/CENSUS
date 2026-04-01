@@ -105,8 +105,8 @@ const displayPartners = computed(() => {
 }
 
 .partner-logo {
-    height: 56px;
-    max-width: 180px;
+    height: 76px;
+    max-width: 220px;
     width: auto;
     object-fit: contain;
     /* Très légère désaturation */
@@ -120,6 +120,6 @@ const displayPartners = computed(() => {
 
 @media (max-width: 768px) {
     .partner-item { margin: 0 30px; }
-    .partner-logo { height: 42px; }
+    .partner-logo { height: 54px; }
 }
 </style>

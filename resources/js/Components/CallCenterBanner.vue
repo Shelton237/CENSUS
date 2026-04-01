@@ -76,7 +76,7 @@ defineProps({
 }
 
 .cc-title {
-    font-family: 'Arvo', serif;
+    font-family: 'Outfit', sans-serif;
     font-size: 54px;
     font-weight: 700;
     color: #ffffff;
@@ -86,7 +86,7 @@ defineProps({
 }
 
 .cc-subtitle {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Outfit', sans-serif;
     font-size: 17px;
     font-weight: 400;
     color: #ffffff;
@@ -103,7 +103,7 @@ defineProps({
     color: #1a4132;
     padding: 10px 32px;
     border-radius: 100px;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Outfit', sans-serif;
     font-size: 17px;
     font-weight: 700;
     text-decoration: none;
