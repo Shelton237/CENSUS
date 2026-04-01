@@ -778,20 +778,54 @@
    RESPONSIVE
    ============================== */
 @media (max-width: 1024px) {
+    .page-title, .page-hero-title, .chron-page-title { 
+        font-size: 34px; 
+    }
+    .phase-banner {
+        font-size: 24px;
+        padding: 24px 30px;
+        margin-bottom: 40px;
+    }
+    .phase-content {
+        grid-template-columns: 1fr;
+        gap: 60px;
+    }
+    .phase-card {
+        position: relative;
+        right: auto;
+        top: auto;
+        bottom: auto;
+        width: 100%;
+        margin-top: 20px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    }
+    .phase-img-wrap {
+        min-height: 300px;
+    }
+    .phase-right {
+        position: static;
+        margin-top: 40px;
+    }
     .inner-layout {
         grid-template-columns: 1fr;
+        gap: 40px;
     }
     .sidebar-col {
         position: static;
+        margin-top: 40px;
     }
     .articles-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
     }
     .featured-article {
         grid-template-columns: 1fr;
     }
     .featured-image {
-        min-height: 240px;
+        min-height: 280px;
+    }
+    .featured-body {
+        padding: 30px;
     }
 }
 

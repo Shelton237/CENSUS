@@ -1524,6 +1524,57 @@ body {
 }
 
 @media (max-width: 1024px) {
+    .container {
+        padding: 0 30px;
+    }
+
+    /* Header Tablette */
+    .h-logo {
+        height: 60px;
+    }
+
+    .header-title-block {
+        padding-left: 10px;
+        margin-left: 6px;
+    }
+
+    .header-title, .header-subtitle {
+        font-size: 13px;
+    }
+
+    /* Hero Slider Tablette */
+    .hero-slider {
+        height: 580px;
+    }
+
+    .hero-card {
+        max-width: 500px !important;
+    }
+
+    .hero-card h1 {
+        font-size: 38px !important;
+        margin-bottom: 20px !important;
+    }
+
+    .hero-card p {
+        font-size: 17px !important;
+        margin-bottom: 30px !important;
+    }
+
+    .slider-arrow {
+        width: 50px;
+        height: 50px;
+    }
+
+    .arrow-prev { left: 20px; }
+    .arrow-next { right: 20px; }
+
+    /* Sections titles */
+    .section-header h2, .alaune-title, .social-header h2 {
+        font-size: 32px;
+        margin-bottom: 30px;
+    }
+
     .alaune-hero-card {
         width: 220px;
         padding: 20px 16px;
@@ -1533,6 +1584,7 @@ body {
 
     .alaune-cards-row {
         grid-template-columns: repeat(2, 1fr); /* 2 colonnes sur tablette */
+        gap: 24px;
     }
 
     /* Footer Tablette (3 colonnes) */
@@ -1549,6 +1601,7 @@ body {
 
     .social-feed-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
     }
 
     /* MOBILE NAVIGATION */
@@ -1557,7 +1610,7 @@ body {
     }
 
     .main-bar-inner {
-        align-items: flex-start;
+        align-items: center;
         justify-content: space-between;
     }
 
@@ -1568,9 +1621,15 @@ body {
     .main-nav {
         display: none;
         width: 100%;
-        margin-top: 16px;
+        margin-top: 0;
         background: white;
-        padding-bottom: 20px;
+        padding: 0;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 1000;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        border-bottom: 3px solid var(--gold);
     }
 
     .main-nav.active {
@@ -1579,12 +1638,28 @@ body {
 
     .main-nav ul {
         flex-direction: column;
-        align-items: flex-start;
-        gap: 16px;
+        align-items: stretch;
+        gap: 0;
+        padding: 20px;
+    }
+
+    .main-nav li {
+        border-bottom: 1px solid #eee;
+    }
+
+    .main-nav li:last-child {
+        border-bottom: none;
     }
 
     .nav-link {
-        color: var(--text);
+        color: var(--green);
+        display: block;
+        padding: 15px 0;
+        font-size: 16px;
+    }
+    
+    .nav-link::after {
+        display: none;
     }
 }
 

@@ -129,6 +129,18 @@ body {
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
 }
 
+@media (max-width: 1024px) {
+    .content-wrapper {
+        max-width: 900px;
+    }
+    .central-badge {
+        max-width: 500px;
+    }
+    .description-container p {
+        font-size: 1.05rem;
+    }
+}
+
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     .landing-container {
