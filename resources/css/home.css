@@ -154,21 +154,20 @@ body {
 
 .header-title {
     color: white;
-    font-size: 17px;
-    /* Augmenté encore (était 15px) */
+    font-size: 15px;
     font-weight: 900;
-    line-height: 1.25;
-    letter-spacing: 0.6px;
+    line-height: 1.15;
+    letter-spacing: 0.2px;
     text-transform: uppercase;
 }
 
 .header-subtitle {
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 13px;
-    /* Augmenté encore (était 12px) */
-    line-height: 1.4;
-    font-weight: 500;
-    margin-top: 4px;
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 15px;
+    line-height: 1.15;
+    font-weight: 600;
+    margin-top: 2px;
+    text-transform: uppercase;
 }
 
 /* Navigation */
