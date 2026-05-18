@@ -663,38 +663,44 @@ const handleRegionLeave = () => {
                             <h3 class="text-xl font-black text-[#204138]">{{ __('Notre Fil Twitter (X)') }}</h3>
                         </div>
                         <div class="widget-body flex-1 w-full overflow-y-auto rounded-2xl bg-[#f8faf9] border border-gray-100 flex flex-col p-4 space-y-4">
-                            <div v-for="(tweet, idx) in simulatedTweets" :key="idx" class="p-4 bg-white border border-gray-100 rounded-2xl hover:border-gray-200 transition-all duration-300 shadow-sm flex flex-col text-left">
-                                <div class="flex items-center justify-between mb-3">
+                            <div v-for="(tweet, idx) in simulatedTweets" :key="idx" class="p-5 bg-white border border-gray-100 rounded-[24px] hover:border-gray-200 transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.02)] flex flex-col text-left">
+                                <div class="flex items-center justify-between mb-3.5">
                                     <div class="flex items-center gap-3">
                                         <img src="/assets/images/logo-rgae.jpg" alt="X Avatar" class="w-10 h-10 rounded-full border border-gray-100 object-cover">
                                         <div>
-                                            <h4 class="text-sm font-bold text-gray-900 flex items-center gap-1">
+                                            <h4 class="text-sm font-bold text-gray-900 flex items-center gap-1.5">
                                                 {{ tweet.user }}
-                                                <!-- Verified Badge -->
-                                                <svg viewBox="0 0 24 24" fill="#1DA1F2" width="14" height="14" class="inline-block"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                                                <!-- Premium Verified Account Badge (Starburst Checkmark) -->
+                                                <svg viewBox="0 0 24 24" fill="#1DA1F2" class="w-4 h-4 inline-block"><g><path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.99-3.818-3.99-.48 0-.938.1-1.35.278C14.775 2.525 13.5 1.5 12 1.5s-2.775 1.025-3.42 2.288c-.412-.178-.87-.278-1.35-.278-2.108 0-3.818 1.78-3.818 3.99 0 .495.084.965.238 1.4-1.273.65-2.148 2.02-2.148 3.6 0 1.58.875 2.95 2.148 3.6-.154.435-.238.905-.238 1.4 0 2.21 1.71 3.99 3.818 3.99.48 0 .938-.1 1.35-.278.645 1.263 1.92 2.288 3.42 2.288s2.775-1.025 3.42-2.288c.412.178.87.278 1.35.278 2.108 0 3.818-1.78 3.818-3.99 0-.495-.084-.965-.238-1.4 1.273-.65 2.148-2.02 2.148-3.6zm-12.72 3.29l-3.29-3.29 1.41-1.42 1.88 1.88 4.7-4.7 1.41 1.41-6.11 6.12z"></path></g></svg>
                                             </h4>
-                                            <p class="text-xs text-gray-500 font-medium">{{ tweet.handle }} · {{ tweet.date }}</p>
+                                            <p class="text-xs text-gray-400 font-medium">{{ tweet.handle }} · {{ tweet.date }}</p>
                                         </div>
                                     </div>
                                     <svg viewBox="0 0 24 24" fill="black" width="16" height="16"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
                                 </div>
-                                <p class="text-sm text-gray-700 leading-relaxed font-normal mb-3 whitespace-pre-wrap">{{ tweet.content }}</p>
-                                <div v-if="tweet.image" class="mb-3 rounded-xl overflow-hidden max-h-[160px] border border-gray-100">
+                                <p class="text-sm text-gray-700 leading-relaxed font-normal mb-3.5 whitespace-pre-wrap">{{ tweet.content }}</p>
+                                <div v-if="tweet.image" class="mb-3.5 rounded-xl overflow-hidden max-h-[160px] border border-gray-100">
                                     <img :src="tweet.image" class="w-full h-full object-cover">
                                 </div>
-                                <div class="flex items-center justify-between text-xs text-gray-500 border-t border-gray-50 pt-2.5 mt-auto">
-                                    <div class="flex items-center gap-4">
-                                        <span class="flex items-center gap-1 hover:text-[#1DA1F2] cursor-pointer transition-colors">
-                                            💬 <span class="font-semibold">{{ tweet.comments }}</span>
+                                <div class="flex items-center justify-between text-xs text-gray-400 border-t border-gray-50 pt-3 mt-auto">
+                                    <div class="flex items-center gap-6">
+                                        <span class="flex items-center gap-2 hover:text-[#1DA1F2] cursor-pointer transition-colors duration-200">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                                            <span class="font-semibold text-gray-500">{{ tweet.comments }}</span>
                                         </span>
-                                        <span class="flex items-center gap-1 hover:text-[#00BA7C] cursor-pointer transition-colors">
-                                            🔄 <span class="font-semibold">{{ tweet.shares }}</span>
+                                        <span class="flex items-center gap-2 hover:text-[#00BA7C] cursor-pointer transition-colors duration-200">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                                            <span class="font-semibold text-gray-500">{{ tweet.shares }}</span>
                                         </span>
-                                        <span class="flex items-center gap-1 hover:text-[#F91880] cursor-pointer transition-colors">
-                                            ❤️ <span class="font-semibold">{{ tweet.likes }}</span>
+                                        <span class="flex items-center gap-2 hover:text-[#F91880] cursor-pointer transition-colors duration-200">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                                            <span class="font-semibold text-gray-500">{{ tweet.likes }}</span>
                                         </span>
                                     </div>
-                                    <a :href="tweet.link" target="_blank" rel="noopener noreferrer" class="text-[#1DA1F2] font-bold hover:underline">{{ __('Voir sur X') }}</a>
+                                    <a :href="tweet.link" target="_blank" rel="noopener noreferrer" class="text-[#1DA1F2] font-black hover:underline flex items-center gap-1">
+                                        {{ __('Voir sur X') }}
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                                    </a>
                                 </div>
                             </div>
                             <!-- Bottom Action CTA -->
