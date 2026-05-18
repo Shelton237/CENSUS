@@ -99,6 +99,13 @@ onMounted(() => {
         showSocialProof.value = true;
         cycleSocialProof();
     }, 5000);
+
+    // Load Twitter Widgets JS for live feed
+    const script = document.createElement('script');
+    script.setAttribute('src', 'https://platform.twitter.com/widgets.js');
+    script.setAttribute('async', 'true');
+    script.setAttribute('charset', 'utf-8');
+    document.head.appendChild(script);
 });
 
 // Visiteurs dynamiques (Now based on Real stats)
@@ -570,35 +577,49 @@ const handleRegionLeave = () => {
                     <h2>{{ __('Suivez l\'actualité sur nos réseaux') }}</h2>
                     <p>{{ __('Rejoignez les milliers de citoyens qui nous suivent quotidiennement.') }}</p>
                 </div>
-                <div class="social-feed-grid">
-                    <a v-for="(post, index) in socialPosts" :key="index" :href="post.link" target="_blank" rel="noopener noreferrer" class="social-post block transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl" :class="`post-${post.platform}`">
-                        <div class="post-header">
-                            <div class="post-avatar-wrap">
-                                <img src="/assets/images/logo-rgae.jpg" alt="Organisme" class="post-avatar">
-                                <div class="post-platform-icon" :class="post.platform">
-                                    <svg v-if="post.platform === 'fb'" viewBox="0 0 24 24" fill="white" width="12" height="12"><path d="M12 2.04c-5.5 0-10 4.5-10 10s4.5 10 10 10 10-4.5 10-10-4.5-10-10-10zm3.18 10h-2.18v7h-3v-7h-1.5v-2.5h1.5v-1.5c0-2.12 1.25-3.25 3.12-3.25.9 0 1.68.07 1.9.1v2.18h-1.28c-1.02 0-1.22.48-1.22 1.2v1.27h2.5l-.34 2.5z"/></svg>
-                                    <svg v-else-if="post.platform === 'x'" viewBox="0 0 24 24" fill="white" width="12" height="12"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
-                                    <svg v-else-if="post.platform === 'ig'" viewBox="0 0 24 24" fill="white" width="12" height="12"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8A3.6 3.6 0 0 0 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6A3.6 3.6 0 0 0 16.4 4H7.6m4.4 3a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m5-1a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/></svg>
-                                </div>
-                            </div>
-                            <div class="post-meta">
-                                <strong>{{ post.user }}</strong>
-                                <span class="post-handle">{{ post.handle }} · {{ post.date }}</span>
-                            </div>
+                <!-- Live Social Media Widgets -->
+                <div class="social-widgets-container grid grid-cols-1 lg:grid-cols-2 gap-8 mt-12 justify-center items-center max-w-5xl mx-auto pb-6">
+                    <!-- Facebook Page Widget -->
+                    <div class="fb-widget-card bg-white p-6 rounded-3xl shadow-xl border border-gray-100 flex flex-col items-center w-full transition-all duration-300 hover:shadow-2xl">
+                        <h3 class="text-xl font-black text-[#204138] mb-5 flex items-center gap-3 w-full justify-start pl-2">
+                            <span class="w-10 h-10 rounded-full bg-[#1877F2]/10 flex items-center justify-center text-[#1877F2]">
+                                <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 2.04c-5.5 0-10 4.5-10 10s4.5 10 10 10 10-4.5 10-10-4.5-10-10-10zm3.18 10h-2.18v7h-3v-7h-1.5v-2.5h1.5v-1.5c0-2.12 1.25-3.25 3.12-3.25.9 0 1.68.07 1.9.1v2.18h-1.28c-1.02 0-1.22.48-1.22 1.2v1.27h2.5l-.34 2.5z"/></svg>
+                            </span>
+                            {{ __('Notre Page Facebook') }}
+                        </h3>
+                        <iframe 
+                            src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D61562950229317&tabs=timeline&width=450&height=500&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false" 
+                            width="100%" 
+                            height="500" 
+                            style="border:none;overflow:hidden;border-radius:16px;max-width:450px;" 
+                            scrolling="no" 
+                            frameborder="0" 
+                            allowfullscreen="true" 
+                            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                            class="w-full"
+                        ></iframe>
+                    </div>
+
+                    <!-- Twitter (X) Timeline Widget -->
+                    <div class="x-widget-card bg-white p-6 rounded-3xl shadow-xl border border-gray-100 flex flex-col items-center w-full transition-all duration-300 hover:shadow-2xl">
+                        <h3 class="text-xl font-black text-[#204138] mb-5 flex items-center gap-3 w-full justify-start pl-2">
+                            <span class="w-10 h-10 rounded-full bg-black/5 flex items-center justify-center text-black">
+                                <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+                            </span>
+                            {{ __('Notre Fil Twitter (X)') }}
+                        </h3>
+                        <div class="w-full overflow-hidden" style="max-height:500px; max-width:450px; border-radius:16px; border:1px solid #ECECEC;">
+                            <a 
+                                class="twitter-timeline" 
+                                data-height="500" 
+                                data-theme="light"
+                                data-chrome="noheader nofooter noborders transparent"
+                                href="https://twitter.com/recensement90?ref_src=twsrc%5Etfw"
+                            >
+                                Tweets by @recensement90
+                            </a>
                         </div>
-                        <p class="post-text">{{ post.content }}</p>
-                        <div v-if="post.image" class="post-img-wrap">
-                            <img :src="post.image" alt="Post image">
-                        </div>
-                        <div class="post-footer">
-                            <div class="post-stats">
-                                <span v-if="post.likes">❤️ {{ post.likes }}</span>
-                                <span v-if="post.comments">💬 {{ post.comments }}</span>
-                                <span v-if="post.shares">🔄 {{ post.shares }}</span>
-                            </div>
-                            <span class="platform-badge" :class="post.platform">{{ post.platformName }}</span>
-                        </div>
-                    </a>
+                    </div>
                 </div>
 
                 <div class="follow-us-banner">
