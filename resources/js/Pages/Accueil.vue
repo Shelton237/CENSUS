@@ -557,40 +557,42 @@ const handleRegionLeave = () => {
         </section>
 
         <!-- ===================== SECURITY & TRUST SECTION ===================== -->
-        <section class="security-trust-section py-20 px-4 md:px-8 bg-gradient-to-b from-[#1a4132]/5 to-transparent relative overflow-hidden">
-            <div class="max-w-7xl mx-auto">
+        <section class="security-trust-section py-24 px-4 md:px-8 relative overflow-hidden">
+            <!-- Background image overlay -->
+            <div class="security-bg-overlay"></div>
+            <div class="max-w-7xl mx-auto relative z-10">
                 <div class="text-center max-w-3xl mx-auto mb-16">
                     <span class="text-[#EDAF11] font-bold uppercase tracking-widest text-xs md:text-sm">{{ __('Souveraineté & Secret Statistique') }}</span>
-                    <h2 class="text-3xl md:text-5xl font-black text-[#1a4132] mt-3 mb-6">{{ __('Vos données sont en sécurité') }}</h2>
-                    <p class="text-gray-600 leading-relaxed">{{ __('Le BUCREP déploie des protocoles de sécurité de pointe pour garantir le secret et la confidentialité absolue de chaque déclaration citoyenne.') }}</p>
+                    <h2 class="text-3xl md:text-5xl font-black text-white mt-3 mb-6">{{ __('Vos données sont en sécurité') }}</h2>
+                    <p class="text-white/75 leading-relaxed text-base">{{ __('Le BUCREP déploie des protocoles de sécurité de pointe pour garantir le secret et la confidentialité absolue de chaque déclaration citoyenne.') }}</p>
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <!-- Card 1: Secret Statistique -->
-                    <div class="security-card p-8 rounded-2xl bg-white border border-gray-100 shadow-xl transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl flex flex-col items-center text-center">
-                        <div class="w-16 h-16 rounded-2xl bg-[#1a4132]/10 flex items-center justify-center text-[#1a4132] mb-6">
+                    <div class="security-card p-8 rounded-2xl flex flex-col items-center text-center">
+                        <div class="w-16 h-16 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-[#EDAF11] mb-6">
                             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
                         </div>
-                        <h3 class="text-xl font-bold text-[#1a4132] mb-4">{{ __('Secret Statistique Garanti') }}</h3>
-                        <p class="text-gray-500 text-sm leading-relaxed">{{ __('Conformément à la loi sur le secret statistique, vos informations individuelles restent strictement confidentielles et protégées.') }}</p>
+                        <h3 class="text-xl font-bold text-white mb-4">{{ __('Secret Statistique Garanti') }}</h3>
+                        <p class="text-white/70 text-sm leading-relaxed">{{ __('Conformément à la loi sur le secret statistique, vos informations individuelles restent strictement confidentielles et protégées.') }}</p>
                     </div>
 
                     <!-- Card 2: CAPI Tablettes -->
-                    <div class="security-card p-8 rounded-2xl bg-white border border-gray-100 shadow-xl transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl flex flex-col items-center text-center">
-                        <div class="w-16 h-16 rounded-2xl bg-[#EDAF11]/10 flex items-center justify-center text-[#EDAF11] mb-6">
+                    <div class="security-card p-8 rounded-2xl flex flex-col items-center text-center">
+                        <div class="w-16 h-16 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-[#EDAF11] mb-6">
                             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
                         </div>
-                        <h3 class="text-xl font-bold text-[#1a4132] mb-4">{{ __('Collecte Numérique Sécurisée') }}</h3>
-                        <p class="text-gray-500 text-sm leading-relaxed">{{ __('La collecte s\'effectue sur des tablettes numériques sécurisées. Les données saisies sont immédiatement cryptées et transmises au serveur central du BUCREP.') }}</p>
+                        <h3 class="text-xl font-bold text-white mb-4">{{ __('Collecte Numérique Sécurisée') }}</h3>
+                        <p class="text-white/70 text-sm leading-relaxed">{{ __('La collecte s\'effectue sur des tablettes numériques sécurisées. Les données saisies sont immédiatement cryptées et transmises au serveur central du BUCREP.') }}</p>
                     </div>
 
                     <!-- Card 3: Utilité Publique -->
-                    <div class="security-card p-8 rounded-2xl bg-white border border-gray-100 shadow-xl transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl flex flex-col items-center text-center">
-                        <div class="w-16 h-16 rounded-2xl bg-[#295E4D]/10 flex items-center justify-center text-[#295E4D] mb-6">
+                    <div class="security-card p-8 rounded-2xl flex flex-col items-center text-center">
+                        <div class="w-16 h-16 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-[#EDAF11] mb-6">
                             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                         </div>
-                        <h3 class="text-xl font-bold text-[#1a4132] mb-4">{{ __('Usage Citoyen & Planification') }}</h3>
-                        <p class="text-gray-500 text-sm leading-relaxed">{{ __('Aucune donnée fiscale, bancaire ou nominative n\'est divulguée. Les informations servent uniquement à la planification du développement du Cameroun.') }}</p>
+                        <h3 class="text-xl font-bold text-white mb-4">{{ __('Usage Citoyen & Planification') }}</h3>
+                        <p class="text-white/70 text-sm leading-relaxed">{{ __('Aucune donnée fiscale, bancaire ou nominative n\'est divulguée. Les informations servent uniquement à la planification du développement du Cameroun.') }}</p>
                     </div>
                 </div>
             </div>
@@ -645,18 +647,32 @@ const handleRegionLeave = () => {
 }
 
 .security-trust-section {
-    background-color: rgba(26, 65, 50, 0.02);
+    background-color: #1a4132;
+    background-image: url('/assets/images/pattern.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+.security-bg-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(26, 65, 50, 0.92) 0%, rgba(18, 45, 35, 0.88) 100%);
+    z-index: 1;
 }
 .security-card {
     border-radius: 20px;
-    background: #ffffff;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .security-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 40px -15px rgba(26, 65, 50, 0.15);
-    border-color: rgba(26, 65, 50, 0.1);
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(237, 175, 17, 0.4);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
 }
 </style>
