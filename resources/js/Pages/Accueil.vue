@@ -374,7 +374,7 @@ const handleRegionLeave = () => {
 
 
         <!-- ===================== CARTE INTERACTIVE ===================== -->
-        <section class="carte-section py-24 relative overflow-hidden cartographie-section" id="carte-regions">
+        <!-- <section class="carte-section py-24 relative overflow-hidden cartographie-section" id="carte-regions">
             <div class="container relative z-10 w-full max-w-7xl mx-auto px-4">
                 <div class="flex flex-col lg:flex-row items-center gap-12">
                     <div class="lg:w-1/2 w-full text-center lg:text-left">
@@ -385,7 +385,6 @@ const handleRegionLeave = () => {
                             {{ __('Explorez les données statistiques et le déploiement des agents recenseurs dans les 10 régions du Cameroun via notre carte interactive. Survolez une région pour plus de détails.') }}
                         </p>
                         
-                        <!-- Panneau de statistiques d'informations -->
                         <div class="region-info-panel">
                             <div v-if="hoveredRegionData" class="region-details">
                                 <h3 class="text-3xl font-black text-[#EDAF11] mb-6">{{ __(hoveredRegionData.name) }}</h3>
@@ -421,7 +420,7 @@ const handleRegionLeave = () => {
             
             <div class="absolute top-0 right-0 -mr-32 -mt-32 w-96 h-96 rounded-full bg-[#EDAF11]/5 blur-3xl z-0 pointer-events-none"></div>
             <div class="absolute bottom-0 left-0 -ml-32 -mb-32 w-[500px] h-[500px] rounded-full bg-[#204138]/5 blur-3xl z-0 pointer-events-none"></div>
-        </section>
+        </section> -->
 
         <!-- ===================== A LA UNE ===================== -->
         <section class="alaune-section" id="a-la-une" v-if="latestArticles && latestArticles.length > 0">
