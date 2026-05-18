@@ -260,6 +260,9 @@ const handleRegionLeave = () => {
                     <div class="slide-overlay"></div>
                     <div class="container slide-content relative z-20 h-full flex items-center">
                         <div class="hero-card max-w-2xl transform transition-all duration-1000" :class="activeSlide === index ? 'translate-x-0 opacity-100' : '-translate-x-12 opacity-0'">
+                            <div class="uppercase tracking-widest text-[#EDAF11] font-bold text-xs md:text-sm mb-4">
+                                {{ __('Le recensement est notre avenir, tous concernés, tous gagnants') }}
+                            </div>
                             <h1 class="text-4xl md:text-6xl font-black text-white leading-tight mb-6 shadow-text" v-html="__(slide.title)"></h1>
                             <p class="text-lg md:text-xl text-white/90 mb-10 leading-relaxed max-w-xl" v-html="__(slide.text)"></p>
                             <div class="flex flex-wrap gap-4">
