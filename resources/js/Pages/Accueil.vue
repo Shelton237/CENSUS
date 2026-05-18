@@ -70,7 +70,7 @@ const simulatedTweets = computed(() => {
 const activeSlide = ref(0);
 const slides = [
     { 
-        image: '/assets/images/slides/495229d6739ec5d681e8f133d30bce3835dd8d3d.jpg', 
+        image: '/assets/images/slides/phase_prepa.jpg', 
         title: 'Bâtissons l\'avenir de notre nation', 
         text: 'Le 4ème Recensement Général de la Population et de l\'Habitat est une étape cruciale pour le développement du Cameroun.',
         cta: 'S\'impliquer',
@@ -229,7 +229,7 @@ const defaultSocialPosts = [
         handle: '@bucrep.cameroun',
         date: '18 Mai',
         content: "Démarrage des opérations de cartographie numérique dans la région du Centre. Nos équipes sont sur le terrain pour bâtir le Cameroun de demain ! #Census2026 #BUCREP",
-        image: '/assets/images/accueil/495229d6739ec5d681e8f133d30bce3835dd8d3d.jpg',
+        image: '/assets/images/slides/phase_prepa.jpg',
         likes: '1.2k',
         comments: '85',
         shares: '120',
@@ -255,7 +255,7 @@ const defaultSocialPosts = [
         handle: '@bucrep_cm',
         date: '16 Mai',
         content: "Formation intensive de nos superviseurs régionaux. La technologie CAPI sur tablettes numériques garantit la sécurité et la confidentialité absolue de vos données. 💻🛡️ #BUCREP",
-        image: '/assets/images/accueil/495229d6739ec5d681e8f133d30bce3835dd8d3d.jpg',
+        image: '/assets/images/slides/phase_analyse.jpg',
         likes: '2.8k',
         comments: '42',
         shares: null,
@@ -527,7 +527,7 @@ const handleRegionLeave = () => {
                                 class="w-full h-full object-cover absolute inset-0"
                                 style="pointer-events: none;"
                             ></video>
-                            <img v-else :src="latestArticles[0].image ? `/storage/${latestArticles[0].image}` : '/assets/images/accueil/495229d6739ec5d681e8f133d30bce3835dd8d3d.jpg'" 
+                            <img v-else :src="latestArticles[0].image ? `/storage/${latestArticles[0].image}` : '/assets/images/slides/phase_prepa.jpg'" 
                                  :alt="latestArticles[0].title">
                             <!-- Video Play Badge Overlay for Hero -->
                             <div v-if="latestArticles[0].media_type === 'video'" class="absolute inset-0 bg-black/30 flex items-center justify-center transition-all">

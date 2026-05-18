@@ -48,7 +48,7 @@ const props = defineProps({
                         </div>
                         <!-- Image Main Media -->
                         <div v-else class="w-full h-[450px]">
-                            <img :src="article.image ? '/storage/' + article.image : '/assets/images/accueil/495229d6739ec5d681e8f133d30bce3835dd8d3d.jpg'" :alt="article.title" class="w-full h-full object-cover">
+                            <img :src="article.image ? '/storage/' + article.image : '/assets/images/slides/phase_prepa.jpg'" :alt="article.title" class="w-full h-full object-cover">
                         </div>
                     </div>
                     

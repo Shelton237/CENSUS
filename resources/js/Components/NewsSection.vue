@@ -51,7 +51,7 @@ const newsItems = [
             <!-- News Hero (Grande mise en avant) -->
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-0 mb-12 rounded-3xl overflow-hidden shadow-2xl shadow-gray-200 border border-gray-100">
                 <div class="lg:col-span-8 relative aspect-video lg:aspect-auto">
-                    <img src="/assets/images/accueil/495229d6739ec5d681e8f133d30bce3835dd8d3d.jpg" alt="Actualité principale" class="absolute inset-0 w-full h-full object-cover">
+                    <img src="/assets/images/slides/phase_prepa.jpg" alt="Actualité principale" class="absolute inset-0 w-full h-full object-cover">
                     <!-- Dots indicateurs superposés -->
                     <div class="absolute bottom-6 left-6 flex gap-2">
                         <span class="w-8 h-2 bg-yellow-400 rounded-full"></span>
