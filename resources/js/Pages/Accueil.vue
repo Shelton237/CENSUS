@@ -557,7 +557,7 @@ const handleRegionLeave = () => {
         </section>
 
         <!-- ===================== SECURITY & TRUST SECTION ===================== -->
-        <section class="security-trust-section py-24 px-4 md:px-8 relative overflow-hidden">
+        <section class="security-trust-section py-24 px-4 md:px-8 relative overflow-hidden" style="background-image: url('/assets/images/pattern.jpg'); background-size: cover; background-position: center;">
             <!-- Background image overlay -->
             <div class="security-bg-overlay"></div>
             <div class="max-w-7xl mx-auto relative z-10">
@@ -648,10 +648,6 @@ const handleRegionLeave = () => {
 
 .security-trust-section {
     background-color: #1a4132;
-    background-image: url('/assets/images/pattern.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     position: relative;
 }
 .security-bg-overlay {
