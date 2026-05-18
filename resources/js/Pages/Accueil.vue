@@ -578,46 +578,59 @@ const handleRegionLeave = () => {
                     <p>{{ __('Rejoignez les milliers de citoyens qui nous suivent quotidiennement.') }}</p>
                 </div>
                 <!-- Live Social Media Widgets -->
-                <div class="social-widgets-container grid grid-cols-1 lg:grid-cols-2 gap-8 mt-12 justify-center items-center max-w-5xl mx-auto pb-6">
+                <div class="social-widgets-container grid grid-cols-1 md:grid-cols-2 gap-8 mt-12 justify-center items-center max-w-5xl mx-auto pb-8">
                     <!-- Facebook Page Widget -->
-                    <div class="fb-widget-card bg-white p-6 rounded-3xl shadow-xl border border-gray-100 flex flex-col items-center w-full transition-all duration-300 hover:shadow-2xl">
-                        <h3 class="text-xl font-black text-[#204138] mb-5 flex items-center gap-3 w-full justify-start pl-2">
+                    <div class="social-widget-card bg-white p-6 rounded-[32px] shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col h-[620px] w-full transition-all duration-300 hover:shadow-[0_30px_70px_rgba(32,65,56,0.12)] hover:-translate-y-1">
+                        <div class="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
                             <span class="w-10 h-10 rounded-full bg-[#1877F2]/10 flex items-center justify-center text-[#1877F2]">
                                 <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 2.04c-5.5 0-10 4.5-10 10s4.5 10 10 10 10-4.5 10-10-4.5-10-10-10zm3.18 10h-2.18v7h-3v-7h-1.5v-2.5h1.5v-1.5c0-2.12 1.25-3.25 3.12-3.25.9 0 1.68.07 1.9.1v2.18h-1.28c-1.02 0-1.22.48-1.22 1.2v1.27h2.5l-.34 2.5z"/></svg>
                             </span>
-                            {{ __('Notre Page Facebook') }}
-                        </h3>
-                        <iframe 
-                            src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D61562950229317&tabs=timeline&width=450&height=500&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false" 
-                            width="100%" 
-                            height="500" 
-                            style="border:none;overflow:hidden;border-radius:16px;max-width:450px;" 
-                            scrolling="no" 
-                            frameborder="0" 
-                            allowfullscreen="true" 
-                            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-                            class="w-full"
-                        ></iframe>
+                            <h3 class="text-xl font-black text-[#204138]">{{ __('Notre Page Facebook') }}</h3>
+                        </div>
+                        <div class="widget-body flex-1 w-full overflow-hidden rounded-2xl bg-[#f8faf9] border border-gray-100">
+                            <iframe 
+                                src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D61562950229317&tabs=timeline&width=450&height=500&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false" 
+                                width="100%" 
+                                height="100%" 
+                                style="border:none;overflow:hidden;" 
+                                scrolling="no" 
+                                frameborder="0" 
+                                allowfullscreen="true" 
+                                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                                class="w-full h-full"
+                            ></iframe>
+                        </div>
                     </div>
 
                     <!-- Twitter (X) Timeline Widget -->
-                    <div class="x-widget-card bg-white p-6 rounded-3xl shadow-xl border border-gray-100 flex flex-col items-center w-full transition-all duration-300 hover:shadow-2xl">
-                        <h3 class="text-xl font-black text-[#204138] mb-5 flex items-center gap-3 w-full justify-start pl-2">
+                    <div class="social-widget-card bg-white p-6 rounded-[32px] shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col h-[620px] w-full transition-all duration-300 hover:shadow-[0_30px_70px_rgba(32,65,56,0.12)] hover:-translate-y-1">
+                        <div class="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
                             <span class="w-10 h-10 rounded-full bg-black/5 flex items-center justify-center text-black">
                                 <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
                             </span>
-                            {{ __('Notre Fil Twitter (X)') }}
-                        </h3>
-                        <div class="w-full overflow-hidden" style="max-height:500px; max-width:450px; border-radius:16px; border:1px solid #ECECEC;">
-                            <a 
-                                class="twitter-timeline" 
-                                data-height="500" 
-                                data-theme="light"
-                                data-chrome="noheader nofooter noborders transparent"
-                                href="https://twitter.com/recensement90?ref_src=twsrc%5Etfw"
-                            >
-                                Tweets by @recensement90
-                            </a>
+                            <h3 class="text-xl font-black text-[#204138]">{{ __('Notre Fil Twitter (X)') }}</h3>
+                        </div>
+                        <div class="widget-body flex-1 w-full overflow-y-auto rounded-2xl bg-[#f8faf9] border border-gray-100 flex flex-col items-center justify-center p-4">
+                            <div class="w-full h-full flex flex-col justify-center">
+                                <a 
+                                    class="twitter-timeline w-full" 
+                                    data-height="480" 
+                                    data-theme="light"
+                                    data-chrome="noheader nofooter noborders transparent"
+                                    href="https://twitter.com/recensement90?ref_src=twsrc%5Etfw"
+                                >
+                                    <div class="text-center p-6 flex flex-col items-center justify-center h-full">
+                                        <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#204138] mb-4"></div>
+                                        <p class="text-base font-bold text-[#204138] mb-2">{{ __('Chargement du fil X...') }}</p>
+                                        <p class="text-xs text-gray-500 max-w-xs mx-auto leading-relaxed mb-6">
+                                            {{ __('Si le fil ne s\'affiche pas, cela peut être dû à vos bloqueurs de contenu ou à la confidentialité de votre navigateur. Vous pouvez visiter notre profil officiel directement.') }}
+                                        </p>
+                                        <a href="https://x.com/recensement90" target="_blank" rel="noopener noreferrer" class="px-6 py-2.5 bg-[#204138] hover:bg-[#EDAF11] hover:text-[#204138] text-white font-bold text-sm rounded-full transition-all duration-300 shadow-md inline-block">
+                                            {{ __('Visiter @recensement90') }}
+                                        </a>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
