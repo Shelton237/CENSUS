@@ -153,11 +153,27 @@ const submit = () => {
 
                             <!-- Category -->
                             <div class="space-y-2">
-                                <label class="block text-xs font-black text-[#204138] uppercase tracking-widest">Catégorie</label>
+                                <div class="flex items-center justify-between">
+                                    <label class="block text-xs font-black text-[#204138] uppercase tracking-widest">Catégorie</label>
+                                    <!-- Dynamic Premium SVG Badge -->
+                                    <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider transition-all" :class="{
+                                        'bg-red-50 text-red-600 border border-red-100': form.category === 'communique',
+                                        'bg-amber-50 text-amber-600 border border-amber-100': form.category === 'activite',
+                                        'bg-emerald-50 text-emerald-700 border border-emerald-100': form.category === 'publication'
+                                    }">
+                                        <!-- Megaphone SVG for Communiqué -->
+                                        <svg v-if="form.category === 'communique'" class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path></svg>
+                                        <!-- Calendar SVG for Activité -->
+                                        <svg v-else-if="form.category === 'activite'" class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                        <!-- BookOpen SVG for Publication -->
+                                        <svg v-else-if="form.category === 'publication'" class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                                        <span>{{ form.category === 'communique' ? 'Communiqué' : form.category === 'activite' ? 'Activité' : 'Publication' }}</span>
+                                    </div>
+                                </div>
                                 <select v-model="form.category" class="w-full bg-[#f9fbfb] border border-gray-200 rounded-xl p-3.5 focus:ring-2 focus:ring-[#EDAF11] focus:border-transparent transition-all shadow-sm text-sm font-bold text-gray-800">
-                                    <option value="communique">⚠️ Communiqué</option>
-                                    <option value="activite">📅 Activité</option>
-                                    <option value="publication">📚 Publication</option>
+                                    <option value="communique">Communiqué</option>
+                                    <option value="activite">Activité</option>
+                                    <option value="publication">Publication</option>
                                 </select>
                             </div>
 

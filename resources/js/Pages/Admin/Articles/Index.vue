@@ -57,13 +57,13 @@ const deleteArticle = (id) => {
                                     <div class="text-[10px] text-gray-400 font-mono">{{ article.slug }}</div>
                                 </td>
                                 <td class="px-6 py-4 text-sm">
-                                    <span class="px-2 py-1 rounded text-[10px] font-bold uppercase" 
+                                    <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider border" 
                                           :class="{
-                                              'bg-green-100 text-green-700': article.category === 'communique',
-                                              'bg-yellow-100 text-yellow-700': article.category === 'activite',
-                                              'bg-blue-100 text-blue-700': article.category === 'publication'
+                                              'bg-red-50 text-red-600 border-red-100': article.category === 'communique',
+                                              'bg-amber-50 text-amber-600 border-amber-100': article.category === 'activite',
+                                              'bg-emerald-50 text-emerald-700 border-emerald-100': article.category === 'publication'
                                           }">
-                                        {{ article.category }}
+                                        {{ article.category === 'communique' ? 'Communiqué' : article.category === 'activite' ? 'Activité' : 'Publication' }}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 text-right flex justify-end gap-3">
