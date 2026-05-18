@@ -5,6 +5,7 @@ import { Link, Head } from '@inertiajs/vue3';
 import PartenaireCarousel from '@/Components/PartenaireCarousel.vue';
 import FaqSection from '@/Components/FaqSection.vue';
 import CarteInteractive from '@/Components/CarteInteractive.vue';
+import CallCenterBanner from '@/Components/CallCenterBanner.vue';
 
 const props = defineProps({
     partners: Array,
@@ -551,6 +552,14 @@ const handleRegionLeave = () => {
                 </div>
             </div>
         </section>
+
+        <!-- ===================== BESOIN D'INFORMATIONS ===================== -->
+        <CallCenterBanner 
+            title="Besoin d'informations ?"
+            subtitle="Contactez nous via le numéro vert dédié"
+            phone="+237 222 225 121"
+            buttonLabel="Appeler le numéro Vert"
+        />
 
         <!-- ===================== FAQ ===================== -->
         <FaqSection />
