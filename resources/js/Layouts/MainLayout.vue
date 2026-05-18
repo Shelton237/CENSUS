@@ -140,14 +140,14 @@ onMounted(() => {
                         <li class="mt-3 text-[15px] text-white/80">{{ __('Suivez nos Réseaux Sociaux') }}</li>
                         <li>
                             <div class="flex gap-3 mt-2 mb-5">
-                                <a href="#" class="w-8 h-8 rounded-full border border-white/60 flex items-center justify-center hover:opacity-70 transition-opacity bg-transparent">
-                                    <img src="/assets/images/reseaux/0771d701d44dcb1757ccb3a8aba21d3febf5fafc.png" alt="Réseau Social 1" class="w-full h-full object-contain">
+                                <a href="https://www.facebook.com/profile.php?id=61562950229317" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full border border-white/60 flex items-center justify-center hover:opacity-70 transition-opacity bg-transparent">
+                                    <img src="/assets/images/reseaux/0771d701d44dcb1757ccb3a8aba21d3febf5fafc.png" alt="Facebook" class="w-full h-full object-contain">
                                 </a>
-                                <a href="#" class="w-8 h-8 rounded-full border border-white/60 flex items-center justify-center hover:opacity-70 transition-opacity bg-transparent">
-                                    <img src="/assets/images/reseaux/1fc8e15cdfbe56266f3f190e33d1f6a7a13f0390.png" alt="Réseau Social 2" class="w-full h-full object-contain">
+                                <a href="https://x.com/recensement90" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full border border-white/60 flex items-center justify-center hover:opacity-70 transition-opacity bg-transparent">
+                                    <img src="/assets/images/reseaux/1fc8e15cdfbe56266f3f190e33d1f6a7a13f0390.png" alt="X (Twitter)" class="w-full h-full object-contain">
                                 </a>
-                                <a href="#" class="w-8 h-8 rounded-full border border-white/60 flex items-center justify-center hover:opacity-70 transition-opacity bg-transparent">
-                                    <img src="/assets/images/reseaux/e6b0ee7be3287671a1262e4297ebc96a08d09cb1 (1).png" alt="Réseau Social 3" class="w-full h-full object-contain">
+                                <a href="https://www.facebook.com/profile.php?id=61562950229317" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full border border-white/60 flex items-center justify-center hover:opacity-70 transition-opacity bg-transparent">
+                                    <img src="/assets/images/reseaux/e6b0ee7be3287671a1262e4297ebc96a08d09cb1 (1).png" alt="Social" class="w-full h-full object-contain">
                                 </a>
                             </div>
                         </li>
@@ -169,7 +169,7 @@ onMounted(() => {
                         </li>
                     </ul>
                 </div>
-
+ 
                 <!-- Col 5: Logos RGAE/RGPH -->
                 <div class="flex flex-wrap items-center justify-center lg:justify-end gap-5">
                     <img src="/assets/images/logo-rgae.jpg" alt="Logo RGAE" class="w-[80px] h-[80px] md:w-[100px] md:h-[100px] lg:w-[110px] lg:h-[110px] rounded-full object-contain bg-white p-1">
@@ -178,7 +178,7 @@ onMounted(() => {
             </div>
             <div class="border-t border-white/10 mt-10">
                 <div class="container py-5">
-                    <p class="text-center text-white/40 text-xs">&copy; {{ new Date().getFullYear() }} {{ __('Recensement Général') }} — {{ __('Tous droits réservés') }}</p>
+                    <p class="text-center text-white/40 text-xs">&copy; {{ new Date().getFullYear() }} BUCREP (Bureau Central des Recensements et des Études de Population) — {{ __('Tous droits réservés') }}</p>
                 </div>
             </div>
         </footer>
