@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Partner;
 use App\Models\Article;
+use App\Models\SocialPost;
 use Inertia\Inertia;
 
 class AccueilController extends Controller
@@ -14,6 +15,7 @@ class AccueilController extends Controller
     {
         return Inertia::render('Accueil', [
             'partners' => Partner::orderBy('order')->get(),
+            'socialPosts' => SocialPost::orderBy('order')->orderBy('created_at', 'desc')->take(4)->get(),
             'latestArticles' => Article::whereNotNull('published_at')
                 ->latest()
                 ->take(4)

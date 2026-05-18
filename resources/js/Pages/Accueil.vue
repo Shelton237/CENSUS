@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import MainLayout from '@/Layouts/MainLayout.vue';
 import { Link, Head } from '@inertiajs/vue3';
 import PartenaireCarousel from '@/Components/PartenaireCarousel.vue';
@@ -10,7 +10,8 @@ import CallCenterBanner from '@/Components/CallCenterBanner.vue';
 const props = defineProps({
     partners: Array,
     latestArticles: Array,
-    stats: Object
+    stats: Object,
+    socialPosts: Array
 });
 
 // Slider state
@@ -160,57 +161,78 @@ const animateVisitors = () => {
     }, 30);
 };
 
-// Social Posts Data
-const socialPosts = ref([
+// Social Posts Data (Dynamic with static fallbacks)
+const defaultSocialPosts = [
     {
         platform: 'fb',
         platformName: 'Facebook',
-        user: 'Census Kamerun',
-        handle: '@CensusCam',
-        date: '24 Mar.',
-        content: "Démarrage des opérations de cartographie numérique dans la région du Centre. Nos équipes sont sur le terrain ! #Census2026 #Cameroun",
+        user: 'BUCREP Officiel',
+        handle: '@bucrep.cameroun',
+        date: '18 Mai',
+        content: "Démarrage des opérations de cartographie numérique dans la région du Centre. Nos équipes sont sur le terrain pour bâtir le Cameroun de demain ! #Census2026 #BUCREP",
         image: '/assets/images/accueil/495229d6739ec5d681e8f133d30bce3835dd8d3d.jpg',
         likes: '1.2k',
         comments: '85',
-        shares: '120'
+        shares: '120',
+        link: 'https://www.facebook.com/profile.php?id=61562950229317'
     },
     {
         platform: 'x',
         platformName: 'X',
-        user: 'REDAE Cameroon',
-        handle: '@RedaeCam',
-        date: '23 Mar.',
-        content: "Le numéro vert 1515 est désormais actif pour répondre à toutes vos interrogations sur le recensement agropastoral. Appelez-nous ! 📞 #RGAE",
+        user: 'Recensement Cameroun',
+        handle: '@recensement90',
+        date: '17 Mai',
+        content: "Le numéro vert officiel 8585 est désormais actif pour répondre à toutes vos interrogations sur la collecte des données. Appelez-nous gratuitement ! 📞 #Cameroun #Statistiques",
         image: null,
         likes: '450',
         comments: '12',
-        shares: '56'
+        shares: '56',
+        link: 'https://x.com/recensement90'
     },
     {
         platform: 'ig',
         platformName: 'Instagram',
         user: 'BUCREP Official',
         handle: '@bucrep_cm',
-        date: '22 Mar.',
-        content: "Formation intensive des superviseurs régionaux à Yaoundé. La technologie CAPI au cœur de notre stratégie de collecte. 💻🛡️ #Statistiques #Numérique",
-        image: '/assets/images/activites/986c57709a3bf8768a415053b878204642930267.jpg',
+        date: '16 Mai',
+        content: "Formation intensive de nos superviseurs régionaux. La technologie CAPI sur tablettes numériques garantit la sécurité et la confidentialité absolue de vos données. 💻🛡️ #BUCREP",
+        image: '/assets/images/accueil/495229d6739ec5d681e8f133d30bce3835dd8d3d.jpg',
         likes: '2.8k',
         comments: '42',
-        shares: null
+        shares: null,
+        link: 'https://www.facebook.com/profile.php?id=61562950229317'
     },
     {
         platform: 'fb',
         platformName: 'Facebook',
         user: 'INS Cameroun',
         handle: '@ins_cameroun',
-        date: '20 Mar.',
-        content: "Saviez-vous que le recensement est une obligation civique ? Vos données sont protégées par le secret statistique. 🔒 #Civisme",
-        image: '/assets/images/accueil/00e84c980336215ee76aa8cbe7b06822262cc8d3.jpg',
+        date: '15 Mai',
+        content: "Le recensement général est un acte civique d'utilité publique. Ensemble pour une planification fiable et efficace du Cameroun émergent ! 🇨🇲 #SecretStatistique #INS",
+        image: null,
         likes: '890',
         comments: '34',
-        shares: '45'
+        shares: '45',
+        link: 'https://www.facebook.com/profile.php?id=61562950229317'
     }
-]);
+];
+
+const socialPosts = computed(() => {
+    const list = props.socialPosts && props.socialPosts.length > 0 ? props.socialPosts : defaultSocialPosts;
+    return list.map(p => ({
+        platform: p.platform,
+        platformName: p.platform_name || p.platformName || (p.platform === 'fb' ? 'Facebook' : p.platform === 'x' ? 'X' : 'Instagram'),
+        user: p.user,
+        handle: p.handle,
+        date: p.date,
+        content: p.content,
+        image: p.image,
+        likes: p.likes,
+        comments: p.comments,
+        shares: p.shares,
+        link: p.link || (p.platform === 'x' ? 'https://x.com/recensement90' : 'https://www.facebook.com/profile.php?id=61562950229317')
+    }));
+});
 
 // Données régionales pour la carte interactive
 const regionalStats = ref({
@@ -515,7 +537,7 @@ const handleRegionLeave = () => {
                     <p>{{ __('Rejoignez les milliers de citoyens qui nous suivent quotidiennement.') }}</p>
                 </div>
                 <div class="social-feed-grid">
-                    <div v-for="(post, index) in socialPosts" :key="index" class="social-post" :class="`post-${post.platform}`">
+                    <a v-for="(post, index) in socialPosts" :key="index" :href="post.link" target="_blank" rel="noopener noreferrer" class="social-post block transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl" :class="`post-${post.platform}`">
                         <div class="post-header">
                             <div class="post-avatar-wrap">
                                 <img src="/assets/images/logo-rgae.jpg" alt="Organisme" class="post-avatar">
@@ -542,7 +564,7 @@ const handleRegionLeave = () => {
                             </div>
                             <span class="platform-badge" :class="post.platform">{{ post.platformName }}</span>
                         </div>
-                    </div>
+                    </a>
                 </div>
 
                 <div class="follow-us-banner">
