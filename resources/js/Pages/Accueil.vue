@@ -14,6 +14,58 @@ const props = defineProps({
     socialPosts: Array
 });
 
+const simulatedTweets = computed(() => {
+    const xPosts = props.socialPosts ? props.socialPosts.filter(p => p.platform === 'x') : [];
+    if (xPosts.length > 0) {
+        return xPosts.map(p => ({
+            user: p.user || 'Recensement Cameroun',
+            handle: p.handle || '@recensement90',
+            date: p.date || 'En ce moment',
+            content: p.content,
+            likes: p.likes || '0',
+            comments: p.comments || '0',
+            shares: p.shares || '0',
+            link: p.link || 'https://x.com/recensement90',
+            image: p.image ? (p.image.startsWith('/') ? p.image : '/storage/' + p.image) : null
+        }));
+    }
+    return [
+        {
+            user: 'Recensement Cameroun',
+            handle: '@recensement90',
+            date: '18 Mai',
+            content: 'Le numéro vert officiel 8585 est désormais actif pour répondre à toutes vos interrogations sur la collecte des données. Appelez-nous gratuitement ! 📞 #Cameroun #Statistiques #RGPH4',
+            likes: '450',
+            comments: '12',
+            shares: '56',
+            link: 'https://x.com/recensement90',
+            image: null
+        },
+        {
+            user: 'Recensement Cameroun',
+            handle: '@recensement90',
+            date: '15 Mai',
+            content: 'La cartographie numérique est une étape fondamentale. Elle permet de découper le territoire national en zones de dénombrement. Nos agents arpentent les villes et villages avec dévouement ! 🗺️🇨🇲 #RGPH4',
+            likes: '320',
+            comments: '8',
+            shares: '42',
+            link: 'https://x.com/recensement90',
+            image: null
+        },
+        {
+            user: 'Recensement Cameroun',
+            handle: '@recensement90',
+            date: '12 Mai',
+            content: 'Toutes les données recueillies lors du dénombrement sont strictement confidentielles conformément à la loi sur le secret statistique. Participer au recensement, c\'est planifier l\'avenir ! 🛡️📊 #BUCREP',
+            likes: '512',
+            comments: '19',
+            shares: '88',
+            link: 'https://x.com/recensement90',
+            image: null
+        }
+    ];
+});
+
 // Slider state
 const activeSlide = ref(0);
 const slides = [
@@ -610,25 +662,45 @@ const handleRegionLeave = () => {
                             </span>
                             <h3 class="text-xl font-black text-[#204138]">{{ __('Notre Fil Twitter (X)') }}</h3>
                         </div>
-                        <div class="widget-body flex-1 w-full overflow-y-auto rounded-2xl bg-[#f8faf9] border border-gray-100 flex flex-col items-center justify-center p-4">
-                            <div class="w-full h-full flex flex-col justify-center">
-                                <a 
-                                    class="twitter-timeline w-full" 
-                                    data-height="480" 
-                                    data-theme="light"
-                                    data-chrome="noheader nofooter noborders transparent"
-                                    href="https://twitter.com/recensement90?ref_src=twsrc%5Etfw"
-                                >
-                                    <div class="text-center p-6 flex flex-col items-center justify-center h-full">
-                                        <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#204138] mb-4"></div>
-                                        <p class="text-base font-bold text-[#204138] mb-2">{{ __('Chargement du fil X...') }}</p>
-                                        <p class="text-xs text-gray-500 max-w-xs mx-auto leading-relaxed mb-6">
-                                            {{ __('Si le fil ne s\'affiche pas, cela peut être dû à vos bloqueurs de contenu ou à la confidentialité de votre navigateur. Vous pouvez visiter notre profil officiel directement.') }}
-                                        </p>
-                                        <a href="https://x.com/recensement90" target="_blank" rel="noopener noreferrer" class="px-6 py-2.5 bg-[#204138] hover:bg-[#EDAF11] hover:text-[#204138] text-white font-bold text-sm rounded-full transition-all duration-300 shadow-md inline-block">
-                                            {{ __('Visiter @recensement90') }}
-                                        </a>
+                        <div class="widget-body flex-1 w-full overflow-y-auto rounded-2xl bg-[#f8faf9] border border-gray-100 flex flex-col p-4 space-y-4">
+                            <div v-for="(tweet, idx) in simulatedTweets" :key="idx" class="p-4 bg-white border border-gray-100 rounded-2xl hover:border-gray-200 transition-all duration-300 shadow-sm flex flex-col text-left">
+                                <div class="flex items-center justify-between mb-3">
+                                    <div class="flex items-center gap-3">
+                                        <img src="/assets/images/logo-rgae.jpg" alt="X Avatar" class="w-10 h-10 rounded-full border border-gray-100 object-cover">
+                                        <div>
+                                            <h4 class="text-sm font-bold text-gray-900 flex items-center gap-1">
+                                                {{ tweet.user }}
+                                                <!-- Verified Badge -->
+                                                <svg viewBox="0 0 24 24" fill="#1DA1F2" width="14" height="14" class="inline-block"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                                            </h4>
+                                            <p class="text-xs text-gray-500 font-medium">{{ tweet.handle }} · {{ tweet.date }}</p>
+                                        </div>
                                     </div>
+                                    <svg viewBox="0 0 24 24" fill="black" width="16" height="16"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+                                </div>
+                                <p class="text-sm text-gray-700 leading-relaxed font-normal mb-3 whitespace-pre-wrap">{{ tweet.content }}</p>
+                                <div v-if="tweet.image" class="mb-3 rounded-xl overflow-hidden max-h-[160px] border border-gray-100">
+                                    <img :src="tweet.image" class="w-full h-full object-cover">
+                                </div>
+                                <div class="flex items-center justify-between text-xs text-gray-500 border-t border-gray-50 pt-2.5 mt-auto">
+                                    <div class="flex items-center gap-4">
+                                        <span class="flex items-center gap-1 hover:text-[#1DA1F2] cursor-pointer transition-colors">
+                                            💬 <span class="font-semibold">{{ tweet.comments }}</span>
+                                        </span>
+                                        <span class="flex items-center gap-1 hover:text-[#00BA7C] cursor-pointer transition-colors">
+                                            🔄 <span class="font-semibold">{{ tweet.shares }}</span>
+                                        </span>
+                                        <span class="flex items-center gap-1 hover:text-[#F91880] cursor-pointer transition-colors">
+                                            ❤️ <span class="font-semibold">{{ tweet.likes }}</span>
+                                        </span>
+                                    </div>
+                                    <a :href="tweet.link" target="_blank" rel="noopener noreferrer" class="text-[#1DA1F2] font-bold hover:underline">{{ __('Voir sur X') }}</a>
+                                </div>
+                            </div>
+                            <!-- Bottom Action CTA -->
+                            <div class="pt-2 text-center">
+                                <a href="https://x.com/recensement90" target="_blank" rel="noopener noreferrer" class="px-6 py-2.5 bg-[#204138] hover:bg-[#EDAF11] hover:text-[#204138] text-white font-bold text-sm rounded-full transition-all duration-300 shadow-md inline-block">
+                                    {{ __('Suivre @recensement90 sur X') }}
                                 </a>
                             </div>
                         </div>
