@@ -28,7 +28,9 @@ class AccueilController extends Controller
                         'tag' => $article->category === 'communique' ? 'Communiqué' : ($article->category === 'activite' ? 'Activité' : 'Publication'),
                         'date' => $article->published_at->format('d M. Y'),
                         'slug' => $article->slug,
+                        'media_type' => $article->media_type ?: 'image',
                         'image' => $article->image,
+                        'video' => $article->video,
                     ];
                 }),
             'stats' => [

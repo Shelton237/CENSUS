@@ -46,8 +46,19 @@ const filteredArticles = () => {
                 <div class="articles-grid">
                     <article v-for="(article, index) in filteredArticles()" :key="index" class="article-card">
                         <Link :href="route('actualites.show', article.slug)" class="article-card-link">
-                            <div class="article-img relative overflow-hidden" :class="!article.image ? (article.imgClass || `article-img--${article.category === 'communique' ? 'green' : (article.category === 'activite' ? 'gold' : 'teal')}`) : ''">
+                            <div class="article-img relative overflow-hidden" :class="!article.image && article.media_type !== 'video' ? (article.imgClass || `article-img--${article.category === 'communique' ? 'green' : (article.category === 'activite' ? 'gold' : 'teal')}`) : ''">
                                 <img v-if="article.image" :src="'/storage/' + article.image" :alt="article.title" class="w-full h-full object-cover absolute inset-0">
+                                <video
+                                    v-else-if="article.media_type === 'video' && article.video"
+                                    :src="'/storage/' + article.video"
+                                    muted
+                                    autoplay
+                                    loop
+                                    playsinline
+                                    @timeupdate="(e) => { if (e.target.currentTime >= 5) e.target.currentTime = 0; }"
+                                    class="w-full h-full object-cover absolute inset-0"
+                                    style="pointer-events: none;"
+                                ></video>
                                 <!-- Video Play Badge Overlay -->
                                 <div v-if="article.media_type === 'video'" class="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/40 transition-all">
                                     <span class="w-12 h-12 rounded-full bg-[#EDAF11] text-[#204138] flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-all">

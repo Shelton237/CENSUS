@@ -456,9 +456,26 @@ const handleRegionLeave = () => {
                 <!-- Hero News (First one) -->
                 <div class="alaune-hero" v-if="latestArticles[0]">
                     <Link :href="route('actualites.show', latestArticles[0].slug)" class="alaune-hero-card-container transition-all">
-                        <div class="alaune-hero-img-wrap">
-                            <img :src="latestArticles[0].image ? `/storage/${latestArticles[0].image}` : '/assets/images/accueil/495229d6739ec5d681e8f133d30bce3835dd8d3d.jpg'" 
+                        <div class="alaune-hero-img-wrap relative">
+                            <video
+                                v-if="latestArticles[0].media_type === 'video' && latestArticles[0].video && !latestArticles[0].image"
+                                :src="'/storage/' + latestArticles[0].video"
+                                muted
+                                autoplay
+                                loop
+                                playsinline
+                                @timeupdate="(e) => { if (e.target.currentTime >= 5) e.target.currentTime = 0; }"
+                                class="w-full h-full object-cover absolute inset-0"
+                                style="pointer-events: none;"
+                            ></video>
+                            <img v-else :src="latestArticles[0].image ? `/storage/${latestArticles[0].image}` : '/assets/images/accueil/495229d6739ec5d681e8f133d30bce3835dd8d3d.jpg'" 
                                  :alt="latestArticles[0].title">
+                            <!-- Video Play Badge Overlay for Hero -->
+                            <div v-if="latestArticles[0].media_type === 'video'" class="absolute inset-0 bg-black/30 flex items-center justify-center transition-all">
+                                <span class="w-16 h-16 rounded-full bg-[#EDAF11] text-[#204138] flex items-center justify-center shadow-lg transform scale-100 hover:scale-110 transition-all">
+                                    <svg class="w-8 h-8 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                </span>
+                            </div>
                         </div>
                         <div class="alaune-hero-content">
                             <span class="tag" :class="`tag-${latestArticles[0].category}`">{{ __(latestArticles[0].tag) }}</span>
@@ -476,8 +493,25 @@ const handleRegionLeave = () => {
                 <div class="alaune-cards-row mt-12">
                     <article v-for="(article, index) in latestArticles.slice(1)" :key="index" class="article-card" :data-category="article.category">
                         <Link :href="route('actualites.show', article.slug)" class="article-card-link">
-                            <div class="article-img overflow-hidden" :class="article.imgClass || `article-img--${article.category === 'communique' ? 'green' : (article.category === 'activite' ? 'gold' : 'teal')}`">
-                                <img v-if="article.image" :src="`/storage/${article.image}`" class="w-full h-full object-cover">
+                            <div class="article-img relative overflow-hidden" :class="!article.image && article.media_type !== 'video' ? (article.imgClass || `article-img--${article.category === 'communique' ? 'green' : (article.category === 'activite' ? 'gold' : 'teal')}`) : ''">
+                                <img v-if="article.image" :src="`/storage/${article.image}`" class="w-full h-full object-cover absolute inset-0">
+                                <video
+                                    v-else-if="article.media_type === 'video' && article.video"
+                                    :src="'/storage/' + article.video"
+                                    muted
+                                    autoplay
+                                    loop
+                                    playsinline
+                                    @timeupdate="(e) => { if (e.target.currentTime >= 5) e.target.currentTime = 0; }"
+                                    class="w-full h-full object-cover absolute inset-0"
+                                    style="pointer-events: none;"
+                                ></video>
+                                <!-- Video Play Badge Overlay -->
+                                <div v-if="article.media_type === 'video'" class="absolute inset-0 bg-black/30 flex items-center justify-center transition-all">
+                                    <span class="w-12 h-12 rounded-full bg-[#EDAF11] text-[#204138] flex items-center justify-center shadow-lg transform transition-all">
+                                        <svg class="w-6 h-6 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                    </span>
+                                </div>
                             </div>
                             <div class="article-card-body p-6">
                                 <div class="article-meta mb-3">
