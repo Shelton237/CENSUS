@@ -81,7 +81,7 @@ const submit = () => {
             ...data,
             existing_images: JSON.stringify(data.existing_images),
             _method: 'put'
-        })).post(route('admin.articles.update', props.article.id), {
+        })).post(route('admin.articles.update', props.article.slug), {
             forceFormData: true,
         });
     } else {
