@@ -43,6 +43,7 @@ class ArticleController extends Controller
                 'tag' => $article->category === 'communique' ? 'Communiqué' : ($article->category === 'activite' ? 'Activité' : 'Publication'),
                 'date' => $article->published_at->format('d M. Y'),
                 'image' => $article->image,
+                'images' => $article->images,
             ],
             'recentArticles' => Article::where('id', '!=', $article->id)
                 ->whereNotNull('published_at')

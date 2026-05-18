@@ -47,6 +47,14 @@ class ArticleController extends Controller
         if ($request->hasFile('image')) {
             $validated['image'] = $request->file('image')->store('articles', 'public');
         }
+
+        $extraImages = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
+                $extraImages[] = $file->store('articles', 'public');
+            }
+        }
+        $validated['images'] = $extraImages;
         
         Article::create($validated);
 
@@ -88,6 +96,29 @@ class ArticleController extends Controller
             $validated['image'] = $request->file('image')->store('articles', 'public');
         }
 
+        // Handle extra images curation
+        $keptImages = $request->input('existing_images', []);
+        if (is_string($keptImages)) {
+            $keptImages = json_decode($keptImages, true) ?: [];
+        }
+
+        // Delete removed images from storage
+        $currentImages = $article->images ?: [];
+        foreach ($currentImages as $img) {
+            if (!in_array($img, $keptImages)) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($img);
+            }
+        }
+
+        // Store new extra images
+        $extraImages = $keptImages;
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
+                $extraImages[] = $file->store('articles', 'public');
+            }
+        }
+        $validated['images'] = $extraImages;
+
         $article->update($validated);
 
         return redirect()->route('admin.articles.index')->with('message', 'Article mis à jour avec succès.');
@@ -101,6 +132,12 @@ class ArticleController extends Controller
         if ($article->image) {
             \Illuminate\Support\Facades\Storage::disk('public')->delete($article->image);
         }
+        
+        $currentImages = $article->images ?: [];
+        foreach ($currentImages as $img) {
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($img);
+        }
+
         $article->delete();
         return redirect()->route('admin.articles.index')->with('message', 'Article supprimé.');
     }

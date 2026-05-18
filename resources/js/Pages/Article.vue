@@ -45,6 +45,20 @@ const props = defineProps({
                     <div class="article-content-rich" style="line-height: 1.8; color: #333; font-size: 16px;" v-html="article.content">
                     </div>
 
+                    <!-- Galerie d'images supplémentaires -->
+                    <div v-if="article.images && article.images.length > 0" class="article-gallery" style="margin-top: 40px; border-top: 1px dashed #E5E7EB; pt-6">
+                        <h3 style="font-size: 20px; font-weight: 800; color: #204138; margin-bottom: 20px; padding-bottom: 8px; border-bottom: 2px solid #EDAF11; display: inline-block;">
+                            {{ __('Images associées') }}
+                        </h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px;">
+                            <div v-for="(img, idx) in article.images" :key="idx" style="aspect-ratio: 4/3; border-radius: 16px; overflow: hidden; border: 1px solid #E5E7EB; background: #fff; cursor: pointer; transition: all 0.3s;" class="hover:scale-105 hover:shadow-xl group">
+                                <a :href="`/storage/${img}`" target="_blank" rel="noopener noreferrer" style="display: block; width: 100%; height: 100%;">
+                                    <img :src="`/storage/${img}`" style="width: 100%; height: 100%; object-fit: cover;" class="group-hover:brightness-95 transition-all">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Social Share -->
                     <div class="article-share" style="border-top: 1px solid #EEE; border-bottom: 1px solid #EEE; padding: 20px 0; margin-top: 50px; display: flex; align-items: center; gap: 15px;">
                         <span style="font-weight: bold; font-size: 14px;">{{ __('PARTAGER L\'ARTICLE :') }}</span>

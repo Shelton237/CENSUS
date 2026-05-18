@@ -17,16 +17,29 @@ const form = useForm({
     content_en: props.article?.content_en || '',
     category: props.article?.category || 'activite',
     image: null,
+    images: [],
+    existing_images: props.article?.images || [],
     published_at: props.article?.published_at ? new Date(props.article.published_at).toISOString().slice(0, 10) : new Date().toISOString().slice(0, 10),
 });
+
+const handleMultipleImagesUpload = (event) => {
+    form.images = Array.from(event.target.files);
+};
+
+const removeExistingImage = (idx) => {
+    form.existing_images.splice(idx, 1);
+};
 
 const submit = () => {
     if (props.article) {
         // Inertia.js doesn't support multipart/form-data with PUT requests out of the box in some versions,
-        // often we use POST with _method = PUT
-        form.post(route('admin.articles.update', props.article.id), {
+        // so we use POST with _method = PUT. We stringify the existing images array for robust multipart parsing.
+        form.transform((data) => ({
+            ...data,
+            existing_images: JSON.stringify(data.existing_images),
+            _method: 'put'
+        })).post(route('admin.articles.update', props.article.id), {
             forceFormData: true,
-            _method: 'put',
         });
     } else {
         form.post(route('admin.articles.store'));
@@ -98,6 +111,28 @@ const submit = () => {
                             <input type="file" @input="form.image = $event.target.files[0]" class="w-full bg-[#f9fbfb] border-gray-100 rounded-xl p-4 focus:ring-2 focus:ring-[#EDAF11] focus:border-transparent transition-all shadow-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#204138] file:text-white hover:file:bg-[#2b5549]">
                         </div>
                         <div v-if="form.errors.image" class="text-red-500 text-xs">{{ form.errors.image }}</div>
+                    </div>
+
+                    <!-- Images supplémentaires (Galerie Multi-upload) -->
+                    <div class="space-y-4 border-t border-gray-100 pt-8">
+                        <label class="block text-xs font-black text-[#204138] uppercase tracking-widest">Images supplémentaires (Galerie)</label>
+                        
+                        <!-- List of already saved extra images -->
+                        <div v-if="form.existing_images && form.existing_images.length > 0" class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
+                            <div v-for="(img, idx) in form.existing_images" :key="idx" class="relative group aspect-square rounded-2xl overflow-hidden border border-gray-100 shadow-sm bg-white">
+                                <img :src="`/storage/${img}`" class="w-full h-full object-cover">
+                                <button type="button" @click="removeExistingImage(idx)" class="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-2 shadow-md transition-all">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- File Input for adding new images -->
+                        <div class="flex flex-col gap-2">
+                            <input type="file" multiple @change="handleMultipleImagesUpload" class="w-full bg-[#f9fbfb] border-gray-100 rounded-xl p-4 focus:ring-2 focus:ring-[#EDAF11] focus:border-transparent transition-all shadow-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#204138] file:text-white hover:file:bg-[#2b5549]">
+                            <p class="text-xs text-slate-500">Vous pouvez sélectionner plusieurs images en même temps pour enrichir l'article.</p>
+                        </div>
+                        <div v-if="form.errors.images" class="text-red-500 text-xs">{{ form.errors.images }}</div>
                     </div>
 
                     <div class="space-y-4">

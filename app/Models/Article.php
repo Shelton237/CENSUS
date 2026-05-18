@@ -13,12 +13,14 @@ class Article extends Model
         'content_en',
         'category',
         'image',
+        'images',
         'published_at',
         'slug',
     ];
 
     protected $casts = [
         'published_at' => 'datetime',
+        'images' => 'array',
     ];
 
     /**
