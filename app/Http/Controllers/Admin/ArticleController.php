@@ -39,6 +39,7 @@ class ArticleController extends Controller
             'content_fr' => 'required|string',
             'content_en' => 'nullable|string',
             'category' => 'required|string',
+            'media_type' => 'required|in:image,video',
             'published_at' => 'nullable|date',
         ]);
 
@@ -46,6 +47,10 @@ class ArticleController extends Controller
         
         if ($request->hasFile('image')) {
             $validated['image'] = $request->file('image')->store('articles', 'public');
+        }
+
+        if ($request->hasFile('video')) {
+            $validated['video'] = $request->file('video')->store('articles/videos', 'public');
         }
 
         $extraImages = [];
@@ -82,6 +87,7 @@ class ArticleController extends Controller
             'content_fr' => 'required|string',
             'content_en' => 'nullable|string',
             'category' => 'required|string',
+            'media_type' => 'required|in:image,video',
             'published_at' => 'nullable|date',
         ]);
 
@@ -89,11 +95,28 @@ class ArticleController extends Controller
             $validated['slug'] = Str::slug($validated['title_fr']);
         }
 
-        if ($request->hasFile('image')) {
+        if ($request->boolean('remove_image')) {
+            if ($article->image) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($article->image);
+            }
+            $validated['image'] = null;
+        } elseif ($request->hasFile('image')) {
             if ($article->image) {
                 \Illuminate\Support\Facades\Storage::disk('public')->delete($article->image);
             }
             $validated['image'] = $request->file('image')->store('articles', 'public');
+        }
+
+        if ($request->boolean('remove_video')) {
+            if ($article->video) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($article->video);
+            }
+            $validated['video'] = null;
+        } elseif ($request->hasFile('video')) {
+            if ($article->video) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($article->video);
+            }
+            $validated['video'] = $request->file('video')->store('articles/videos', 'public');
         }
 
         // Handle extra images curation
@@ -133,6 +156,10 @@ class ArticleController extends Controller
             \Illuminate\Support\Facades\Storage::disk('public')->delete($article->image);
         }
         
+        if ($article->video) {
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($article->video);
+        }
+
         $currentImages = $article->images ?: [];
         foreach ($currentImages as $img) {
             \Illuminate\Support\Facades\Storage::disk('public')->delete($img);

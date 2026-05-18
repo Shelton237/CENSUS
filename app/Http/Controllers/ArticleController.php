@@ -23,7 +23,9 @@ class ArticleController extends Controller
                     'tag' => $article->category === 'communique' ? 'Communiqué' : ($article->category === 'activite' ? 'Activité' : 'Publication'),
                     'date' => $article->published_at->format('d M. Y'),
                     'slug' => $article->slug,
+                    'media_type' => $article->media_type ?: 'image',
                     'image' => $article->image,
+                    'video' => $article->video,
                 ];
             });
 
@@ -42,7 +44,9 @@ class ArticleController extends Controller
                 'category' => $article->category,
                 'tag' => $article->category === 'communique' ? 'Communiqué' : ($article->category === 'activite' ? 'Activité' : 'Publication'),
                 'date' => $article->published_at->format('d M. Y'),
+                'media_type' => $article->media_type ?: 'image',
                 'image' => $article->image,
+                'video' => $article->video,
                 'images' => $article->images,
             ],
             'recentArticles' => Article::where('id', '!=', $article->id)

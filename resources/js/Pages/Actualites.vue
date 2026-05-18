@@ -46,7 +46,15 @@ const filteredArticles = () => {
                 <div class="articles-grid">
                     <article v-for="(article, index) in filteredArticles()" :key="index" class="article-card">
                         <Link :href="route('actualites.show', article.slug)" class="article-card-link">
-                            <div class="article-img" :class="article.imgClass || `article-img--${article.category === 'communique' ? 'green' : (article.category === 'activite' ? 'gold' : 'teal')}`"></div>
+                            <div class="article-img relative overflow-hidden" :class="!article.image ? (article.imgClass || `article-img--${article.category === 'communique' ? 'green' : (article.category === 'activite' ? 'gold' : 'teal')}`) : ''">
+                                <img v-if="article.image" :src="'/storage/' + article.image" :alt="article.title" class="w-full h-full object-cover absolute inset-0">
+                                <!-- Video Play Badge Overlay -->
+                                <div v-if="article.media_type === 'video'" class="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/40 transition-all">
+                                    <span class="w-12 h-12 rounded-full bg-[#EDAF11] text-[#204138] flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-all">
+                                        <svg class="w-6 h-6 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                    </span>
+                                </div>
+                            </div>
                             <div class="article-card-body">
                                 <div class="article-meta">
                                     <span class="article-tag" :class="`tag-${article.category}`">{{ __(article.tag) }}</span>

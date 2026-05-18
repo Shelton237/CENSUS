@@ -18,21 +18,51 @@ const form = useForm({
     content_fr: props.article?.content_fr || '',
     content_en: props.article?.content_en || '',
     category: props.article?.category || 'activite',
+    media_type: props.article?.media_type || (props.article?.video ? 'video' : 'image'),
     image: null,
+    video: null,
+    remove_image: false,
+    remove_video: false,
     images: [],
     existing_images: props.article?.images || [],
     published_at: props.article?.published_at ? new Date(props.article.published_at).toISOString().slice(0, 10) : new Date().toISOString().slice(0, 10),
 });
 
 const featuredImagePreview = ref(props.article?.image ? `/storage/${props.article.image}` : null);
+const videoPreviewUrl = ref(props.article?.video ? `/storage/${props.article.video}` : null);
+const videoFileName = ref(props.article?.video ? props.article.video.split('/').pop() : '');
 const newGalleryFilesCount = ref(0);
 
 const handleFeaturedImageChange = (event) => {
     const file = event.target.files[0];
     form.image = file;
+    form.remove_image = false;
     if (file) {
         featuredImagePreview.value = URL.createObjectURL(file);
     }
+};
+
+const clearFeaturedImage = () => {
+    form.image = null;
+    form.remove_image = true;
+    featuredImagePreview.value = null;
+};
+
+const handleVideoChange = (event) => {
+    const file = event.target.files[0];
+    form.video = file;
+    form.remove_video = false;
+    if (file) {
+        videoFileName.value = file.name;
+        videoPreviewUrl.value = URL.createObjectURL(file);
+    }
+};
+
+const clearVideo = () => {
+    form.video = null;
+    form.remove_video = true;
+    videoPreviewUrl.value = null;
+    videoFileName.value = '';
 };
 
 const handleMultipleImagesUpload = (event) => {
@@ -55,7 +85,9 @@ const submit = () => {
             forceFormData: true,
         });
     } else {
-        form.post(route('admin.articles.store'));
+        form.post(route('admin.articles.store'), {
+            forceFormData: true,
+        });
     }
 };
 </script>
@@ -184,28 +216,88 @@ const submit = () => {
                             </div>
                         </div>
 
-                        <!-- Main Image Card -->
-                        <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm space-y-4">
-                            <h3 class="text-sm font-extrabold text-[#204138] uppercase tracking-wider border-b border-gray-100 pb-2">Image Principale</h3>
-                            
-                            <!-- Thumbnail Preview -->
-                            <div class="relative w-full aspect-video rounded-2xl overflow-hidden border border-gray-100 bg-[#f9fbfb] flex items-center justify-center shadow-inner group">
-                                <img v-if="featuredImagePreview" :src="featuredImagePreview" class="w-full h-full object-cover">
-                                <div v-else class="text-center p-4">
-                                    <svg class="mx-auto h-12 w-12 text-gray-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                                        <circle cx="8.5" cy="8.5" r="1.5" />
-                                        <polyline points="21 15 16 10 5 21" />
-                                    </svg>
-                                    <span class="mt-2 block text-xs font-bold text-gray-400">Aucun aperçu</span>
+                        <!-- Main Media Card -->
+                        <div class="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm space-y-6">
+                            <div class="flex items-center justify-between border-b border-gray-100 pb-3">
+                                <h3 class="text-sm font-extrabold text-[#204138] uppercase tracking-wider">Média Principal</h3>
+                                <span class="bg-[#EDAF11]/10 text-[#EDAF11] py-1 px-2.5 rounded-lg text-[10px] font-black uppercase tracking-wider">
+                                    {{ form.media_type === 'video' ? 'Vidéo' : 'Image' }}
+                                </span>
+                            </div>
+
+                            <!-- Media Type Selector (Image vs Video) -->
+                            <div class="flex items-center p-1.5 bg-[#f4f7f5] rounded-2xl gap-2 border border-gray-200/60 shadow-inner">
+                                <button type="button" @click="form.media_type = 'image'" class="flex-1 py-3 px-4 rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center justify-center gap-2" :class="form.media_type === 'image' ? 'bg-[#204138] text-white shadow-md' : 'text-gray-600 hover:text-gray-900'">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                    Image Principale
+                                </button>
+                                <button type="button" @click="form.media_type = 'video'" class="flex-1 py-3 px-4 rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center justify-center gap-2" :class="form.media_type === 'video' ? 'bg-[#204138] text-white shadow-md' : 'text-gray-600 hover:text-gray-900'">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                    Vidéo Principale
+                                </button>
+                            </div>
+
+                            <!-- IMAGE UPLOAD VIEW -->
+                            <div v-if="form.media_type === 'image'" class="space-y-4 transition-all">
+                                <!-- Thumbnail Preview -->
+                                <div class="relative w-full aspect-video rounded-2xl overflow-hidden border border-gray-100 bg-[#f9fbfb] flex items-center justify-center shadow-inner group">
+                                    <img v-if="featuredImagePreview" :src="featuredImagePreview" class="w-full h-full object-cover">
+                                    <div v-else class="text-center p-6 space-y-2">
+                                        <svg class="mx-auto h-12 w-12 text-gray-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                                            <circle cx="8.5" cy="8.5" r="1.5" />
+                                            <polyline points="21 15 16 10 5 21" />
+                                        </svg>
+                                        <span class="block text-xs font-bold text-gray-400">Aucune image sélectionnée</span>
+                                    </div>
+                                    <button v-if="featuredImagePreview" type="button" @click="clearFeaturedImage" class="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white p-2 rounded-full shadow-lg transition-all">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                    </button>
+                                </div>
+
+                                <!-- Upload Input -->
+                                <div class="space-y-2">
+                                    <input type="file" @change="handleFeaturedImageChange" accept="image/*" class="w-full text-xs file:mr-3 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-[#204138] file:text-white hover:file:bg-[#2b5549] file:cursor-pointer cursor-pointer bg-[#f9fbfb] p-3 rounded-xl border border-gray-100 shadow-sm transition-all">
+                                    <p class="text-[10px] text-gray-400">Format recommandé : Paysage (ex: 1200x800 px, JPG/PNG/WEBP).</p>
+                                    <div v-if="form.errors.image" class="text-red-500 text-xs">{{ form.errors.image }}</div>
                                 </div>
                             </div>
 
-                            <!-- Upload Input -->
-                            <div class="space-y-2">
-                                <input type="file" @change="handleFeaturedImageChange" accept="image/*" class="w-full text-xs file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-[#204138] file:text-white hover:file:bg-[#2b5549] file:cursor-pointer cursor-pointer bg-[#f9fbfb] p-3 rounded-xl border border-gray-100 shadow-sm">
-                                <p class="text-[10px] text-gray-400">Format recommandé : Paysage (ex: 1200x800 px).</p>
-                                <div v-if="form.errors.image" class="text-red-500 text-xs">{{ form.errors.image }}</div>
+                            <!-- VIDEO UPLOAD VIEW -->
+                            <div v-if="form.media_type === 'video'" class="space-y-6 transition-all">
+                                <!-- Video Player Preview -->
+                                <div class="relative w-full aspect-video rounded-2xl overflow-hidden border border-gray-100 bg-black flex items-center justify-center shadow-2xl group">
+                                    <video v-if="videoPreviewUrl" :src="videoPreviewUrl" controls class="w-full h-full object-contain"></video>
+                                    <div v-else class="text-center p-6 space-y-2">
+                                        <svg class="mx-auto h-12 w-12 text-gray-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                        <span class="block text-xs font-bold text-gray-500">Aucune vidéo importée</span>
+                                    </div>
+                                    <button v-if="videoPreviewUrl" type="button" @click="clearVideo" class="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white p-2 rounded-full shadow-lg transition-all z-10">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                    </button>
+                                </div>
+
+                                <!-- Upload Video Input -->
+                                <div class="space-y-2">
+                                    <input type="file" @change="handleVideoChange" accept="video/*" class="w-full text-xs file:mr-3 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-[#EDAF11] file:text-[#204138] hover:file:bg-[#f0bd37] file:cursor-pointer cursor-pointer bg-[#f9fbfb] p-3 rounded-xl border border-gray-100 shadow-sm transition-all">
+                                    <p class="text-[10px] text-gray-400">Format accepté : MP4, WEBM, MOV (Max: 100 Mo).</p>
+                                    <div v-if="form.errors.video" class="text-red-500 text-xs">{{ form.errors.video }}</div>
+                                </div>
+
+                                <!-- Optional Video Poster Image -->
+                                <div class="p-4 bg-[#f9fbfb] rounded-2xl border border-gray-200/60 space-y-3 shadow-inner">
+                                    <div class="flex items-center justify-between">
+                                        <label class="block text-xs font-black text-[#204138] uppercase tracking-widest">Vignette d'aperçu (Optionnelle)</label>
+                                        <span class="text-[10px] bg-[#204138]/10 text-[#204138] px-2 py-0.5 rounded font-bold">Poster</span>
+                                    </div>
+                                    <div v-if="featuredImagePreview" class="flex items-center gap-3 bg-white p-2 rounded-xl border border-gray-100">
+                                        <img :src="featuredImagePreview" class="w-16 h-10 object-cover rounded-lg border">
+                                        <span class="text-xs font-bold text-gray-700 flex-1 truncate">Vignette active</span>
+                                        <button type="button" @click="clearFeaturedImage" class="text-red-500 hover:text-red-600 text-xs font-black px-2 py-1 bg-red-50 rounded-lg">Retirer</button>
+                                    </div>
+                                    <input v-else type="file" @change="handleFeaturedImageChange" accept="image/*" class="w-full text-[11px] file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-[11px] file:font-bold file:bg-[#204138]/10 file:text-[#204138] hover:file:bg-[#204138]/20 file:cursor-pointer cursor-pointer bg-white p-2 rounded-xl border border-gray-100">
+                                    <p class="text-[10px] text-gray-400">Image affichée avant que l'utilisateur ne lance la vidéo.</p>
+                                </div>
                             </div>
                         </div>
 

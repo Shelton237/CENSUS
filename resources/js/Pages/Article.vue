@@ -38,8 +38,18 @@ const props = defineProps({
             <div class="container article-layout" style="margin-top: 40px; display: grid; grid-template-columns: 1fr 340px; gap: 60px;">
                 <!-- Article Content Left -->
                 <div class="article-left">
-                    <div class="article-featured-img" style="width: 100%; height: 450px; background: #eee; border-radius: 12px; margin-bottom: 30px; overflow: hidden;">
-                        <img :src="article.image || '/assets/images/accueil/495229d6739ec5d681e8f133d30bce3835dd8d3d.jpg'" :alt="article.title" style="width: 100%; height: 100%; object-fit: cover;">
+                    <div class="article-featured-media mb-8 rounded-2xl overflow-hidden bg-black shadow-xl relative" style="width: 100%; min-height: 450px;">
+                        <!-- Video Main Media -->
+                        <div v-if="article.media_type === 'video' && article.video" class="w-full h-full flex items-center justify-center aspect-video">
+                            <video controls :poster="article.image ? '/storage/' + article.image : null" class="w-full h-full max-h-[550px] object-contain">
+                                <source :src="'/storage/' + article.video" type="video/mp4">
+                                Votre navigateur ne supporte pas la lecture de vidéos.
+                            </video>
+                        </div>
+                        <!-- Image Main Media -->
+                        <div v-else class="w-full h-[450px]">
+                            <img :src="article.image ? '/storage/' + article.image : '/assets/images/accueil/495229d6739ec5d681e8f133d30bce3835dd8d3d.jpg'" :alt="article.title" class="w-full h-full object-cover">
+                        </div>
                     </div>
                     
                     <div class="article-content-rich" style="line-height: 1.8; color: #333; font-size: 16px;" v-html="article.content">
