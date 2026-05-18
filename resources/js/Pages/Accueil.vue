@@ -557,7 +557,7 @@ const handleRegionLeave = () => {
         <CallCenterBanner 
             title="Besoin d'informations ?"
             subtitle="Contactez nous via le numéro vert dédié"
-            phone="+237 222 225 121"
+            phone="8585"
             buttonLabel="Appeler le numéro Vert"
         />
 
