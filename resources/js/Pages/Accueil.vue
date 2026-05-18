@@ -653,7 +653,7 @@ const handleRegionLeave = () => {
 .security-bg-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(26, 65, 50, 0.92) 0%, rgba(18, 45, 35, 0.88) 100%);
+    background: linear-gradient(135deg, rgba(26, 65, 50, 0.75) 0%, rgba(18, 45, 35, 0.70) 100%);
     z-index: 1;
 }
 .security-card {
