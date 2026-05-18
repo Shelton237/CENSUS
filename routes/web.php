@@ -28,8 +28,41 @@ Route::get('/candidature', function () {
 })->name('candidature');
 Route::post('/candidature', [\App\Http\Controllers\CandidatureController::class, 'store'])->name('candidature.store');
 
-Route::get('/recherche', function () {
-    return Inertia::render('Recherche');
+Route::get('/recherche', function (Request $request) {
+    $query = $request->query('q');
+    
+    $results = [];
+    if ($query) {
+        $results = \App\Models\Article::whereNotNull('published_at')
+            ->where(function($q) use ($query) {
+                $q->where('title_fr', 'like', "%{$query}%")
+                  ->orWhere('title_en', 'like', "%{$query}%")
+                  ->orWhere('content_fr', 'like', "%{$query}%")
+                  ->orWhere('content_en', 'like', "%{$query}%")
+                  ->orWhere('category', 'like', "%{$query}%");
+            })
+            ->latest('published_at')
+            ->get()
+            ->map(function ($article) {
+                return [
+                    'id' => $article->id,
+                    'title' => $article->title,
+                    'excerpt' => mb_substr(strip_tags($article->content), 0, 100) . '...',
+                    'category' => $article->category,
+                    'tag' => $article->category === 'communique' ? 'Communiqué' : ($article->category === 'activite' ? 'Activité' : 'Publication'),
+                    'date' => $article->published_at->format('d M. Y'),
+                    'slug' => $article->slug,
+                    'media_type' => $article->media_type ?: 'image',
+                    'image' => $article->image,
+                    'video' => $article->video,
+                ];
+            });
+    }
+
+    return Inertia::render('Recherche', [
+        'results' => $results,
+        'searchQuery' => $query
+    ]);
 });
 
 use Illuminate\Http\Request;

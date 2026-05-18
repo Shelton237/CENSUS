@@ -1,10 +1,11 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { Link, useForm, usePage } from '@inertiajs/vue3';
+import { Link, useForm, usePage, router } from '@inertiajs/vue3';
 
 const isMenuOpen = ref(false);
 const isSearchOpen = ref(false);
 const isSticky = ref(false);
+const searchQuery = ref('');
 
 const newsletterForm = useForm({
     email: '',
@@ -23,6 +24,12 @@ const toggleMenu = () => {
 
 const toggleSearch = () => {
     isSearchOpen.value = !isSearchOpen.value;
+};
+
+const submitSearch = () => {
+    if (!searchQuery.value.trim()) return;
+    isSearchOpen.value = false;
+    router.get('/recherche', { q: searchQuery.value });
 };
 
 onMounted(() => {
@@ -84,8 +91,8 @@ onMounted(() => {
             <div class="search-modal-bg" @click="toggleSearch" id="close-search-bg"></div>
             <div class="search-modal-content">
                 <button @click="toggleSearch" class="close-search-btn" id="close-search-btn">&times;</button>
-                <form action="/recherche" method="GET" class="search-form">
-                    <input type="text" name="q" :placeholder="__('Rechercher...')" class="search-input" required>
+                <form @submit.prevent="submitSearch" class="search-form">
+                    <input type="text" v-model="searchQuery" :placeholder="__('Rechercher...')" class="search-input" required>
                     <button type="submit" class="search-submit">{{ __('Recherche') }}</button>
                 </form>
             </div>
