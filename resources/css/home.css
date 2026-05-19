@@ -53,9 +53,11 @@ body {
 }
 
 .container {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0 40px;
+    max-width: 1280px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 40px !important;
+    padding-right: 40px !important;
 }
 
 /* ==============================
@@ -1525,7 +1527,8 @@ body {
 
 @media (max-width: 1024px) {
     .container {
-        padding: 0 30px;
+        padding-left: 30px !important;
+        padding-right: 30px !important;
     }
 
     /* Header Tablette */
@@ -1605,6 +1608,10 @@ body {
     }
 
     /* MOBILE NAVIGATION */
+    .main-bar {
+        position: relative !important;
+    }
+
     .mobile-menu-btn {
         display: block;
     }
@@ -1665,7 +1672,8 @@ body {
 
 @media (max-width: 768px) {
     .container {
-        padding: 0 20px;
+        padding-left: 20px !important;
+        padding-right: 20px !important;
     }
 
     /* Barre principale mobile */
@@ -1804,6 +1812,17 @@ body {
 
     .newsletter-form {
         max-width: 100% !important;
+    }
+
+    .follow-us-banner {
+        flex-direction: column !important;
+        padding: 24px 20px !important;
+        gap: 16px !important;
+        text-align: center !important;
+    }
+
+    .follow-us-banner span {
+        white-space: normal !important;
     }
 
     .timeline-row, .tl-years-row {

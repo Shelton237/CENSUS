@@ -56,7 +56,7 @@ onMounted(() => {
             <div class="main-bar">
                 <div class="container main-bar-inner">
                     <div class="header-logos">
-                        <img src="/assets/images/logo-rgae.jpg" alt="Logo RGAE" class="h-logo">
+                        <img src="/assets/images/logo-rgae.jpg" alt="Logo RGAE" class="h-logo rounded-full">
                         <img src="/assets/images/logo-rgph.png" alt="Logo RGPH" class="h-logo">
                         <div class="header-title-block">
                             <span class="header-title">{{ __('Recensement Général de la Population et de l\'Habitat') }}</span>

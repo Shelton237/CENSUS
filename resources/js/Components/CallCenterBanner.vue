@@ -172,7 +172,7 @@ defineProps({
         min-height: auto; 
     }
     .cc-agent-wrap { display: none; }
-    .cc-title { font-size: 36px; }
+    .cc-title { font-size: 36px; white-space: normal !important; }
     .cc-content { padding-bottom: 0; }
     .cc-btn { padding: 12px 28px; font-size: 16px; }
 }

@@ -41,7 +41,7 @@ const displayPartners = computed(() => {
     <section class="bg-white py-10 overflow-hidden" style="border-top: 1px solid #e5e7eb;">
         <!-- Titre aligné à gauche, exactement comme sur la maquette d'origine -->
         <div class="container mx-auto px-6 mb-8">
-            <h2 style="font-size: 56px; font-weight: 900; color: #111111; line-height: 1.15; font-family: inherit;">
+            <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-[#111111] leading-[1.15]">
                 {{ __(title) }}
             </h2>
         </div>

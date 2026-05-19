@@ -316,6 +316,24 @@ const handleRegionHover = (region) => {
 const handleRegionLeave = () => {
     // We stay on the current one by default
 };
+
+const getSocialProofText = (proof) => {
+    const value = visitorStats.value[proof.value];
+    if (proof.value === 'total') {
+        if (value <= 1) {
+            return __('agent s\'est déjà inscrit sur le portail');
+        } else {
+            return __('agents se sont déjà inscrits sur le portail');
+        }
+    } else if (proof.value === 'today') {
+        if (value <= 1) {
+            return __('nouvelle candidature reçue aujourd\'hui');
+        } else {
+            return __('nouvelles candidatures reçues aujourd\'hui');
+        }
+    }
+    return __(proof.text);
+};
 </script>
 
 <template>
@@ -599,7 +617,7 @@ const handleRegionLeave = () => {
 
         <!-- ===================== PREUVE SOCIALE (NOTIF) ===================== -->
         <Transition name="proof-fade">
-            <div v-if="showSocialProof" class="fixed bottom-8 left-8 z-[100] max-w-[320px]">
+            <div v-if="showSocialProof" class="hidden md:block fixed bottom-8 left-8 z-[100] max-w-[320px]">
                 <div class="bg-white/95 backdrop-blur-2xl border border-white p-3 rounded-2xl shadow-2xl flex items-center gap-4 hover:scale-105 transition-transform duration-300">
                     <div class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center relative flex-shrink-0">
                         <svg v-if="socialProofs[currentProofIndex].icon === 'users'" class="w-6 h-6 text-[#204138]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
@@ -614,7 +632,7 @@ const handleRegionLeave = () => {
                     <div class="flex flex-col">
                         <p class="text-xs leading-snug font-bold text-[#204138]">
                             <span class="text-lg font-black text-[#EDAF11]">{{ visitorStats[socialProofs[currentProofIndex].value].toLocaleString() }}</span>
-                            {{ ' ' + __(socialProofs[currentProofIndex].text) }}
+                            {{ ' ' + getSocialProofText(socialProofs[currentProofIndex]) }}
                         </p>
                     </div>
                 </div>
