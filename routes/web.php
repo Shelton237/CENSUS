@@ -26,9 +26,8 @@ Route::get('/contact', function () {
 });
 
 Route::get('/candidature', function () {
-    return Inertia::render('Candidature');
+    return redirect()->route('accueil');
 })->name('candidature');
-Route::post('/candidature', [\App\Http\Controllers\CandidatureController::class, 'store'])->name('candidature.store');
 
 Route::get('/recherche', function (Request $request) {
     $query = $request->query('q');

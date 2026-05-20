@@ -471,9 +471,6 @@ onUnmounted(() => {
                                     {{ __(slide.cta) }}
                                     <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                                 </Link>
-                                <Link :href="route('candidature')" class="bg-white/20 backdrop-blur-md text-white border border-white/30 px-8 py-4 rounded-full font-bold hover:bg-white/30 transition-all">
-                                    {{ __('Devenir Agent Recenseur') }}
-                                </Link>
                             </div>
                         </div>
                     </div>

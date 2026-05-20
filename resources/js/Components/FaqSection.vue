@@ -26,11 +26,6 @@ const faqs = ref([
         question: "Mes données sont-elles protégées ?",
         answer: "Absolument. Conformément à la loi sur le secret statistique, vos informations individuelles sont strictement confidentielles. Elles sont anonymisées et utilisées uniquement pour produire des statistiques globales.",
         open: false
-    },
-    {
-        question: "Comment participer au recrutement des agents ?",
-        answer: "Vous pouvez postuler directement sur ce portail via le bouton 'Devenir Agent Recenseur'. Les critères incluent le niveau d'étude (minimum Baccalauréat), la maîtrise des langues locales et la résidence dans la zone de collecte.",
-        open: false
     }
 ]);
 
