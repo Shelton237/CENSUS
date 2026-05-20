@@ -140,7 +140,7 @@ body {
 }
 
 .h-logo {
-    height: 72px;
+    height: 64px;
     /* Agrandissement encore plus marqué */
     width: auto;
     object-fit: contain;
@@ -176,19 +176,19 @@ body {
 .main-nav ul {
     display: flex;
     list-style: none;
-    gap: 40px;
+    gap: 30px;
     align-items: center;
 }
 
 .nav-link {
     color: rgba(255, 255, 255, 0.85);
     text-decoration: none;
-    font-size: 17px;
-    /* Augmenté encore (était 16px) */
+    font-size: 16px;
     font-weight: 700;
     padding-bottom: 10px;
     position: relative;
     transition: color 0.2s;
+    white-space: nowrap;
 }
 
 .nav-link::after {
@@ -977,7 +977,7 @@ body {
     text-align: center;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
     .alaune-cards-row { grid-template-columns: repeat(2, 1fr); }
     .alaune-hero-content { padding: 40px; }
 }
@@ -1525,7 +1525,27 @@ body {
     padding: 8px;
 }
 
-@media (max-width: 1024px) {
+/* Ajustements pour les écrans de taille moyenne (ordinateurs portables standards) */
+@media (min-width: 1201px) and (max-width: 1399px) {
+    .h-logo {
+        height: 56px;
+    }
+    .header-title-block {
+        padding-left: 10px;
+        margin-left: 6px;
+    }
+    .header-title, .header-subtitle {
+        font-size: 12.5px;
+    }
+    .main-nav ul {
+        gap: 18px;
+    }
+    .nav-link {
+        font-size: 14.5px;
+    }
+}
+
+@media (max-width: 1200px) {
     .container {
         padding-left: 30px !important;
         padding-right: 30px !important;
@@ -2191,7 +2211,7 @@ body {
     right: -80px;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
     /* Touch friendly overlays on tablet & mobile */
     .gallery-card-overlay {
         opacity: 1;
