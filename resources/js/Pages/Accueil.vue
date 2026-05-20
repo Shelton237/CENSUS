@@ -579,100 +579,80 @@ onUnmounted(() => {
 
 
         <!-- ===================== CARTOGRAPHIE DEMOGRAPHIQUE ===================== -->
-        <section class="carte-demographique-section py-24 bg-white relative overflow-hidden" id="demographie">
-            <div class="container relative z-10 w-full max-w-7xl mx-auto px-4">
-                <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
-                    <!-- Image Colonne (Gauche) -->
-                    <div class="lg:w-1/2 w-full flex justify-center order-2 lg:order-1">
-                        <div class="map-image-container relative">
-                            <!-- Soft backdrop glow -->
-                            <div class="absolute inset-0 bg-gradient-to-tr from-[#2E6B5E]/5 to-[#EDAF11]/5 rounded-3xl blur-2xl pointer-events-none"></div>
-                            
-                            <!-- Main Map Image -->
-                            <img 
-                                src="/assets/images/accueil/map_pop_white_bg.jpg" 
-                                alt="Carte de la Population du Cameroun" 
-                                class="map-main-img relative z-10 rounded-2xl shadow-xl max-w-full h-auto transition-all duration-500 hover:scale-[1.03] hover:shadow-2xl"
-                            />
+        <section class="carte-demographique-section" id="demographie">
+            <div class="carto-inner">
+                <!-- Colonne Image (Gauche — 55%) -->
+                <div class="carto-visual-col">
+                    <!-- Dot grid decorative -->
+                    <div class="carto-dot-grid" aria-hidden="true"></div>
+                    <!-- Gold accent bar -->
+                    <div class="carto-accent-bar" aria-hidden="true"></div>
+                    <!-- Image principale -->
+                    <img
+                        src="/assets/images/accueil/map_pop_white_bg.jpg"
+                        alt="Cartographie de la population du Cameroun"
+                        class="carto-map-img"
+                    />
+                </div>
+
+                <!-- Colonne Contenu (Droite — 45%) -->
+                <div class="carto-content-col">
+                    <!-- Badge section -->
+                    <span class="carto-badge">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0L6.343 16.657a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg>
+                        {{ __('Cartographie Démographique') }}
+                    </span>
+
+                    <!-- Heading -->
+                    <h2 class="carto-heading">
+                        {{ __('Une photographie précise de notre nation') }}
+                    </h2>
+
+                    <!-- Separator -->
+                    <div class="carto-separator"></div>
+
+                    <!-- Description -->
+                    <p class="carto-desc">
+                        {{ __("Le 4ème RGPH assure une couverture exhaustive de l'ensemble des 10 régions du Cameroun, permettant de recueillir des données précieuses pour planifier les infrastructures de demain.") }}
+                    </p>
+
+                    <!-- KPI Grid -->
+                    <div class="carto-kpi-grid">
+                        <!-- KPI 1 -->
+                        <div class="carto-kpi">
+                            <div class="carto-kpi-number text-[#204138]">10</div>
+                            <div class="carto-kpi-icon-wrap bg-[#2E6B5E]/10 text-[#2E6B5E]">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0L6.343 16.657a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg>
+                            </div>
+                            <div class="carto-kpi-label">{{ __('Régions Administratives') }}</div>
                         </div>
-                    </div>
-                    
-                    <!-- Contenu & Stats Colonne (Droite) -->
-                    <div class="lg:w-1/2 w-full order-1 lg:order-2">
-                        <div class="text-center lg:text-left mb-10">
-                            <span class="inline-block px-4 py-1.5 bg-[#2E6B5E]/10 text-[#2E6B5E] text-xs font-extrabold uppercase tracking-widest rounded-full mb-4">
-                                {{ __('Cartographie Démographique') }}
-                            </span>
-                            <h2 class="text-3xl md:text-4xl font-black text-[#204138] mb-6 leading-tight">
-                                {{ __('Une photographie précise de notre nation') }}
-                            </h2>
-                            <p class="text-base md:text-lg text-gray-600 leading-relaxed max-w-xl mx-auto lg:mx-0">
-                                {{ __("Le 4ème RGPH assure une couverture exhaustive de l'ensemble des 10 régions du Cameroun, permettant de recueillir des données précieuses pour planifier les infrastructures de demain.") }}
-                            </p>
+                        <!-- KPI 2 -->
+                        <div class="carto-kpi">
+                            <div class="carto-kpi-number text-[#2E6B5E]">58</div>
+                            <div class="carto-kpi-icon-wrap bg-[#EDAF11]/15 text-[#EDAF11]">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                            </div>
+                            <div class="carto-kpi-label">{{ __('Départements') }}</div>
                         </div>
-                        
-                        <!-- Grid KPIs -->
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                            <!-- KPI 1: Régions -->
-                            <div class="kpi-card p-6 bg-gray-50/50 border border-gray-100 rounded-2xl hover:bg-white hover:shadow-xl hover:border-transparent transition-all duration-300 flex items-start gap-4">
-                                <div class="kpi-icon-wrapper p-3 bg-[#2E6B5E]/10 text-[#2E6B5E] rounded-xl">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h4 class="text-3xl font-black text-[#204138] mb-1">10</h4>
-                                    <p class="text-sm font-bold text-gray-500 uppercase tracking-wide">{{ __('Régions Administratives') }}</p>
-                                </div>
+                        <!-- KPI 3 -->
+                        <div class="carto-kpi">
+                            <div class="carto-kpi-number text-[#204138]">360+</div>
+                            <div class="carto-kpi-icon-wrap bg-[#2E6B5E]/10 text-[#2E6B5E]">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
                             </div>
-                            
-                            <!-- KPI 2: Départements -->
-                            <div class="kpi-card p-6 bg-gray-50/50 border border-gray-100 rounded-2xl hover:bg-white hover:shadow-xl hover:border-transparent transition-all duration-300 flex items-start gap-4">
-                                <div class="kpi-icon-wrapper p-3 bg-[#EDAF11]/10 text-[#EDAF11] rounded-xl">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h4 class="text-3xl font-black text-[#204138] mb-1">58</h4>
-                                    <p class="text-sm font-bold text-gray-500 uppercase tracking-wide">{{ __('Départements') }}</p>
-                                </div>
+                            <div class="carto-kpi-label">{{ __('Arrondissements') }}</div>
+                        </div>
+                        <!-- KPI 4 -->
+                        <div class="carto-kpi">
+                            <div class="carto-kpi-number text-[#2E6B5E]">~30M</div>
+                            <div class="carto-kpi-icon-wrap bg-[#EDAF11]/15 text-[#EDAF11]">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                             </div>
-                            
-                            <!-- KPI 3: Arrondissements -->
-                            <div class="kpi-card p-6 bg-gray-50/50 border border-gray-100 rounded-2xl hover:bg-white hover:shadow-xl hover:border-transparent transition-all duration-300 flex items-start gap-4">
-                                <div class="kpi-icon-wrapper p-3 bg-[#2E6B5E]/10 text-[#2E6B5E] rounded-xl">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h4 class="text-3xl font-black text-[#204138] mb-1">360+</h4>
-                                    <p class="text-sm font-bold text-gray-500 uppercase tracking-wide">{{ __('Arrondissements') }}</p>
-                                </div>
-                            </div>
-                            
-                            <!-- KPI 4: Habitants ciblés -->
-                            <div class="kpi-card p-6 bg-gray-50/50 border border-gray-100 rounded-2xl hover:bg-white hover:shadow-xl hover:border-transparent transition-all duration-300 flex items-start gap-4">
-                                <div class="kpi-icon-wrapper p-3 bg-[#EDAF11]/10 text-[#EDAF11] rounded-xl">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h4 class="text-3xl font-black text-[#204138] mb-1">~30 M</h4>
-                                    <p class="text-sm font-bold text-gray-500 uppercase tracking-wide">{{ __('Habitants ciblés') }}</p>
-                                </div>
-                            </div>
+                            <div class="carto-kpi-label">{{ __('Habitants ciblés') }}</div>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <!-- Background design elements -->
-            <div class="absolute top-0 left-0 w-64 h-64 rounded-full bg-[#2E6B5E]/5 blur-3xl pointer-events-none -translate-x-1/2 -translate-y-1/2"></div>
-            <div class="absolute bottom-0 right-0 w-80 h-80 rounded-full bg-[#EDAF11]/5 blur-3xl pointer-events-none translate-x-1/3 translate-y-1/3"></div>
         </section>
 
         <!-- ===================== A LA UNE ===================== -->
@@ -1064,37 +1044,198 @@ onUnmounted(() => {
     </MainLayout>
 </template>
 
+
 <style scoped>
+/* ===================== CARTO DEMOGRAPHIQUE — PREMIUM ===================== */
 .carte-demographique-section {
+    background: #ffffff;
+    overflow: hidden;
     position: relative;
-    z-index: 10;
 }
 
-.map-image-container {
-    perspective: 1000px;
-    max-width: 480px;
+/* Full-bleed 2-col grid: 55% image / 45% content */
+.carto-inner {
+    display: grid;
+    grid-template-columns: 55% 45%;
+    min-height: 540px;
+}
+
+@media (max-width: 1023px) {
+    .carto-inner {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* === VISUAL COLUMN === */
+.carto-visual-col {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f9fafb;
+    overflow: hidden;
+    min-height: 420px;
+    padding: 3rem 2rem;
+}
+
+/* Dot grid background */
+.carto-dot-grid {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, #2E6B5E1a 1px, transparent 1px);
+    background-size: 24px 24px;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Gold vertical accent bar on the right edge */
+.carto-accent-bar {
+    position: absolute;
+    right: 0;
+    top: 15%;
+    height: 70%;
+    width: 4px;
+    background: linear-gradient(180deg, transparent, #EDAF11, transparent);
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+/* The map image — NO shadow, no border-radius, fills col */
+.carto-map-img {
+    position: relative;
+    z-index: 2;
     width: 100%;
+    max-width: 560px;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    filter: drop-shadow(0 0 0 transparent);  /* explicitly no shadow */
 }
 
-.map-main-img {
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease;
+.carto-map-img:hover {
+    transform: scale(1.04);
 }
 
-.kpi-card {
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+/* === CONTENT COLUMN === */
+.carto-content-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem 3.5rem 4rem 3rem;
+    background: #ffffff;
 }
 
-.kpi-card:hover {
-    transform: translateY(-6px);
-    border-color: rgba(237, 175, 17, 0.2);
+@media (max-width: 1023px) {
+    .carto-content-col {
+        padding: 3rem 1.5rem;
+        order: -1;
+    }
+    .carto-visual-col {
+        min-height: 360px;
+    }
 }
 
-.kpi-icon-wrapper {
-    transition: transform 0.4s ease;
+/* Badge */
+.carto-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: rgba(46, 107, 94, 0.08);
+    color: #2E6B5E;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border-radius: 999px;
+    margin-bottom: 1.25rem;
+    width: fit-content;
 }
 
-.kpi-card:hover .kpi-icon-wrapper {
-    transform: scale(1.1) rotate(5deg);
+/* Heading */
+.carto-heading {
+    font-size: clamp(1.75rem, 2.5vw, 2.5rem);
+    font-weight: 900;
+    color: #204138;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+
+/* Gold separator */
+.carto-separator {
+    width: 48px;
+    height: 4px;
+    background: linear-gradient(90deg, #EDAF11, #f5c842);
+    border-radius: 4px;
+    margin-bottom: 1.25rem;
+}
+
+/* Description */
+.carto-desc {
+    font-size: 0.95rem;
+    color: #6b7280;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+    max-width: 420px;
+}
+
+/* KPI Grid — 2×2 */
+.carto-kpi-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: #e5e7eb;
+    border: 1px solid #e5e7eb;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+/* KPI Cell */
+.carto-kpi {
+    background: #fff;
+    padding: 1.5rem 1.25rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    transition: background 0.3s ease;
+    cursor: default;
+}
+
+.carto-kpi:hover {
+    background: #f8fffe;
+}
+
+/* KPI Big Number */
+.carto-kpi-number {
+    font-size: 2.2rem;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.02em;
+}
+
+/* KPI Icon badge */
+.carto-kpi-icon-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.carto-kpi:hover .carto-kpi-icon-wrap {
+    transform: scale(1.15) rotate(6deg);
+}
+
+/* KPI Label */
+.carto-kpi-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #9ca3af;
 }
 
 .cartographie-section {
