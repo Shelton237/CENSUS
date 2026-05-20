@@ -27,7 +27,7 @@ class PartnerSeeder extends Seeder
             ],
             [
                 'name' => 'FAO',
-                'logo' => '/assets/images/partenaire/fao.png',
+                'logo' => '/assets/images/partenaire/fao.svg',
                 'website' => 'https://www.fao.org/cameroon/fr/',
                 'order' => 3,
             ],
