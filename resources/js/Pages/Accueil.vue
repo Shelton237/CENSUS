@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, onUnmounted, computed } from 'vue';
 import MainLayout from '@/Layouts/MainLayout.vue';
 import { Link, Head } from '@inertiajs/vue3';
 import PartenaireCarousel from '@/Components/PartenaireCarousel.vue';
@@ -334,6 +334,85 @@ const getSocialProofText = (proof) => {
     }
     return __(proof.text);
 };
+
+// Données de la galerie photo du terrain
+const activeGalleryTab = ref('all');
+const visiblePhotosCount = ref(6);
+const activeLightboxIndex = ref(null);
+
+const galleryTabs = [
+    { id: 'all', label: __('Tout') },
+    { id: 'collecte', label: __('Collecte') },
+    { id: 'sensibilisation', label: __('Sensibilisation') },
+    { id: 'formation', label: __('Formations') },
+    { id: 'supervision', label: __('Supervision') }
+];
+
+const galleryPhotos = [
+    { id: 1, driveId: '1FWtGiJvEm0qcSSZARSjlhNW9KPzWWORP', category: 'sensibilisation', caption: __('Sensibilisation des communautés locales'), date: '13 Mai 2026' },
+    { id: 2, driveId: '1oqwbSYvhZ8bz7XUu1jrnTYI6fRlTOknv', category: 'collecte', caption: __('Collecte numérique auprès des ménages'), date: '13 Mai 2026' },
+    { id: 3, driveId: '1oTJAEN1sH2PVTvQGwv7cvKjYWvQatCNh', category: 'collecte', caption: __('Enregistrement des données sur le terrain'), date: '13 Mai 2026' },
+    { id: 4, driveId: '1oKrXVGw5kMrlikCOUVHD4T-Ne3Lc-Lzm', category: 'supervision', caption: __('Briefing quotidien de l\'équipe de supervision'), date: '13 Mai 2026' },
+    { id: 5, driveId: '1vS22wToWoNEmm9NlRHibyJmiLe-A1VrG', category: 'collecte', caption: __('Déploiement des agents recenseurs dans les ménages'), date: '14 Mai 2026' },
+    { id: 6, driveId: '13VVf3MGzXC8Lby_UHlm7Br8OcxjuQ37w', category: 'collecte', caption: __('Entretien avec les chefs de familles'), date: '14 Mai 2026' },
+    { id: 7, driveId: '1puNrSajizGJ2oOmWKQ7-eon4KNXVpKJ2', category: 'sensibilisation', caption: __('Explications des objectifs du dénombrement'), date: '14 Mai 2026' },
+    { id: 8, driveId: '1WHyeqhOu0iOyjT_R4nWLPUswEA_KYgU2', category: 'formation', caption: __('Atelier pratique d\'utilisation des tablettes'), date: '14 Mai 2026' },
+    { id: 9, driveId: '1zk353AM9DgpgiMtd7LR44g2Gy-ELJ3Mk', category: 'sensibilisation', caption: __('Campagne de communication de proximité'), date: '14 Mai 2026' },
+    { id: 10, driveId: '13fNVmJSjE9A5rMKDDtvUyeXZ7h5yk0kV', category: 'supervision', caption: __('Réunion technique des superviseurs de zone'), date: '14 Mai 2026' },
+    { id: 11, driveId: '1IDlgsOi72Bm1cO0NQ2xtDPOF8xWlWu4y', category: 'collecte', caption: __('Vérification de la couverture géographique'), date: '14 Mai 2026' },
+    { id: 12, driveId: '1RbGNNSREOMiIQQJKBh-7WRSfZuwj-uy7', category: 'formation', caption: __('Session de renforcement des capacités'), date: '14 Mai 2026' },
+    { id: 13, driveId: '1sEDX69lTRGMNwPv37muBo7puTjz2VPIl', category: 'collecte', caption: __('Suivi cartographique en temps réel'), date: '14 Mai 2026' },
+    { id: 14, driveId: '1O9VHYAmab0v6_z8PK6XpwYo-txYYmjwq', category: 'sensibilisation', caption: __('Échanges constructifs avec la population'), date: '14 Mai 2026' },
+    { id: 15, driveId: '1tgenkvIt9EHzUgjT6-XToZd5kz_lxn3O', category: 'supervision', caption: __('Point d\'avancement des équipes de collecte'), date: '14 Mai 2026' },
+    { id: 16, driveId: '1kx0OSmB7TlaafL2zBs7VT6cWCJbENeXJ', category: 'collecte', caption: __('Saisie rigoureuse des formulaires statistiques'), date: '15 Mai 2026' },
+    { id: 17, driveId: '1HuDKPkvYxixYgZ8XlQoGhXl7h283Cyt1', category: 'formation', caption: __('Instruction pratique sur le terrain'), date: '15 Mai 2026' },
+    { id: 18, driveId: '1JJiiX3diLNbAusdP1rbZ59ymGj4vyv8Z', category: 'collecte', caption: __('Validation finale des questionnaires d\'enquête'), date: '15 Mai 2026' }
+];
+
+const filteredGalleryPhotos = computed(() => {
+    if (activeGalleryTab.value === 'all') {
+        return galleryPhotos;
+    }
+    return galleryPhotos.filter(p => p.category === activeGalleryTab.value);
+});
+
+const openLightbox = (photo) => {
+    const index = galleryPhotos.findIndex(p => p.id === photo.id);
+    if (index !== -1) {
+        activeLightboxIndex.value = index;
+    }
+};
+
+const closeLightbox = () => {
+    activeLightboxIndex.value = null;
+};
+
+const nextLightboxPhoto = () => {
+    if (activeLightboxIndex.value !== null) {
+        activeLightboxIndex.value = (activeLightboxIndex.value + 1) % galleryPhotos.length;
+    }
+};
+
+const prevLightboxPhoto = () => {
+    if (activeLightboxIndex.value !== null) {
+        activeLightboxIndex.value = (activeLightboxIndex.value - 1 + galleryPhotos.length) % galleryPhotos.length;
+    }
+};
+
+const handleKeyDown = (e) => {
+    if (activeLightboxIndex.value === null) return;
+    if (e.key === 'Escape') closeLightbox();
+    else if (e.key === 'ArrowRight') nextLightboxPhoto();
+    else if (e.key === 'ArrowLeft') prevLightboxPhoto();
+};
+
+onMounted(() => {
+    window.addEventListener('keydown', handleKeyDown);
+});
+
+onUnmounted(() => {
+    window.removeEventListener('keydown', handleKeyDown);
+});
 </script>
 
 <template>
@@ -634,6 +713,127 @@ const getSocialProofText = (proof) => {
                             <span class="text-lg font-black text-[#EDAF11]">{{ visitorStats[socialProofs[currentProofIndex].value].toLocaleString() }}</span>
                             {{ ' ' + getSocialProofText(socialProofs[currentProofIndex]) }}
                         </p>
+                    </div>
+                </div>
+            </div>
+        </Transition>
+
+        <!-- ===================== GALERIE DE TERRAIN ===================== -->
+        <section class="field-gallery-section" id="galerie-terrain">
+            <div class="container mx-auto px-4 md:px-6">
+                <div class="text-center max-w-3xl mx-auto mb-12">
+                    <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#204138]/5 text-[#204138] uppercase tracking-wider mb-4 border border-[#204138]/10">
+                        <svg class="w-3.5 h-3.5 text-[#EDAF11]" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
+                        </svg>
+                        {{ __('Le Recensement en Images') }}
+                    </span>
+                    <h2 class="text-3xl md:text-5xl font-black text-[#204138] leading-tight mb-4">
+                        {{ __('Découvrez nos équipes sur le terrain') }}
+                    </h2>
+                    <p class="text-gray-600 text-lg">
+                        {{ __('Vivez en images les différentes étapes du Recensement Général de la Population et de l\'Habitat (RGPH). De la sensibilisation à la collecte finale.') }}
+                    </p>
+                </div>
+
+                <!-- Onglets Filtres -->
+                <div class="flex flex-wrap justify-center gap-3 mb-10">
+                    <button 
+                        v-for="tab in galleryTabs" 
+                        :key="tab.id"
+                        @click="activeGalleryTab = tab.id; visiblePhotosCount = 6;"
+                        class="px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 border"
+                        :class="activeGalleryTab === tab.id 
+                            ? 'bg-[#204138] border-[#204138] text-white shadow-lg shadow-[#204138]/10' 
+                            : 'bg-white border-[#E5E9E7] text-[#204138] hover:border-[#204138]/40 hover:bg-[#204138]/5'"
+                    >
+                        {{ tab.label }}
+                    </button>
+                </div>
+
+                <!-- Grille de Photos -->
+                <div class="gallery-grid">
+                    <div 
+                        v-for="photo in filteredGalleryPhotos.slice(0, visiblePhotosCount)" 
+                        :key="photo.id"
+                        class="gallery-card group"
+                        @click="openLightbox(photo)"
+                    >
+                        <div class="gallery-img-wrapper">
+                            <img 
+                                :src="`https://drive.google.com/thumbnail?id=${photo.driveId}&sz=w800`" 
+                                :alt="photo.caption"
+                                class="gallery-img"
+                                loading="lazy"
+                            />
+                            <div class="gallery-card-overlay">
+                                <span class="gallery-card-category">{{ __(photo.category) }}</span>
+                                <h3 class="gallery-card-title">{{ photo.caption }}</h3>
+                                <span class="gallery-card-date">{{ photo.date }}</span>
+                            </div>
+                            <div class="gallery-card-icon">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bouton Voir Plus -->
+                <div v-if="visiblePhotosCount < filteredGalleryPhotos.length" class="text-center mt-12">
+                    <button 
+                        @click="visiblePhotosCount += 6"
+                        class="inline-flex items-center gap-3 bg-[#204138] text-white px-10 py-4 rounded-full font-bold hover:bg-[#EDAF11] hover:text-[#204138] transition-all shadow-md hover:-translate-y-0.5 duration-300"
+                    >
+                        {{ __('Charger plus d\'images') }}
+                        <svg class="w-5 h-5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7-7-7m14-6l-7 7-7-7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== LIGHTBOX MODAL ===================== -->
+        <Transition name="fade">
+            <div v-if="activeLightboxIndex !== null" class="gallery-lightbox" @click.self="closeLightbox">
+                <div class="lightbox-content-wrapper">
+                    <!-- Bouton Fermer -->
+                    <button class="lightbox-close-btn" @click="closeLightbox" aria-label="Close">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+
+                    <!-- Navigation Gauche -->
+                    <button class="lightbox-arrow lightbox-arrow-left" @click="prevLightboxPhoto" aria-label="Previous">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+
+                    <!-- Image Container -->
+                    <div class="lightbox-img-container">
+                        <img 
+                            :src="`https://drive.google.com/thumbnail?id=${galleryPhotos[activeLightboxIndex].driveId}&sz=w1000`" 
+                            :alt="galleryPhotos[activeLightboxIndex].caption"
+                            class="lightbox-img"
+                        />
+                    </div>
+
+                    <!-- Navigation Droite -->
+                    <button class="lightbox-arrow lightbox-arrow-right" @click="nextLightboxPhoto" aria-label="Next">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+
+                    <!-- Infos Image -->
+                    <div class="lightbox-info">
+                        <span class="lightbox-category">{{ __(galleryPhotos[activeLightboxIndex].category) }}</span>
+                        <h3 class="lightbox-title">{{ galleryPhotos[activeLightboxIndex].caption }}</h3>
+                        <span class="lightbox-date">{{ galleryPhotos[activeLightboxIndex].date }}</span>
                     </div>
                 </div>
             </div>
