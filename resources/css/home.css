@@ -483,7 +483,7 @@ body {
 .timeline-row,
 .tl-years-row {
     display: grid;
-    grid-template-columns: 90px 1fr 1fr 1fr 1fr 90px;
+    grid-template-columns: 90px repeat(5, 1fr) 90px;
     width: 100%;
     min-width: 900px;
 }
@@ -743,6 +743,40 @@ body {
         r: 12;
         opacity: 0;
     }
+}
+
+/* Interactive & Selected styling for timeline phases */
+.tl-phase.is-selected .tl-box {
+    transform: translateY(-8px);
+    z-index: 10;
+}
+
+.tl-phase.completed.is-selected .tl-box {
+    box-shadow: 0 0 0 4px #EDAF11, 0 16px 36px rgba(46, 145, 70, 0.4);
+}
+
+.tl-phase.active.is-selected .tl-box {
+    box-shadow: 0 0 0 4px #204138, 0 16px 36px rgba(241, 165, 2, 0.5);
+}
+
+.tl-phase.upcoming.is-selected .tl-box {
+    box-shadow: 0 0 0 4px #EDAF11, 0 16px 36px rgba(0, 0, 0, 0.15);
+    background: #AAB0AD;
+    color: white;
+}
+
+.tl-phase.is-selected::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 8px 8px 0;
+    border-style: solid;
+    border-color: #EDAF11 transparent;
+    display: block;
+    width: 0;
+    z-index: 15;
 }
 
 /* ============================================================ */
@@ -1850,7 +1884,7 @@ body {
     }
 
     .timeline-row, .tl-years-row {
-        min-width: 650px;
+        min-width: 800px;
     }
 }
 
