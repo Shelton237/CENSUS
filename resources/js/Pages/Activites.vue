@@ -54,7 +54,7 @@ const phases = ref([
             en: 'The census cartography consisted of partitioning the entire national territory into georeferenced enumeration areas (ZD). This crucial fieldwork phase guarantees that no household, village, or agricultural holding will be overlooked during the general count.'
         },
         stats: [
-            { label: { fr: 'Zones délimitées (ZD)', en: 'Delineated areas (ZD)' }, value: '25 000+' },
+            { label: { fr: 'Zones délimitées (ZD)', en: 'Delineated areas (ZD)' }, value: '100%' },
             { label: { fr: 'Couverture nationale SIG', en: 'GIS national coverage' }, value: '100%' },
             { label: { fr: 'Agents de terrain mobilisés', en: 'Field agents deployed' }, value: '1 500+' }
         ],
@@ -196,6 +196,10 @@ const statusBadgeClass = (status) => {
             return 'bg-gray-100 text-gray-500';
     }
 };
+
+const isPercentage = (value) => {
+    return typeof value === 'string' && value.endsWith('%');
+};
 </script>
 
 <template>
@@ -209,17 +213,33 @@ const statusBadgeClass = (status) => {
         <section class="relative pt-32 pb-20 overflow-hidden bg-[#204138]">
             <div class="absolute inset-0 z-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
             <div class="container relative z-10 text-center">
-                <span class="inline-block py-1 px-3 rounded-full bg-[#EDAF11]/20 text-[#EDAF11] font-bold text-sm tracking-widest uppercase mb-4">{{ __('Calendrier') }}</span>
+                <span class="inline-block py-1.5 px-4 rounded-full bg-[#EDAF11]/20 text-[#EDAF11] font-bold text-xs tracking-wider uppercase mb-4">{{ __('Calendrier') }}</span>
                 <h1 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">{{ __('Chronogramme des Activités') }}</h1>
-                <p class="text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">{{ __('Consultez les étapes clés du processus de recensement, de la conception à la publication.') }}</p>
+                <p class="text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">{{ __('Consultez les étapes clés du processus de recensement, de la conception à la publication.') }}</p>
             </div>
         </section>
 
         <!-- ===================== CHRONOGRAMME ===================== -->
-        <section class="chron-page" style="padding: 80px 0; background: #FFF;">
-            <div class="container">
+        <section class="chron-page py-16 bg-[#FDFDFD]">
+            <div class="container max-w-6xl">
+                <!-- Status Legend -->
+                <div class="flex items-center justify-center gap-6 mb-10 text-xs flex-wrap bg-gray-50 border border-gray-200/60 py-3 px-6 rounded-full max-w-lg mx-auto">
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-[#2E9146] shadow-sm"></span>
+                        <span class="text-gray-500 font-semibold uppercase tracking-wider">{{ currentLocale === 'en' ? 'Completed' : 'Terminé' }}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-[#F1A502] shadow-sm animate-pulse"></span>
+                        <span class="text-gray-500 font-semibold uppercase tracking-wider">{{ currentLocale === 'en' ? 'Active' : 'En cours' }}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-[#C2C8C5] shadow-sm"></span>
+                        <span class="text-gray-500 font-semibold uppercase tracking-wider">{{ currentLocale === 'en' ? 'Upcoming' : 'À venir' }}</span>
+                    </div>
+                </div>
 
-                <div class="timeline-wrapper" style="margin-top: 50px;">
+                <!-- Timeline Wrapper -->
+                <div class="timeline-wrapper p-6 bg-white border border-gray-100 rounded-3xl shadow-sm">
                     <div class="timeline-row">
                         <!-- Début -->
                         <div class="tl-endpoint tl-start select-none">
@@ -246,8 +266,26 @@ const statusBadgeClass = (status) => {
                                 </svg>
                             </div>
 
-                            <div class="tl-box">
-                                <div class="tl-title">{{ __(phase.name) }}</div>
+                            <!-- Box with Icon & Name -->
+                            <div class="tl-box flex flex-col items-center justify-center gap-2 py-3 px-2">
+                                <!-- Phase Icons -->
+                                <svg v-if="phase.id === 'conception'" class="w-5 h-5 opacity-90 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                                <svg v-else-if="phase.id === 'cartographie'" class="w-5 h-5 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
+                                </svg>
+                                <svg v-else-if="phase.id === 'denombrement'" class="w-5 h-5 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                </svg>
+                                <svg v-else-if="phase.id === 'saisie'" class="w-5 h-5 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/>
+                                </svg>
+                                <svg v-else-if="phase.id === 'publication'" class="w-5 h-5 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                                </svg>
+
+                                <div class="tl-title text-[11px] font-bold uppercase tracking-wider">{{ __(phase.name) }}</div>
                             </div>
                         </div>
 
@@ -266,7 +304,7 @@ const statusBadgeClass = (status) => {
                         <span 
                             v-for="phase in phases" 
                             :key="phase.id" 
-                            class="tl-year text-center cursor-pointer select-none transition-all duration-200"
+                            class="tl-year text-center cursor-pointer select-none transition-all duration-200 hover:text-[#204138]"
                             :class="{ 'text-[#F1A502] font-black scale-110': activePhaseId === phase.id }"
                             @click="activePhaseId = phase.id"
                         >
@@ -276,17 +314,27 @@ const statusBadgeClass = (status) => {
                     </div>
                 </div>
 
-                <!-- Phase Details avec animation fluide -->
+                <!-- Instruction text -->
+                <p class="text-center text-xs text-gray-400 font-semibold uppercase tracking-wider mt-4">
+                    {{ currentLocale === 'en' ? 'Click on any phase to view details' : 'Cliquez sur une phase pour afficher les détails' }}
+                </p>
+
+                <!-- Phase Details -->
                 <Transition name="fade" mode="out-in">
-                    <div :key="activePhaseId" class="mt-20">
-                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 bg-[#F8FAF9] p-8 md:p-12 rounded-3xl border border-[#E9F0EE] shadow-sm transition-all duration-300">
-                            <!-- Infos de phase -->
+                    <div :key="activePhaseId" class="mt-16">
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 bg-white p-8 md:p-12 rounded-3xl border border-gray-150 shadow-sm relative overflow-hidden">
+                            <!-- Background Accent Shape -->
+                            <div class="absolute top-0 right-0 w-32 h-32 opacity-[0.03] rounded-full pointer-events-none"
+                                 :class="selectedPhase.status === 'completed' ? 'bg-[#2E9146]' : (selectedPhase.status === 'active' ? 'bg-[#F1A502]' : 'bg-gray-400')">
+                            </div>
+
+                            <!-- Phase Information -->
                             <div class="lg:col-span-2 space-y-6">
                                 <div class="flex items-center gap-3 flex-wrap">
                                     <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider" :class="statusBadgeClass(selectedPhase.status)">
                                         {{ statusText(selectedPhase.status, currentLocale) }}
                                     </span>
-                                    <span class="px-3 py-1 rounded-full bg-gray-200/60 text-gray-700 text-xs font-bold uppercase tracking-wider">
+                                    <span class="px-3 py-1 rounded-full bg-gray-100 text-gray-600 text-xs font-bold uppercase tracking-wider border border-gray-200">
                                         {{ selectedPhase.year }}
                                     </span>
                                 </div>
@@ -295,43 +343,66 @@ const statusBadgeClass = (status) => {
                                     {{ selectedPhase.title[currentLocale] }}
                                 </h2>
                                 
-                                <p class="text-gray-600 text-lg leading-relaxed">
+                                <p class="text-gray-600 text-base md:text-lg leading-relaxed">
                                     {{ selectedPhase.description[currentLocale] }}
                                 </p>
 
                                 <!-- Livrables/Étapes clés -->
-                                <div class="pt-6 border-t border-gray-200/60">
-                                    <h3 class="text-sm font-black text-[#204138] uppercase tracking-wider mb-4">
+                                <div class="pt-6 border-t border-gray-100">
+                                    <h3 class="text-xs font-black text-gray-400 uppercase tracking-widest mb-4">
                                         {{ currentLocale === 'en' ? 'Key Milestones & Deliverables' : 'Livrables & Étapes clés' }}
                                     </h3>
-                                    <ul class="space-y-3">
-                                        <li v-for="(milestone, idx) in selectedPhase.milestones[currentLocale]" :key="idx" class="flex items-start gap-3">
-                                            <span class="mt-1 flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center" 
-                                                  :class="selectedPhase.status === 'completed' ? 'bg-[#2E9146]/20 text-[#2E9146]' : (selectedPhase.status === 'active' ? 'bg-[#F1A502]/20 text-[#F1A502]' : 'bg-gray-200 text-gray-500')">
-                                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <ul class="space-y-4">
+                                        <li v-for="(milestone, idx) in selectedPhase.milestones[currentLocale]" :key="idx" class="flex items-start gap-3.5">
+                                            <!-- Completed checkmark -->
+                                            <span v-if="selectedPhase.status === 'completed'" class="mt-1 flex-shrink-0 w-5 h-5 rounded-full bg-[#2E9146]/10 flex items-center justify-center">
+                                                <svg class="w-3 h-3 text-[#2E9146]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                                                 </svg>
                                             </span>
-                                            <span class="text-gray-700 text-base">{{ milestone }}</span>
+                                            <!-- Active chevron -->
+                                            <span v-else-if="selectedPhase.status === 'active'" class="mt-1 flex-shrink-0 w-5 h-5 rounded-full bg-[#F1A502]/10 flex items-center justify-center animate-pulse">
+                                                <svg class="w-3 h-3 text-[#F1A502]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7" />
+                                                </svg>
+                                            </span>
+                                            <!-- Upcoming locked circle -->
+                                            <span v-else class="mt-1 flex-shrink-0 w-5 h-5 rounded-full bg-gray-100 flex items-center justify-center">
+                                                <svg class="w-2.5 h-2.5 text-gray-400" fill="currentColor" viewBox="0 0 8 8">
+                                                    <circle cx="4" cy="4" r="3" />
+                                                </svg>
+                                            </span>
+                                            <span class="text-gray-700 text-sm md:text-base leading-relaxed font-medium">{{ milestone }}</span>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                             
-                            <!-- Stats & CTA -->
-                            <div class="flex flex-col justify-between gap-6 bg-white p-6 md:p-8 rounded-2xl border border-gray-100 shadow-xs">
+                            <!-- Stats & Action Card -->
+                            <div class="flex flex-col justify-between gap-8 bg-gray-50/50 p-6 md:p-8 rounded-3xl border border-gray-150/70">
                                 <div class="space-y-6">
-                                    <span class="block text-xs font-bold text-gray-400 uppercase tracking-widest text-center">
-                                        {{ currentLocale === 'en' ? 'Phase Metrics' : 'Indicateurs de phase' }}
-                                    </span>
+                                    <h3 class="text-xs font-black text-gray-400 uppercase tracking-widest text-center pb-3 border-b border-gray-150">
+                                        {{ currentLocale === 'en' ? 'Performance Metrics' : 'Indicateurs de Performance' }}
+                                    </h3>
                                     
                                     <!-- Statistiques Widgets -->
-                                    <div class="space-y-4">
-                                        <div v-for="(stat, idx) in selectedPhase.stats" :key="idx" class="p-4 rounded-xl bg-gray-50 border border-gray-100/60 flex justify-between items-center">
-                                            <span class="text-sm text-gray-600 font-medium mr-2">{{ stat.label[currentLocale] }}</span>
-                                            <span class="text-lg font-black" :class="selectedPhase.status === 'completed' ? 'text-[#2E9146]' : (selectedPhase.status === 'active' ? 'text-[#F1A502]' : 'text-gray-500')">
-                                                {{ stat.value }}
-                                            </span>
+                                    <div class="space-y-6">
+                                        <div v-for="(stat, idx) in selectedPhase.stats" :key="idx" class="space-y-2">
+                                            <!-- Simple stat or Percentage block -->
+                                            <div class="flex justify-between items-center text-sm font-semibold text-gray-700">
+                                                <span>{{ stat.label[currentLocale] }}</span>
+                                                <span class="text-base font-black" :class="selectedPhase.status === 'completed' ? 'text-[#2E9146]' : (selectedPhase.status === 'active' ? 'text-[#F1A502]' : 'text-gray-500')">
+                                                    {{ stat.value }}
+                                                </span>
+                                            </div>
+                                            
+                                            <!-- Progress bar if it is percentage -->
+                                            <div v-if="isPercentage(stat.value)" class="w-full h-2 bg-gray-200/70 rounded-full overflow-hidden">
+                                                <div class="h-full rounded-full transition-all duration-1000" 
+                                                     :class="selectedPhase.status === 'completed' ? 'bg-[#2E9146]' : 'bg-[#F1A502]'"
+                                                     :style="{ width: stat.value }">
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -339,14 +410,16 @@ const statusBadgeClass = (status) => {
                                 <!-- Bouton CTA -->
                                 <Link v-if="selectedPhase.status !== 'upcoming'" 
                                       href="/actualites" 
-                                      class="w-full py-4 px-6 rounded-xl font-bold text-center text-white transition-all duration-300 transform hover:-translate-y-0.5 shadow-md flex items-center justify-center gap-2"
-                                      :class="selectedPhase.status === 'completed' ? 'bg-[#2E9146] hover:bg-[#257538] shadow-[#2E9146]/20' : 'bg-[#204138] hover:bg-[#162e28] shadow-[#204138]/20'">
+                                      class="w-full py-4 px-6 rounded-2xl font-black text-sm text-center text-white transition-all duration-300 transform hover:-translate-y-0.5 shadow-md flex items-center justify-center gap-2 border"
+                                      :class="selectedPhase.status === 'completed' 
+                                          ? 'bg-[#2E9146] hover:bg-[#257538] border-[#257538] shadow-[#2E9146]/20' 
+                                          : 'bg-[#204138] hover:bg-[#162e28] border-[#162e28] shadow-[#204138]/20'">
                                     <span>{{ currentLocale === 'en' ? 'View phase news' : 'Voir les actualités de la phase' }}</span>
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                                     </svg>
                                 </Link>
-                                <div v-else class="py-4 px-6 rounded-xl bg-gray-100 text-gray-400 font-bold text-center border border-dashed border-gray-200 select-none">
+                                <div v-else class="py-4 px-6 rounded-2xl bg-gray-100/60 text-gray-400 font-bold text-sm text-center border border-dashed border-gray-200 select-none">
                                     {{ currentLocale === 'en' ? 'Phase planned' : 'Phase planifiée' }}
                                 </div>
                             </div>
@@ -362,16 +435,16 @@ const statusBadgeClass = (status) => {
 <style scoped>
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
 .fade-enter-from {
   opacity: 0;
-  transform: translateY(15px);
+  transform: translateY(12px);
 }
 
 .fade-leave-to {
   opacity: 0;
-  transform: translateY(-15px);
+  transform: translateY(-12px);
 }
 </style>
