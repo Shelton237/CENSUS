@@ -758,7 +758,7 @@ onUnmounted(() => {
                         v-for="tab in galleryTabs" 
                         :key="tab.id"
                         @click="activeGalleryTab = tab.id; visiblePhotosCount = 6;"
-                        class="px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 border"
+                        class="gallery-filter-btn px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 border"
                         :class="activeGalleryTab === tab.id 
                             ? 'bg-[#204138] border-[#204138] text-white shadow-lg shadow-[#204138]/10' 
                             : 'bg-white border-[#E5E9E7] text-[#204138] hover:border-[#204138]/40 hover:bg-[#204138]/5'"
