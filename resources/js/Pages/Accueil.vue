@@ -578,54 +578,102 @@ onUnmounted(() => {
         </section>
 
 
-        <!-- ===================== CARTE INTERACTIVE ===================== -->
-        <!-- <section class="carte-section py-24 relative overflow-hidden cartographie-section" id="carte-regions">
+        <!-- ===================== CARTOGRAPHIE DEMOGRAPHIQUE ===================== -->
+        <section class="carte-demographique-section py-24 bg-white relative overflow-hidden" id="demographie">
             <div class="container relative z-10 w-full max-w-7xl mx-auto px-4">
-                <div class="flex flex-col lg:flex-row items-center gap-12">
-                    <div class="lg:w-1/2 w-full text-center lg:text-left">
-                        <h2 class="text-4xl md:text-5xl font-black text-[#204138] mb-6 leading-tight">
-                            {{ __('Découvrez votre région') }}
-                        </h2>
-                        <p class="text-xl text-gray-600 mb-8 leading-relaxed">
-                            {{ __('Explorez les données statistiques et le déploiement des agents recenseurs dans les 10 régions du Cameroun via notre carte interactive. Survolez une région pour plus de détails.') }}
-                        </p>
-                        
-                        <div class="region-info-panel">
-                            <div v-if="hoveredRegionData" class="region-details">
-                                <h3 class="text-3xl font-black text-[#EDAF11] mb-6">{{ __(hoveredRegionData.name) }}</h3>
-                                <div class="grid grid-cols-2 gap-6">
-                                    <div>
-                                        <p class="text-sm text-gray-500 uppercase tracking-wider font-bold mb-1">{{ __('Population Estimée') }}</p>
-                                        <p class="text-2xl font-bold text-[#204138]">{{ hoveredRegionData.population.toLocaleString() }}</p>
-                                    </div>
-                                    <div>
-                                        <p class="text-sm text-gray-500 uppercase tracking-wider font-bold mb-1">{{ __('Agents Pilotes') }}</p>
-                                        <p class="text-2xl font-bold text-[#204138]">{{ hoveredRegionData.agents.toLocaleString() }}</p>
-                                    </div>
-                                    <div class="col-span-2 pt-4 border-t border-gray-100">
-                                        <p class="text-sm text-gray-500 uppercase tracking-wider font-bold mb-1">{{ __('Superficie') }}</p>
-                                        <p class="text-lg font-bold text-[#204138]">{{ hoveredRegionData.surface }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div v-else class="empty-state h-full flex flex-col items-center justify-center text-center opacity-50 py-10">
-                                <svg class="w-16 h-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
-                                <p class="text-lg font-semibold text-gray-400">{{ __('Survolez une région sur la carte') }}</p>
-                            </div>
+                <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+                    <!-- Image Colonne (Gauche) -->
+                    <div class="lg:w-1/2 w-full flex justify-center order-2 lg:order-1">
+                        <div class="map-image-container relative">
+                            <!-- Soft backdrop glow -->
+                            <div class="absolute inset-0 bg-gradient-to-tr from-[#2E6B5E]/5 to-[#EDAF11]/5 rounded-3xl blur-2xl pointer-events-none"></div>
+                            
+                            <!-- Main Map Image -->
+                            <img 
+                                src="/assets/images/accueil/map_pop_white_bg.jpg" 
+                                alt="Carte de la Population du Cameroun" 
+                                class="map-main-img relative z-10 rounded-2xl shadow-xl max-w-full h-auto transition-all duration-500 hover:scale-[1.03] hover:shadow-2xl"
+                            />
                         </div>
                     </div>
-                    <div class="lg:w-1/2 w-full lg:pl-16">
-                        <CarteInteractive 
-                            @region-hover="handleRegionHover"
-                            @region-leave="handleRegionLeave"
-                        />
+                    
+                    <!-- Contenu & Stats Colonne (Droite) -->
+                    <div class="lg:w-1/2 w-full order-1 lg:order-2">
+                        <div class="text-center lg:text-left mb-10">
+                            <span class="inline-block px-4 py-1.5 bg-[#2E6B5E]/10 text-[#2E6B5E] text-xs font-extrabold uppercase tracking-widest rounded-full mb-4">
+                                {{ __('Cartographie Démographique') }}
+                            </span>
+                            <h2 class="text-3xl md:text-4xl font-black text-[#204138] mb-6 leading-tight">
+                                {{ __('Une photographie précise de notre nation') }}
+                            </h2>
+                            <p class="text-base md:text-lg text-gray-600 leading-relaxed max-w-xl mx-auto lg:mx-0">
+                                {{ __("Le 4ème RGPH assure une couverture exhaustive de l'ensemble des 10 régions du Cameroun, permettant de recueillir des données précieuses pour planifier les infrastructures de demain.") }}
+                            </p>
+                        </div>
+                        
+                        <!-- Grid KPIs -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <!-- KPI 1: Régions -->
+                            <div class="kpi-card p-6 bg-gray-50/50 border border-gray-100 rounded-2xl hover:bg-white hover:shadow-xl hover:border-transparent transition-all duration-300 flex items-start gap-4">
+                                <div class="kpi-icon-wrapper p-3 bg-[#2E6B5E]/10 text-[#2E6B5E] rounded-xl">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="text-3xl font-black text-[#204138] mb-1">10</h4>
+                                    <p class="text-sm font-bold text-gray-500 uppercase tracking-wide">{{ __('Régions Administratives') }}</p>
+                                </div>
+                            </div>
+                            
+                            <!-- KPI 2: Départements -->
+                            <div class="kpi-card p-6 bg-gray-50/50 border border-gray-100 rounded-2xl hover:bg-white hover:shadow-xl hover:border-transparent transition-all duration-300 flex items-start gap-4">
+                                <div class="kpi-icon-wrapper p-3 bg-[#EDAF11]/10 text-[#EDAF11] rounded-xl">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="text-3xl font-black text-[#204138] mb-1">58</h4>
+                                    <p class="text-sm font-bold text-gray-500 uppercase tracking-wide">{{ __('Départements') }}</p>
+                                </div>
+                            </div>
+                            
+                            <!-- KPI 3: Arrondissements -->
+                            <div class="kpi-card p-6 bg-gray-50/50 border border-gray-100 rounded-2xl hover:bg-white hover:shadow-xl hover:border-transparent transition-all duration-300 flex items-start gap-4">
+                                <div class="kpi-icon-wrapper p-3 bg-[#2E6B5E]/10 text-[#2E6B5E] rounded-xl">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="text-3xl font-black text-[#204138] mb-1">360+</h4>
+                                    <p class="text-sm font-bold text-gray-500 uppercase tracking-wide">{{ __('Arrondissements') }}</p>
+                                </div>
+                            </div>
+                            
+                            <!-- KPI 4: Habitants ciblés -->
+                            <div class="kpi-card p-6 bg-gray-50/50 border border-gray-100 rounded-2xl hover:bg-white hover:shadow-xl hover:border-transparent transition-all duration-300 flex items-start gap-4">
+                                <div class="kpi-icon-wrapper p-3 bg-[#EDAF11]/10 text-[#EDAF11] rounded-xl">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="text-3xl font-black text-[#204138] mb-1">~30 M</h4>
+                                    <p class="text-sm font-bold text-gray-500 uppercase tracking-wide">{{ __('Habitants ciblés') }}</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <div class="absolute top-0 right-0 -mr-32 -mt-32 w-96 h-96 rounded-full bg-[#EDAF11]/5 blur-3xl z-0 pointer-events-none"></div>
-            <div class="absolute bottom-0 left-0 -ml-32 -mb-32 w-[500px] h-[500px] rounded-full bg-[#204138]/5 blur-3xl z-0 pointer-events-none"></div>
-        </section> -->
+            <!-- Background design elements -->
+            <div class="absolute top-0 left-0 w-64 h-64 rounded-full bg-[#2E6B5E]/5 blur-3xl pointer-events-none -translate-x-1/2 -translate-y-1/2"></div>
+            <div class="absolute bottom-0 right-0 w-80 h-80 rounded-full bg-[#EDAF11]/5 blur-3xl pointer-events-none translate-x-1/3 translate-y-1/3"></div>
+        </section>
 
         <!-- ===================== A LA UNE ===================== -->
         <section class="alaune-section" id="a-la-une" v-if="latestArticles && latestArticles.length > 0">
@@ -1017,6 +1065,38 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+.carte-demographique-section {
+    position: relative;
+    z-index: 10;
+}
+
+.map-image-container {
+    perspective: 1000px;
+    max-width: 480px;
+    width: 100%;
+}
+
+.map-main-img {
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease;
+}
+
+.kpi-card {
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.kpi-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(237, 175, 17, 0.2);
+}
+
+.kpi-icon-wrapper {
+    transition: transform 0.4s ease;
+}
+
+.kpi-card:hover .kpi-icon-wrapper {
+    transform: scale(1.1) rotate(5deg);
+}
+
 .cartographie-section {
     background-image: url('/assets/images/backgrounds/map-bg.jpg');
     background-size: cover;
