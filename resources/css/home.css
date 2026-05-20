@@ -126,7 +126,7 @@ body {
         display: flex !important;
     }
     .top-bar-inner {
-        justify-content: space-between;
+        justify-content: flex-end;
         padding: 4px 0;
     }
 }
@@ -158,86 +158,6 @@ body {
 .lang-pill:hover:not(.active) {
     color: white;
     background: rgba(255, 255, 255, 0.1);
-}
-
-/* Progress indicator in top bar */
-.header-progress {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-    color: white;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 6px 16px;
-    border-radius: var(--radius-pill);
-    transition: all 0.2s ease;
-}
-
-.header-progress:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-1px);
-}
-
-.h-progress-label {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-
-.h-progress-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #4ade80;
-    display: inline-block;
-    animation: pulse-dot 2s ease-in-out infinite;
-}
-
-.h-progress-bar-wrap {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.h-progress-bar-track {
-    width: 80px;
-    height: 4px;
-    background: rgba(255, 255, 255, 0.25);
-    border-radius: 99px;
-    overflow: hidden;
-}
-
-.h-progress-bar-fill {
-    height: 100%;
-    background: #4ade80;
-    border-radius: 99px;
-}
-
-.h-progress-pct {
-    font-weight: 800;
-    color: #4ade80;
-    font-size: 11px;
-}
-
-@media (max-width: 640px) {
-    .h-progress-label {
-        display: none;
-    }
-    .header-progress {
-        padding: 5px 12px;
-        gap: 6px;
-        background: rgba(255, 255, 255, 0.08);
-    }
-    .h-progress-bar-track {
-        width: 60px;
-    }
 }
 
 /* Barre principale */
@@ -482,10 +402,13 @@ body {
     text-align: right;
 }
 
-/* Mobile/Tablet : on cache complètement le dénombrement de la barre rouge et on l'affiche en haut */
-@media (max-width: 991px) {
-    .announce-progress {
-        display: none !important;
+/* Mobile : on cache le label texte, garde barre + % */
+@media (max-width: 640px) {
+    .announce-phase-label {
+        display: none;
+    }
+    .announce-bar-track {
+        width: 60px;
     }
 }
 
