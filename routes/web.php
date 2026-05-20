@@ -13,6 +13,7 @@ Route::get('/accueil', \App\Http\Controllers\AccueilController::class)->name('ac
 
 Route::get('/apropos', function () { return Inertia::render('Apropos'); });
 Route::get('/activites', function () { return Inertia::render('Activites'); });
+Route::get('/phototheque', function () { return Inertia::render('Phototheque'); })->name('phototheque');
 
 use App\Http\Controllers\ArticleController;
 Route::get('/actualites', [ArticleController::class, 'index'])->name('actualites.index');
