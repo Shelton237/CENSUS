@@ -6,6 +6,7 @@ const isMenuOpen = ref(false);
 const isSearchOpen = ref(false);
 const isSticky = ref(false);
 const searchQuery = ref('');
+const showProgressWidget = ref(false);
 
 const newsletterForm = useForm({
     email: '',
@@ -32,10 +33,22 @@ const submitSearch = () => {
     router.get('/recherche', { q: searchQuery.value });
 };
 
+const dismissWidget = () => {
+    showProgressWidget.value = false;
+    localStorage.setItem('census_progress_widget_dismissed', 'true');
+};
+
 onMounted(() => {
     window.addEventListener('scroll', () => {
         isSticky.value = window.scrollY > 60;
     });
+
+    const isDismissed = localStorage.getItem('census_progress_widget_dismissed');
+    if (!isDismissed) {
+        setTimeout(() => {
+            showProgressWidget.value = true;
+        }, 1500);
+    }
 });
 </script>
 
@@ -202,5 +215,64 @@ onMounted(() => {
                 </div>
             </div>
         </footer>
+
+        <!-- ===================== FLOATING PROGRESS WIDGET ===================== -->
+        <transition name="slide-fade">
+            <div v-if="showProgressWidget" class="fixed bottom-6 right-6 z-[9999] bg-white border border-gray-100 shadow-2xl p-5 rounded-2xl max-w-sm w-[330px] transition-all duration-300">
+                <!-- Close Button -->
+                <button @click="dismissWidget" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition-colors bg-transparent border-0 text-xl cursor-pointer font-light" aria-label="Fermer">&times;</button>
+
+                <!-- Icon & Title -->
+                <div class="flex items-center gap-2.5 mb-3">
+                    <div class="w-8 h-8 rounded-lg bg-[#295E4D]/10 flex items-center justify-center text-[#295E4D]">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                    </div>
+                    <span class="font-bold text-gray-900 text-sm tracking-tight">{{ __('Avancement du Recensement') }}</span>
+                </div>
+
+                <!-- Info -->
+                <div class="mb-3">
+                    <div class="flex justify-between items-baseline mb-1">
+                        <span class="text-[11px] font-bold text-[#295E4D] uppercase tracking-wider">{{ __('Dénombrement (En cours)') }}</span>
+                        <span class="text-[11px] font-extrabold text-[#295E4D]">60%</span>
+                    </div>
+                    <!-- Linear Progress Bar -->
+                    <div class="w-full bg-gray-100 rounded-full h-2 overflow-hidden">
+                        <div class="bg-[#295E4D] h-full rounded-full transition-all duration-1000" style="width: 60%;"></div>
+                    </div>
+                </div>
+
+                <!-- Text explanation -->
+                <p class="text-xs text-gray-600 leading-relaxed mb-4">
+                    {{ __('Nous sommes à la phase 3 sur 5 : la collecte de données sur le terrain à travers tout le pays. Reste 2 phases avant la publication.') }}
+                </p>
+
+                <!-- Actions -->
+                <div class="flex gap-2">
+                    <Link href="/activites" class="flex-1 text-center py-2 px-3 bg-[#295E4D] hover:bg-[#1E4539] text-white text-xs font-bold rounded-lg transition-all no-underline">
+                        {{ __('Détails de l\'étape') }}
+                    </Link>
+                    <button @click="dismissWidget" class="py-2 px-3 border border-gray-200 hover:bg-gray-50 text-gray-500 text-xs font-bold rounded-lg transition-all cursor-pointer bg-transparent">
+                        {{ __('Ignorer') }}
+                    </button>
+                </div>
+            </div>
+        </transition>
     </div>
 </template>
+
+<style scoped>
+.slide-fade-enter-active {
+  transition: all 0.4s ease-out;
+}
+.slide-fade-leave-active {
+  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateY(20px) scale(0.95);
+  opacity: 0;
+}
+</style>

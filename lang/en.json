@@ -329,5 +329,10 @@
     "Suivre les détails et statistiques en direct": "Follow live details and statistics",
     "Terminée": "Completed",
     "En cours": "Active",
-    "À venir": "Upcoming"
+    "À venir": "Upcoming",
+    "Avancement du Recensement": "Census Progress",
+    "Dénombrement (En cours)": "Enumeration (In Progress)",
+    "Nous sommes à la phase 3 sur 5 : la collecte de données sur le terrain à travers tout le pays. Reste 2 phases avant la publication.": "We are currently at stage 3 of 5: field data collection across the country. 2 stages left before publication.",
+    "Détails de l'étape": "Stage Details",
+    "Ignorer": "Dismiss"
 }
