@@ -376,8 +376,7 @@ const getRegionLabel = (region) => {
 const galleryPhotos = [
     { id: 2, driveId: '1oqwbSYvhZ8bz7XUu1jrnTYI6fRlTOknv', category: 'collecte', region: 'centre', caption: 'Collecte numérique auprès des ménages', date: '13 Mai 2026' },
     { id: 19, type: 'video', src: '/assets/images/phototheque/Après le Défilé à Moloundou Dernière arrondissement frontalier avec le Congo/WhatsApp Video 2026-05-20 at 13.03.125.mp4', category: 'evenement', region: 'est', caption: 'Célébration patriotique après le défilé à Moloundou', date: '20 Mai 2026' },
-    { id: 23, type: 'image', src: '/assets/images/phototheque/Baré bakem au défil/WhatsApp Image 2026-05-20 at 13.03.16.jpeg', category: 'evenement', region: 'littoral', caption: 'Équipe du RGPH au défilé officiel de Baré-Bakem', date: '20 Mai 2026' },
-    { id: 32, type: 'video', src: '/assets/images/phototheque/Journée de sensibilisation au stade de TOKET pour le défilé du 20 Mai la célébration de la fête de l\'unité nationale à bafoussam/WhatsApp Video 2026-05-20 at 13.03.12.mp4', category: 'sensibilisation', region: 'ouest', caption: 'Ambiance et ferveur patriotique au stade Toket pour le RGPH', date: '20 Mai 2026' }
+    { id: 23, type: 'image', src: '/assets/images/phototheque/Baré bakem au défil/WhatsApp Image 2026-05-20 at 13.03.16.jpeg', category: 'evenement', region: 'littoral', caption: 'Équipe du RGPH au défilé officiel de Baré-Bakem', date: '20 Mai 2026' }
 ];
 
 const openLightbox = (photo) => {
@@ -763,9 +762,6 @@ onUnmounted(() => {
                     <h2 class="text-3xl md:text-5xl font-black text-[#204138] leading-tight mb-4">
                         {{ __('Découvrez nos équipes sur le terrain') }}
                     </h2>
-                    <p class="text-gray-600 text-lg">
-                        {{ __('Vivez en images les différentes étapes du Recensement Général de la Population et de l\'Habitat (RGPH). De la sensibilisation à la collecte finale.') }}
-                    </p>
                 </div>
 
                 <!-- Grille de Photos (Teaser) -->
