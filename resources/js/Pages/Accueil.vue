@@ -425,11 +425,31 @@ onUnmounted(() => {
     </Head>
 
     <MainLayout>
-        <!-- ===================== ANNONCE URGENTE ===================== -->
+        <!-- ===================== BARRE D'ANNONCE + PROGRESSION ===================== -->
         <div class="announcement-bar" id="announcement-bar">
-            <div class="scrolling-text">
-                <span v-html="__('Annonce défilement')"></span>
+            <!-- Gauche : texte défilant -->
+            <div class="announce-left">
+                <div class="scrolling-text">
+                    <span v-html="__('Annonce défilement')"></span>
+                </div>
             </div>
+
+            <!-- Droite : indicateur de progression compact -->
+            <Link href="/activites" class="announce-progress" id="announce-progress-link">
+                <!-- Étiquette phase -->
+                <span class="announce-phase-label">
+                    <span class="announce-phase-dot"></span>
+                    {{ __('Phase 3/5') }} — {{ __('Dénombrement') }}
+                </span>
+
+                <!-- Barre + pourcentage -->
+                <span class="announce-bar-wrap">
+                    <span class="announce-bar-track">
+                        <span class="announce-bar-fill" style="width: 60%;"></span>
+                    </span>
+                    <span class="announce-pct">60%</span>
+                </span>
+            </Link>
         </div>
 
         <!-- ===================== HERO SLIDER ===================== -->
