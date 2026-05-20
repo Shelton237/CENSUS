@@ -345,33 +345,44 @@ const activeGalleryTab = ref('all');
 const visiblePhotosCount = ref(6);
 const activeLightboxIndex = ref(null);
 
-const galleryTabs = [
+const galleryTabs = computed(() => [
     { id: 'all', label: __('Tout') },
     { id: 'collecte', label: __('Collecte') },
     { id: 'sensibilisation', label: __('Sensibilisation') },
     { id: 'formation', label: __('Formations') },
     { id: 'supervision', label: __('Supervision') }
-];
+]);
+
+const getCategoryLabel = (category) => {
+    const map = {
+        'collecte': 'Collecte',
+        'sensibilisation': 'Sensibilisation',
+        'formation': 'Formations',
+        'supervision': 'Supervision'
+    };
+    const key = map[category] || category;
+    return __(key);
+};
 
 const galleryPhotos = [
-    { id: 1, driveId: '1FWtGiJvEm0qcSSZARSjlhNW9KPzWWORP', category: 'sensibilisation', caption: __('Sensibilisation des communautés locales'), date: '13 Mai 2026' },
-    { id: 2, driveId: '1oqwbSYvhZ8bz7XUu1jrnTYI6fRlTOknv', category: 'collecte', caption: __('Collecte numérique auprès des ménages'), date: '13 Mai 2026' },
-    { id: 3, driveId: '1oTJAEN1sH2PVTvQGwv7cvKjYWvQatCNh', category: 'collecte', caption: __('Enregistrement des données sur le terrain'), date: '13 Mai 2026' },
-    { id: 4, driveId: '1oKrXVGw5kMrlikCOUVHD4T-Ne3Lc-Lzm', category: 'supervision', caption: __('Briefing quotidien de l\'équipe de supervision'), date: '13 Mai 2026' },
-    { id: 5, driveId: '1vS22wToWoNEmm9NlRHibyJmiLe-A1VrG', category: 'collecte', caption: __('Déploiement des agents recenseurs dans les ménages'), date: '14 Mai 2026' },
-    { id: 6, driveId: '13VVf3MGzXC8Lby_UHlm7Br8OcxjuQ37w', category: 'collecte', caption: __('Entretien avec les chefs de familles'), date: '14 Mai 2026' },
-    { id: 7, driveId: '1puNrSajizGJ2oOmWKQ7-eon4KNXVpKJ2', category: 'sensibilisation', caption: __('Explications des objectifs du dénombrement'), date: '14 Mai 2026' },
-    { id: 8, driveId: '1WHyeqhOu0iOyjT_R4nWLPUswEA_KYgU2', category: 'formation', caption: __('Atelier pratique d\'utilisation des tablettes'), date: '14 Mai 2026' },
-    { id: 9, driveId: '1zk353AM9DgpgiMtd7LR44g2Gy-ELJ3Mk', category: 'sensibilisation', caption: __('Campagne de communication de proximité'), date: '14 Mai 2026' },
-    { id: 10, driveId: '13fNVmJSjE9A5rMKDDtvUyeXZ7h5yk0kV', category: 'supervision', caption: __('Réunion technique des superviseurs de zone'), date: '14 Mai 2026' },
-    { id: 11, driveId: '1IDlgsOi72Bm1cO0NQ2xtDPOF8xWlWu4y', category: 'collecte', caption: __('Vérification de la couverture géographique'), date: '14 Mai 2026' },
-    { id: 12, driveId: '1RbGNNSREOMiIQQJKBh-7WRSfZuwj-uy7', category: 'formation', caption: __('Session de renforcement des capacités'), date: '14 Mai 2026' },
-    { id: 13, driveId: '1sEDX69lTRGMNwPv37muBo7puTjz2VPIl', category: 'collecte', caption: __('Suivi cartographique en temps réel'), date: '14 Mai 2026' },
-    { id: 14, driveId: '1O9VHYAmab0v6_z8PK6XpwYo-txYYmjwq', category: 'sensibilisation', caption: __('Échanges constructifs avec la population'), date: '14 Mai 2026' },
-    { id: 15, driveId: '1tgenkvIt9EHzUgjT6-XToZd5kz_lxn3O', category: 'supervision', caption: __('Point d\'avancement des équipes de collecte'), date: '14 Mai 2026' },
-    { id: 16, driveId: '1kx0OSmB7TlaafL2zBs7VT6cWCJbENeXJ', category: 'collecte', caption: __('Saisie rigoureuse des formulaires statistiques'), date: '15 Mai 2026' },
-    { id: 17, driveId: '1HuDKPkvYxixYgZ8XlQoGhXl7h283Cyt1', category: 'formation', caption: __('Instruction pratique sur le terrain'), date: '15 Mai 2026' },
-    { id: 18, driveId: '1JJiiX3diLNbAusdP1rbZ59ymGj4vyv8Z', category: 'collecte', caption: __('Validation finale des questionnaires d\'enquête'), date: '15 Mai 2026' }
+    { id: 1, driveId: '1FWtGiJvEm0qcSSZARSjlhNW9KPzWWORP', category: 'sensibilisation', caption: 'Sensibilisation des communautés locales', date: '13 Mai 2026' },
+    { id: 2, driveId: '1oqwbSYvhZ8bz7XUu1jrnTYI6fRlTOknv', category: 'collecte', caption: 'Collecte numérique auprès des ménages', date: '13 Mai 2026' },
+    { id: 3, driveId: '1oTJAEN1sH2PVTvQGwv7cvKjYWvQatCNh', category: 'collecte', caption: 'Enregistrement des données sur le terrain', date: '13 Mai 2026' },
+    { id: 4, driveId: '1oKrXVGw5kMrlikCOUVHD4T-Ne3Lc-Lzm', category: 'supervision', caption: 'Briefing quotidien de l\'équipe de supervision', date: '13 Mai 2026' },
+    { id: 5, driveId: '1vS22wToWoNEmm9NlRHibyJmiLe-A1VrG', category: 'collecte', caption: 'Déploiement des agents recenseurs dans les ménages', date: '14 Mai 2026' },
+    { id: 6, driveId: '13VVf3MGzXC8Lby_UHlm7Br8OcxjuQ37w', category: 'collecte', caption: 'Entretien avec les chefs de familles', date: '14 Mai 2026' },
+    { id: 7, driveId: '1puNrSajizGJ2oOmWKQ7-eon4KNXVpKJ2', category: 'sensibilisation', caption: 'Explications des objectifs du dénombrement', date: '14 Mai 2026' },
+    { id: 8, driveId: '1WHyeqhOu0iOyjT_R4nWLPUswEA_KYgU2', category: 'formation', caption: 'Atelier pratique d\'utilisation des tablettes', date: '14 Mai 2026' },
+    { id: 9, driveId: '1zk353AM9DgpgiMtd7LR44g2Gy-ELJ3Mk', category: 'sensibilisation', caption: 'Campagne de communication de proximité', date: '14 Mai 2026' },
+    { id: 10, driveId: '13fNVmJSjE9A5rMKDDtvUyeXZ7h5yk0kV', category: 'supervision', caption: 'Réunion technique des superviseurs de zone', date: '14 Mai 2026' },
+    { id: 11, driveId: '1IDlgsOi72Bm1cO0NQ2xtDPOF8xWlWu4y', category: 'collecte', caption: 'Vérification de la couverture géographique', date: '14 Mai 2026' },
+    { id: 12, driveId: '1RbGNNSREOMiIQQJKBh-7WRSfZuwj-uy7', category: 'formation', caption: 'Session de renforcement des capacités', date: '14 Mai 2026' },
+    { id: 13, driveId: '1sEDX69lTRGMNwPv37muBo7puTjz2VPIl', category: 'collecte', caption: 'Suivi cartographique en temps réel', date: '14 Mai 2026' },
+    { id: 14, driveId: '1O9VHYAmab0v6_z8PK6XpwYo-txYYmjwq', category: 'sensibilisation', caption: 'Échanges constructifs avec la population', date: '14 Mai 2026' },
+    { id: 15, driveId: '1tgenkvIt9EHzUgjT6-XToZd5kz_lxn3O', category: 'supervision', caption: 'Point d\'avancement des équipes de collecte', date: '14 Mai 2026' },
+    { id: 16, driveId: '1kx0OSmB7TlaafL2zBs7VT6cWCJbENeXJ', category: 'collecte', caption: 'Saisie rigoureuse des formulaires statistiques', date: '15 Mai 2026' },
+    { id: 17, driveId: '1HuDKPkvYxixYgZ8XlQoGhXl7h283Cyt1', category: 'formation', caption: 'Instruction pratique sur le terrain', date: '15 Mai 2026' },
+    { id: 18, driveId: '1JJiiX3diLNbAusdP1rbZ59ymGj4vyv8Z', category: 'collecte', caption: 'Validation finale des questionnaires d\'enquête', date: '15 Mai 2026' }
 ];
 
 const filteredGalleryPhotos = computed(() => {
@@ -767,14 +778,14 @@ onUnmounted(() => {
                         <div class="gallery-img-wrapper">
                             <img 
                                 :src="`https://drive.google.com/thumbnail?id=${photo.driveId}&sz=w800`" 
-                                :alt="photo.caption"
+                                :alt="__(photo.caption)"
                                 class="gallery-img"
                                 loading="lazy"
                             />
                             <div class="gallery-card-overlay">
-                                <span class="gallery-card-category">{{ __(photo.category) }}</span>
-                                <h3 class="gallery-card-title">{{ photo.caption }}</h3>
-                                <span class="gallery-card-date">{{ photo.date }}</span>
+                                <span class="gallery-card-category">{{ getCategoryLabel(photo.category) }}</span>
+                                <h3 class="gallery-card-title">{{ __(photo.caption) }}</h3>
+                                <span class="gallery-card-date">{{ __(photo.date) }}</span>
                             </div>
                             <div class="gallery-card-icon">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -822,7 +833,7 @@ onUnmounted(() => {
                     <div class="lightbox-img-container">
                         <img 
                             :src="`https://drive.google.com/thumbnail?id=${galleryPhotos[activeLightboxIndex].driveId}&sz=w1000`" 
-                            :alt="galleryPhotos[activeLightboxIndex].caption"
+                            :alt="__(galleryPhotos[activeLightboxIndex].caption)"
                             class="lightbox-img"
                         />
                     </div>
@@ -836,9 +847,9 @@ onUnmounted(() => {
 
                     <!-- Infos Image -->
                     <div class="lightbox-info">
-                        <span class="lightbox-category">{{ __(galleryPhotos[activeLightboxIndex].category) }}</span>
-                        <h3 class="lightbox-title">{{ galleryPhotos[activeLightboxIndex].caption }}</h3>
-                        <span class="lightbox-date">{{ galleryPhotos[activeLightboxIndex].date }}</span>
+                        <span class="lightbox-category">{{ getCategoryLabel(galleryPhotos[activeLightboxIndex].category) }}</span>
+                        <h3 class="lightbox-title">{{ __(galleryPhotos[activeLightboxIndex].caption) }}</h3>
+                        <span class="lightbox-date">{{ __(galleryPhotos[activeLightboxIndex].date) }}</span>
                     </div>
                 </div>
             </div>
