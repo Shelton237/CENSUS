@@ -499,60 +499,133 @@ onUnmounted(() => {
                     <p>{{ __('Consultez les étapes') }}</p>
                 </div>
 
-                <div class="timeline-wrapper">
+                <!-- Légende Professionnelle des Statuts -->
+                <div class="flex flex-wrap items-center justify-center gap-6 mb-8 mt-2 select-none">
+                    <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-gray-500 bg-white px-3 py-1.5 rounded-full border border-gray-100 shadow-sm">
+                        <span class="w-3 h-3 rounded-full bg-[#2E9146] flex items-center justify-center">
+                            <svg class="w-2 h-2 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                        </span>
+                        <span>{{ __('Terminée') }}</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-gray-500 bg-white px-3 py-1.5 rounded-full border border-gray-100 shadow-sm">
+                        <span class="w-3 h-3 rounded-full bg-[#F1A502] relative flex">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F1A502] opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3 bg-[#F1A502]"></span>
+                        </span>
+                        <span>{{ __('En cours') }}</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-gray-500 bg-white px-3 py-1.5 rounded-full border border-gray-100 shadow-sm">
+                        <span class="w-3 h-3 rounded-full border-2 border-gray-300 bg-gray-100"></span>
+                        <span>{{ __('À venir') }}</span>
+                    </div>
+                </div>
+
+                <div class="timeline-wrapper p-6 bg-white border border-gray-100 rounded-3xl shadow-sm">
                     <div class="timeline-row">
-                        <div class="tl-endpoint tl-start">
+                        <!-- Début -->
+                        <div class="tl-endpoint tl-start select-none">
                             <span>{{ __('Début du') }}<br>{{ __('processus') }}</span>
                         </div>
-                        <div class="tl-phase completed">
-                            <div class="tl-box">
-                                <span class="tl-title">{{ __('Cartographie') }}</span>
-                                <span class="tl-desc">{{ __('Cartographie desc') }}</span>
+
+                        <!-- Phase 1: Conception (completed) -->
+                        <div class="tl-phase completed cursor-pointer group" @click="$inertia.visit('/activites')">
+                            <!-- Box with Icon & Name -->
+                            <div class="tl-box flex flex-col items-center justify-center gap-2 py-3 px-2">
+                                <svg class="w-5 h-5 opacity-90 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                                <span class="tl-title">{{ __('Conception') }}</span>
+                                <span class="tl-desc">{{ __('Phase Préparatoire') }}</span>
                             </div>
                         </div>
-                        <div class="tl-phase active">
+
+                        <!-- Phase 2: Cartographie (completed) -->
+                        <div class="tl-phase completed cursor-pointer group" @click="$inertia.visit('/activites')">
+                            <!-- Box with Icon & Name -->
+                            <div class="tl-box flex flex-col items-center justify-center gap-2 py-3 px-2">
+                                <svg class="w-5 h-5 opacity-90 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
+                                </svg>
+                                <span class="tl-title">{{ __('Cartographie') }}</span>
+                                <span class="tl-desc">{{ __('Découpage SIG') }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Phase 3: Dénombrement (active) -->
+                        <div class="tl-phase active cursor-pointer group" @click="$inertia.visit('/activites')">
+                            <!-- Badge "Nous sommes ici" -->
                             <div class="tl-now-marker">
                                 <span>{{ __('Nous sommes ici') }}</span>
-                                <svg width="22" height="30" viewBox="0 0 22 30" fill="none">
+                                <svg width="20" height="28" viewBox="0 0 22 30" fill="none">
                                     <path d="M11 0C4.925 0 0 4.925 0 11C0 19.25 11 30 11 30C11 30 22 19.25 22 11C22 4.925 17.075 0 11 0Z" fill="#2E6B5E"/>
                                     <circle cx="11" cy="11" r="5" fill="#E8AA00"/>
                                 </svg>
                             </div>
-                            <div class="tl-box">
-                                <span class="tl-title">{{ __('Recensement Pilote') }}</span>
-                                <span class="tl-desc">{{ __('Recensement Pilote desc') }}</span>
+                            <!-- Box with Icon & Name -->
+                            <div class="tl-box flex flex-col items-center justify-center gap-2 py-3 px-2">
+                                <svg class="w-5 h-5 opacity-90 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                </svg>
+                                <span class="tl-title">{{ __('Dénombrement') }}</span>
+                                <span class="tl-desc">{{ __('Collecte terrain') }}</span>
                             </div>
                         </div>
-                        <div class="tl-phase upcoming">
-                            <div class="tl-box">
-                                <span class="tl-title">{{ __('Dénombrement National') }}</span>
-                                <span class="tl-desc">{{ __('Dénombrement National desc') }}</span>
+
+                        <!-- Phase 4: Saisie des données (upcoming) -->
+                        <div class="tl-phase upcoming cursor-pointer group" @click="$inertia.visit('/activites')">
+                            <!-- Box with Icon & Name -->
+                            <div class="tl-box flex flex-col items-center justify-center gap-2 py-3 px-2">
+                                <svg class="w-5 h-5 opacity-90 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/>
+                                </svg>
+                                <span class="tl-title">{{ __('Saisie des données') }}</span>
+                                <span class="tl-desc">{{ __('Apurement & Contrôle') }}</span>
                             </div>
                         </div>
-                        <div class="tl-phase upcoming">
-                            <div class="tl-box">
-                                <span class="tl-title">{{ __('Analyse et Publication') }}</span>
-                                <span class="tl-desc">{{ __('Analyse et Publication desc') }}</span>
+
+                        <!-- Phase 5: Publication (upcoming) -->
+                        <div class="tl-phase upcoming cursor-pointer group" @click="$inertia.visit('/activites')">
+                            <!-- Box with Icon & Name -->
+                            <div class="tl-box flex flex-col items-center justify-center gap-2 py-3 px-2">
+                                <svg class="w-5 h-5 opacity-90 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                                </svg>
+                                <span class="tl-title">{{ __('Publication') }}</span>
+                                <span class="tl-desc">{{ __('Diffusion des résultats') }}</span>
                             </div>
                         </div>
-                        <div class="tl-endpoint tl-end">
+
+                        <!-- Fin -->
+                        <div class="tl-endpoint tl-end select-none">
                             <span>{{ __('Fin du') }}<br>{{ __('processus') }}</span>
                         </div>
                     </div>
 
                     <div class="tl-axis-global">
-                        <div class="tl-axis-line"></div>
+                        <!-- Ligne d'axe -->
+                        <div class="tl-axis-line" style="top: 104px;"></div>
 
                         <!-- Années -->
-                        <div class="tl-years-row">
+                        <div class="tl-years-row" style="margin-top: 40px;">
                             <div></div>
                             <span class="tl-year">2024</span>
                             <span class="tl-year">2025</span>
                             <span class="tl-year">2026</span>
                             <span class="tl-year">2027</span>
+                            <span class="tl-year">2027</span>
                             <div></div>
                         </div>
                     </div>
+                </div>
+
+                <!-- Bouton d'action vers la page dédiée -->
+                <div class="flex justify-center mt-10">
+                    <Link href="/activites" class="group inline-flex items-center gap-3 px-8 py-4 bg-[#295E4D] hover:bg-[#1E4539] text-white font-bold rounded-full transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 no-underline">
+                        <span>{{ __('Suivre les détails et statistiques en direct') }}</span>
+                        <svg class="w-5 h-5 text-white transition-transform duration-300 group-hover:translate-x-1.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>
+                        </svg>
+                    </Link>
                 </div>
             </div>
         </section>
