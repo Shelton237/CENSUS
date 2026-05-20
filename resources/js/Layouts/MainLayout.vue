@@ -56,6 +56,20 @@ onMounted(() => {
                         </div>
                     </div>
                     
+                    <!-- Progress Bar in Top Bar -->
+                    <Link href="/activites" class="header-progress" id="header-progress-indicator">
+                        <span class="h-progress-label">
+                            <span class="h-progress-dot"></span>
+                            {{ __('Phase 3/5') }} — {{ __('Dénombrement') }}
+                        </span>
+                        <div class="h-progress-bar-wrap">
+                            <div class="h-progress-bar-track">
+                                <div class="h-progress-bar-fill" style="width: 60%;"></div>
+                            </div>
+                            <span class="h-progress-pct">60%</span>
+                        </div>
+                    </Link>
+                    
                     <div class="lang-switcher">
                         <Link :href="route('set-locale', { locale: 'fr' })" class="lang-pill" :class="{ active: $page.props.locale === 'fr' }">FR</Link>
                         <Link :href="route('set-locale', { locale: 'en' })" class="lang-pill" :class="{ active: $page.props.locale === 'en' }">ENG</Link>
