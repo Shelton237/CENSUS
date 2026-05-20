@@ -43,19 +43,11 @@ onMounted(() => {
     <div class="min-h-screen">
         <!-- ===================== HEADER ===================== -->
         <header class="main-header" :class="{ 'sticky-active': isSticky }" id="main-header">
-            <!-- Top bar : Sélecteur de langue -->
+            <!-- Top bar : Logo + Titre + Sélecteur de langue -->
             <div class="top-bar">
                 <div class="container top-bar-inner">
-                    <div class="lang-switcher">
-                        <Link :href="route('set-locale', { locale: 'fr' })" class="lang-pill" :class="{ active: $page.props.locale === 'fr' }">FR</Link>
-                        <Link :href="route('set-locale', { locale: 'en' })" class="lang-pill" :class="{ active: $page.props.locale === 'en' }">ENG</Link>
-                    </div>
-                </div>
-            </div>
-            <!-- Barre principale : Logo + Nav + Search -->
-            <div class="main-bar">
-                <div class="container main-bar-inner">
-                    <div class="header-logos">
+                    <!-- Brand block visible uniquement sur grand écran (Desktop) -->
+                    <div class="header-logos desktop-only-brand">
                         <img src="/assets/images/logo-rgae.jpg" alt="Logo RGAE" class="h-logo rounded-full">
                         <img src="/assets/images/logo-rgph.png" alt="Logo RGPH" class="h-logo">
                         <div class="header-title-block">
@@ -63,6 +55,26 @@ onMounted(() => {
                             <span class="header-subtitle">{{ __('Recensement Général de l\'Agriculture et de l\'Élevage') }}</span>
                         </div>
                     </div>
+                    
+                    <div class="lang-switcher">
+                        <Link :href="route('set-locale', { locale: 'fr' })" class="lang-pill" :class="{ active: $page.props.locale === 'fr' }">FR</Link>
+                        <Link :href="route('set-locale', { locale: 'en' })" class="lang-pill" :class="{ active: $page.props.locale === 'en' }">ENG</Link>
+                    </div>
+                </div>
+            </div>
+            <!-- Barre principale : Menu en dessous -->
+            <div class="main-bar">
+                <div class="container main-bar-inner">
+                    <!-- Brand block visible uniquement sur mobile/tablette -->
+                    <div class="header-logos mobile-only-brand">
+                        <img src="/assets/images/logo-rgae.jpg" alt="Logo RGAE" class="h-logo rounded-full">
+                        <img src="/assets/images/logo-rgph.png" alt="Logo RGPH" class="h-logo">
+                        <div class="header-title-block">
+                            <span class="header-title">{{ __('Recensement Général de la Population et de l\'Habitat') }}</span>
+                            <span class="header-subtitle">{{ __('Recensement Général de l\'Agriculture et de l\'Élevage') }}</span>
+                        </div>
+                    </div>
+
                     <nav class="main-nav" :class="{ 'active': isMenuOpen }" id="main-nav">
                         <ul>
                             <li><Link href="/accueil" class="nav-link" :class="{ active: $page.component === 'Accueil' }">{{ __('Accueil') }}</Link></li>

@@ -77,19 +77,58 @@ body {
     background-color: rgba(41, 94, 77, 0.96);
     backdrop-filter: blur(12px);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-    padding: 2px 0;
-    /* Un peu plus compact au scroll */
 }
 
-/* Top bar : langue */
-.top-bar {
+.main-header.sticky-active .top-bar {
+    padding: 10px 0;
+}
+
+.main-header.sticky-active .h-logo {
+    height: 52px;
+}
+
+.main-header.sticky-active .header-title,
+.main-header.sticky-active .header-subtitle {
+    font-size: 13px;
+}
+
+.main-header.sticky-active .main-bar {
     padding: 8px 0;
+    background-color: rgba(0, 0, 0, 0.22);
+}
+
+/* Top bar : langue et marque */
+.top-bar {
+    padding: 16px 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    transition: padding 0.3s ease;
 }
 
 .top-bar-inner {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.desktop-only-brand {
+    display: flex !important;
+}
+
+.mobile-only-brand {
+    display: none !important;
+}
+
+@media (max-width: 1200px) {
+    .desktop-only-brand {
+        display: none !important;
+    }
+    .mobile-only-brand {
+        display: flex !important;
+    }
+    .top-bar-inner {
+        justify-content: flex-end;
+        padding: 4px 0;
+    }
 }
 
 .lang-switcher {
@@ -103,7 +142,6 @@ body {
 .lang-pill {
     font-family: 'Outfit', sans-serif;
     font-size: 13px;
-    /* Augmenté (était 12px) */
     font-weight: 700;
     padding: 6px 20px;
     border-radius: var(--radius-pill);
@@ -124,51 +162,54 @@ body {
 
 /* Barre principale */
 .main-bar {
-    padding: 18px 0;
+    padding: 12px 0;
+    background-color: rgba(0, 0, 0, 0.14); /* Distinction de bande de navigation premium */
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    transition: padding 0.3s ease, background-color 0.3s ease;
 }
 
 .main-bar-inner {
     display: flex;
-    justify-content: space-between;
+    justify-content: center; /* Menu centré sur desktop pour harmonie visuelle */
     align-items: center;
 }
 
 .header-logos {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 16px;
 }
 
 .h-logo {
-    height: 64px;
-    /* Agrandissement encore plus marqué */
+    height: 84px; /* Augmenté de 64px à 84px pour haute visibilité institutionnelle */
     width: auto;
     object-fit: contain;
+    transition: height 0.3s ease;
 }
 
 .header-title-block {
     display: flex;
     flex-direction: column;
-    margin-left: 8px;
-    border-left: 1px solid rgba(255, 255, 255, 0.2);
-    padding-left: 14px;
+    margin-left: 10px;
+    border-left: 2px solid rgba(255, 255, 255, 0.22);
+    padding-left: 16px;
 }
 
 .header-title {
     color: white;
-    font-size: 15px;
+    font-size: 16.5px; /* Un peu plus grand et plus affirmé */
     font-weight: 900;
-    line-height: 1.15;
-    letter-spacing: 0.2px;
+    line-height: 1.2;
+    letter-spacing: 0.3px;
     text-transform: uppercase;
 }
 
 .header-subtitle {
     color: rgba(255, 255, 255, 0.95);
-    font-size: 15px;
-    line-height: 1.15;
+    font-size: 16.5px;
+    line-height: 1.2;
     font-weight: 900;
-    margin-top: 2px;
+    margin-top: 3px;
     text-transform: uppercase;
 }
 
