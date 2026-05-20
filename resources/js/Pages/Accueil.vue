@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted, computed } from 'vue';
 import MainLayout from '@/Layouts/MainLayout.vue';
-import { Link, Head } from '@inertiajs/vue3';
+import { Link, Head, usePage } from '@inertiajs/vue3';
 import PartenaireCarousel from '@/Components/PartenaireCarousel.vue';
 import FaqSection from '@/Components/FaqSection.vue';
 import CarteInteractive from '@/Components/CarteInteractive.vue';
@@ -13,6 +13,11 @@ const props = defineProps({
     stats: Object,
     socialPosts: Array
 });
+
+const page = usePage();
+const __ = (key) => {
+    return page.props.translations?.[key] || key;
+};
 
 const simulatedTweets = computed(() => {
     const xPosts = props.socialPosts ? props.socialPosts.filter(p => p.platform === 'x') : [];
