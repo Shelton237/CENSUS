@@ -262,6 +262,19 @@ import { Link, Head } from '@inertiajs/vue3';
                                 </li>
                             </ul>
                         </div>
+
+                        <!-- National Coverage Visual Card -->
+                        <div class="sidebar-card sidebar-map-card mt-6">
+                            <div class="sidebar-map-img-wrap">
+                                <img src="/assets/images/backgrounds/cameroon_people_map.png" alt="Cameroon National Map" class="sidebar-map-img" loading="lazy">
+                                <div class="sidebar-map-overlay"></div>
+                                <span class="sidebar-map-badge">{{ __('Couverture Nationale') }}</span>
+                            </div>
+                            <div class="sidebar-map-body">
+                                <h4 class="sidebar-map-title">{{ __('Chaque citoyen compte') }}</h4>
+                                <p class="sidebar-map-desc">{{ __('Des savanes du Grand Nord aux forêts équatoriales du Sud, le 4ème RGPH unit et cartographie toutes les populations du Cameroun.') }}</p>
+                            </div>
+                        </div>
                     </aside>
 
                 </div>
@@ -486,6 +499,76 @@ import { Link, Head } from '@inertiajs/vue3';
     color: #6b7280;
     line-height: 1.6;
     margin: 0;
+}
+
+/* Sidebar National Map Card */
+.sidebar-map-card {
+    padding: 0 !important;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border-radius: 1rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+.sidebar-map-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(32, 65, 56, 0.12);
+}
+.sidebar-map-img-wrap {
+    position: relative;
+    width: 100%;
+    height: 180px;
+    background-color: #f3f4f6;
+    overflow: hidden;
+}
+.sidebar-map-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+.sidebar-map-card:hover .sidebar-map-img {
+    transform: scale(1.05);
+}
+.sidebar-map-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 30%, rgba(32, 65, 56, 0.9) 100%);
+}
+.sidebar-map-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background-color: #EDAF11;
+    color: #ffffff;
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.25rem 0.6rem;
+    border-radius: 9999px;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+.sidebar-map-body {
+    padding: 1.25rem;
+    background: #ffffff;
+}
+.sidebar-map-title {
+    font-weight: 800;
+    font-size: 1rem;
+    color: #204138;
+    margin: 0 0 0.5rem 0;
+    text-align: left;
+}
+.sidebar-map-desc {
+    font-size: 0.8rem;
+    color: #4b5563;
+    line-height: 1.5;
+    margin: 0;
+    text-align: left;
 }
 
 /* Mobile responsive adjustments */

@@ -75,6 +75,13 @@ const simulatedTweets = computed(() => {
 const activeSlide = ref(0);
 const slides = [
     { 
+        image: '/assets/images/backgrounds/cameroon_people_map.png', 
+        title: 'Le 4ème RGPH : Notre affaire à tous', 
+        text: 'Une cartographie et un dénombrement modernes pour bâtir l\'avenir du Cameroun ensemble. Chaque citoyen compte.',
+        cta: 'En savoir plus',
+        link: '/apropos'
+    },
+    { 
         image: '/assets/images/slides/phase_prepa.jpg', 
         title: 'Bâtissons l\'avenir de notre nation', 
         text: 'Le 4ème Recensement Général de la Population et de l\'Habitat est une étape cruciale pour le développement du Cameroun.',
