@@ -1,8 +1,119 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import MainLayout from '@/Layouts/MainLayout.vue';
-import { Link, Head } from '@inertiajs/vue3';
+import { Link, Head, usePage } from '@inertiajs/vue3';
+
+const page = usePage();
+const __ = (key) => {
+    return page.props.translations?.[key] || key;
+};
+
+const currentLocale = computed(() => page.props.locale || 'fr');
+
+const activeTab = ref('definition'); // definition, legal, methodology, calendar, organisation
+
+// --- Données Cadre Légal ---
+const legalDocuments = [
+    {
+        title: {
+            fr: 'Loi N°91/023 du 16 décembre 1991',
+            en: 'Law N°91/023 of December 16, 1991'
+        },
+        subtitle: {
+            fr: 'Relative aux recensements et enquêtes statistiques',
+            en: 'Relating to censuses and statistical surveys'
+        },
+        desc: {
+            fr: 'Cette loi pose le fondement juridique de la statistique officielle au Cameroun. Elle stipule l\'obligation de répondre aux questionnaires officiels et garantit la confidentialité absolue des données individuelles recueillies (secret statistique).',
+            en: 'This law establishes the legal foundation for official statistics in Cameroon. It mandates responding to official questionnaires and guarantees absolute confidentiality of individual data collected (statistical secrecy).'
+        },
+        ref: 'Loi N°91/023'
+    },
+    {
+        title: {
+            fr: 'Décret Présidentiel N°2015/397 du 15 septembre 2015',
+            en: 'Presidential Decree N°2015/397 of September 15, 2015'
+        },
+        subtitle: {
+            fr: 'Institution du 4e Recensement Général de la Population (RGPH)',
+            en: 'Institution of the 4th General Population Census (GPHC)'
+        },
+        desc: {
+            fr: 'Décret portant organisation du 4ème RGPH du Cameroun, définissant ses objectifs de planification et désignant le Bureau Central des Recensements (BUCREP) comme le maître d\'œuvre technique officiel sous la tutelle du MINEPAT.',
+            en: 'Decree organizing the 4th GPHC of Cameroon, defining its planning objectives and designating the Central Bureau of Censuses (BUCREP) as the official technical executor under MINEPAT oversight.'
+        },
+        ref: 'Décret N°2015/397'
+    },
+    {
+        title: {
+            fr: 'Décret Présidentiel N°2015/292 du 29 juin 2015',
+            en: 'Presidential Decree N°2015/292 of June 29, 2015'
+        },
+        subtitle: {
+            fr: 'Institution du Recensement Général de l\'Agriculture (RGAE)',
+            en: 'Institution of the General Agriculture Census (GALC)'
+        },
+        desc: {
+            fr: 'Ce décret instaure le recensement national agricole et de l\'élevage afin de disposer de statistiques structurelles détaillées sur l\'ensemble des exploitations agropastorales et aquacoles du pays.',
+            en: 'This decree establishes the national agricultural and livestock census to provide detailed structural statistics on all agropastoral and aquaculture holdings in the country.'
+        },
+        ref: 'Décret N°2015/292'
+    },
+    {
+        title: {
+            fr: 'Arrêté N°039/CAB/PM du 06 mars 2026',
+            en: 'Short Order N°039/CAB/PM of March 6, 2026'
+        },
+        subtitle: {
+            fr: 'Fixation de la période de dénombrement principal mutualisé',
+            en: 'Setting of the mutualized main enumeration period'
+        },
+        desc: {
+            fr: 'Arrêté signé par le Premier Ministre fixant la période de collecte des données sur le terrain du 24 avril au 29 mai 2026 pour l\'opération couplée démographique et agricole.',
+            en: 'Order signed by the Prime Minister setting the field data collection period from April 24 to May 29, 2026 for the coupled demographic and agricultural operation.'
+        },
+        ref: 'Arrêté N°039/CAB/PM'
+    }
+];
+
+// --- Données Méthodologie ---
+const methodologySteps = [
+    {
+        title: { fr: 'L\'Unité de Collecte', en: 'The Collection Unit' },
+        desc: {
+            fr: 'Pour le RGPH, l\'unité de collecte principale est le **Ménage** (l\'ensemble des personnes vivant sous le même toit et partageant les repas). Pour le RGAE, il s\'agit de l\'**Exploitation Agropastorale et Aquacole** (l\'unité techno-économique de production agricole).',
+            en: 'For the GPHC, the main collection unit is the **Household** (all persons living under the same roof and sharing meals). For the GALC, it is the **Agropastoral and Aquaculture Holding** (the techno-economic unit of agricultural production).'
+        },
+        icon: 'home'
+    },
+    {
+        title: { fr: 'La Méthodologie CAPI', en: 'CAPI Methodology' },
+        desc: {
+            fr: 'La collecte se fait de manière 100% numérique par interview directe assistée par ordinateur/smartphone (**Computer-Assisted Personal Interviewing**). Cette méthode élimine les questionnaires papier, intègre des contrôles de cohérence automatiques lors de la saisie et transmet instantanément les données cryptées au serveur central.',
+            en: 'Collection is 100% digital via computer/smartphone-assisted personal interviewing (**CAPI**). This method eliminates paper questionnaires, integrates automatic validation checks during entry, and instantly transmits encrypted data to the central server.'
+        },
+        icon: 'device-tablet'
+    },
+    {
+        title: { fr: 'Questionnaires & Nomenclatures', en: 'Questionnaires & Classifications' },
+        desc: {
+            fr: 'Le questionnaire est structuré en plusieurs modules harmonisés : caractéristiques démographiques, niveau d\'éducation, fécondité, caractéristiques de l\'habitat, transferts de fonds et activités agropastorales. Il utilise les nomenclatures nationales et internationales standardisées pour assurer la comparabilité des données.',
+            en: 'The questionnaire is structured into several harmonized modules: demographic characteristics, educational level, fertility, housing conditions, remittances, and agropastoral activities. It uses standardized national and international classifications to ensure data comparability.'
+        },
+        icon: 'clipboard-list'
+    }
+];
+
+// --- Données Partenaires ---
+const partnersList = [
+    { name: 'Gouvernement du Cameroun', role: { fr: 'Financement principal & Tutelle institutionnelle (MINEPAT)', en: 'Main funding & Institutional oversight (MINEPAT)' }, logo: '/assets/images/logo-rgae.jpg' },
+    { name: 'Banque Mondiale', role: { fr: 'Partenaire financier majeur via le projet HISWACA (7 milliards FCFA)', en: 'Major financial partner via the HISWACA project (7 billion FCFA)' }, logo: null },
+    { name: 'UNFPA (Fonds des Nations Unies pour la Population)', role: { fr: 'Assistance technique démographique, outils de cartographie numérique et de suivi', en: 'Technical demographic assistance, digital mapping and monitoring tools' }, logo: null },
+    { name: 'FAO (Organisation des Nations Unies pour l\'alimentation et l\'agriculture)', role: { fr: 'Appui méthodologique et supervision technique du volet agricole (RGAE)', en: 'Methodological support and technical supervision of the agricultural module (GALC)' }, logo: null },
+    { name: 'OMS (Organisation Mondiale de la Santé)', role: { fr: 'Coopération pour la logistique et mise à disposition de matériel technique', en: 'Cooperation for logistics and provision of technical equipment' }, logo: null }
+];
 </script>
+
 
 <template>
     <Head>
@@ -43,208 +154,289 @@ import { Link, Head } from '@inertiajs/vue3';
                     <!-- Content Column -->
                     <div class="content-col">
 
-                        <!-- Section 1 : Contexte Historique & Mutualisation -->
-                        <article class="content-section">
-                            <h2 class="section-title">{{ __('Contexte Historique et Mutualisation') }}</h2>
-                            <div class="section-with-image">
-                                <div class="section-text">
-                                    <p>{{ __('Le quatrième Recensement Général de la Population et de l\'Habitat (4ème RGPH) et le Recensement Général de l\'Agriculture et de l\'Élevage (RGAE) constituent des opérations statistiques de grande envergure pour la planification du développement du pays.') }}</p>
-                                    <p>{{ __('Le 4ème RGPH est institué par Décret Présidentiel n°2015/397 du 15 septembre 2015 tandis que le RGAE est institué par Décret Présidentiel n°2015/292 du 29 juin 2015.') }}</p>
-                                    <p>{{ __('Les activités de mutualisation ont été instruites en 2019 par le Premier Ministre, Chef du Gouvernement, dans l\'optique d\'optimiser les coûts liés à l\'opérationnalisation desdites activités.') }}</p>
-                                </div>
-                                <div class="section-image">
-                                    <img src="/assets/images/apropos/contexte.webp" alt="Signature Décret" loading="lazy">
-                                </div>
-                            </div>
-                        </article>
+                        <!-- Navigation des Onglets -->
+                        <div class="flex overflow-x-auto md:flex-wrap gap-2 border-b border-gray-100 pb-4 mb-6 scrollbar-none -mx-4 px-4 md:mx-0 md:px-0">
+                            <button @click="activeTab = 'definition'"
+                                    class="px-5 py-3 rounded-xl text-xs font-black uppercase tracking-wider transition-all duration-300 border flex-shrink-0"
+                                    :class="activeTab === 'definition' ? 'bg-[#204138] border-[#204138] text-white shadow-md' : 'bg-white border-gray-200 text-gray-500 hover:border-[#204138] hover:text-[#204138]'">
+                                {{ __('Définition & Objectifs') }}
+                            </button>
+                            <button @click="activeTab = 'legal'"
+                                    class="px-5 py-3 rounded-xl text-xs font-black uppercase tracking-wider transition-all duration-300 border flex-shrink-0"
+                                    :class="activeTab === 'legal' ? 'bg-[#204138] border-[#204138] text-white shadow-md' : 'bg-white border-gray-200 text-gray-500 hover:border-[#204138] hover:text-[#204138]'">
+                                {{ __('Cadre Légal') }}
+                            </button>
+                            <button @click="activeTab = 'methodology'"
+                                    class="px-5 py-3 rounded-xl text-xs font-black uppercase tracking-wider transition-all duration-300 border flex-shrink-0"
+                                    :class="activeTab === 'methodology' ? 'bg-[#204138] border-[#204138] text-white shadow-md' : 'bg-white border-gray-200 text-gray-500 hover:border-[#204138] hover:text-[#204138]'">
+                                {{ __('Méthodologie') }}
+                            </button>
+                            <button @click="activeTab = 'calendar'"
+                                    class="px-5 py-3 rounded-xl text-xs font-black uppercase tracking-wider transition-all duration-300 border flex-shrink-0"
+                                    :class="activeTab === 'calendar' ? 'bg-[#204138] border-[#204138] text-white shadow-md' : 'bg-white border-gray-200 text-gray-500 hover:border-[#204138] hover:text-[#204138]'">
+                                {{ __('Calendrier & Zones') }}
+                            </button>
+                            <button @click="activeTab = 'organisation'"
+                                    class="px-5 py-3 rounded-xl text-xs font-black uppercase tracking-wider transition-all duration-300 border flex-shrink-0"
+                                    :class="activeTab === 'organisation' ? 'bg-[#204138] border-[#204138] text-white shadow-md' : 'bg-white border-gray-200 text-gray-500 hover:border-[#204138] hover:text-[#204138]'">
+                                {{ __('Organisation & Partenaires') }}
+                            </button>
+                        </div>
 
-                        <!-- Section 2 : Objectifs -->
-                        <article class="content-section">
-                            <h2 class="section-title">{{ __('Objectifs du Recensement') }}</h2>
-                            <div class="section-with-image mb-8">
-                                <div class="section-text">
-                                    <div class="flex flex-col gap-6">
-                                        <div class="p-6 bg-green-50/50 border-l-4 border-[#204138] rounded-r-xl">
-                                            <h4 class="font-black text-[#204138] mb-2 uppercase text-xs tracking-wider">{{ __('Objectif 4ème RGPH') }}</h4>
-                                            <p class="!mb-0 italic text-gray-700">{{ __('Le 4ème RGPH a pour objectif général de rendre disponibles les données nécessaires à la planification du développement et à la prise en compte du dividende démographique dans l\'élaboration des politiques permettant l\'évolution du Cameroun vers l\'émergence.') }}</p>
-                                        </div>
-                                        <div class="p-6 bg-yellow-50/50 border-l-4 border-[#EDAF11] rounded-r-xl">
-                                            <h4 class="font-black text-[#EDAF11] mb-2 uppercase text-xs tracking-wider">{{ __('Objectif RGAE') }}</h4>
-                                            <p class="!mb-0 italic text-gray-700">{{ __('Le RGAE a en revanche pour objectif général de rendre disponibles les informations statistiques structurelles suffisamment désagrégées sur toutes les exploitations agropastorales et aquacoles, et à élaborer les bases de sondage pour les modules complémentaire et thématique et les enquêtes du Système Permanent et Intégré des Statistiques Agropastorales (SPISA).') }}</p>
-                                        </div>
+                        <!-- 1. ONGLET: DEFINITION & OBJECTIFS -->
+                        <div v-if="activeTab === 'definition'" class="space-y-8 animate-fadeIn">
+                            <!-- Contexte et définition -->
+                            <article class="content-section">
+                                <h2 class="section-title">{{ __('Contexte Historique et Mutualisation') }}</h2>
+                                <div class="section-with-image">
+                                    <div class="section-text">
+                                        <p>{{ __('Le quatrième Recensement Général de la Population et de l\'Habitat (4ème RGPH) et le Recensement Général de l\'Agriculture et de l\'Élevage (RGAE) constituent des opérations statistiques de grande envergure pour la planification du développement du pays.') }}</p>
+                                        <p>{{ __('Le 4ème RGPH est institué par Décret Présidentiel tandis que le RGAE l\'est également par Décret Présidentiel. Le Premier Ministre a instruit en 2019 la mutualisation des deux opérations afin d\'optimiser les coûts liés aux ressources financières, matérielles, technologiques et logistiques.') }}</p>
+                                    </div>
+                                    <div class="section-image">
+                                        <img src="/assets/images/accueil/map_pop_white_bg.jpg" alt="Mutualisation" loading="lazy">
                                     </div>
                                 </div>
-                                <div class="section-image">
-                                    <img src="/assets/images/apropos/objectifs.webp" alt="Formation des Agents" loading="lazy">
-                                </div>
-                            </div>
-                        </article>
+                            </article>
 
-                        <!-- Section 3 : Utilité -->
-                        <article class="content-section">
-                            <h2 class="section-title">{{ __('Utilité du Recensement') }}</h2>
-                            <p>{{ __('Cet instrument précieux permet le cadrage, l\'élaboration, le suivi et l\'évaluation des politiques publiques aux niveaux national, régional et local. Il sert de base pour :') }}</p>
-                            <ul class="content-list">
-                                <li>{{ __('L\'élaboration des bases de sondage pour les enquêtes inter-censitaires.') }}</li>
-                                <li>{{ __('La planification des infrastructures de base (écoles, hôpitaux, routes).') }}</li>
-                                <li>{{ __('La répartition équitable des ressources publiques.') }}</li>
-                                <li>{{ __('Le suivi des engagements internationaux (ODD, Agenda 2063).') }}</li>
-                            </ul>
-                        </article>
+                            <!-- Objectifs -->
+                            <article class="content-section">
+                                <h2 class="section-title">{{ __('Objectifs Généraux') }}</h2>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                                    <div class="p-6 bg-green-50/40 border-t-4 border-[#2E6B5E] rounded-b-2xl shadow-sm">
+                                        <span class="inline-block px-2 py-0.5 rounded font-black text-[9px] uppercase tracking-wider bg-[#2E6B5E]/10 text-[#2E6B5E] mb-3">RGPH-4</span>
+                                        <h4 class="font-bold text-[#204138] text-base mb-2">{{ __('Objectif Démographique') }}</h4>
+                                        <p class="text-sm text-gray-600 leading-relaxed">{{ __('Rendre disponibles les données statistiques nécessaires à la planification du développement et à la prise en compte du dividende démographique dans l\'élaboration des politiques du pays.') }}</p>
+                                    </div>
+                                    <div class="p-6 bg-amber-50/40 border-t-4 border-[#EDAF11] rounded-b-2xl shadow-sm">
+                                        <span class="inline-block px-2 py-0.5 rounded font-black text-[9px] uppercase tracking-wider bg-[#EDAF11]/10 text-[#a07402] mb-3">RGAE</span>
+                                        <h4 class="font-bold text-[#a07402] text-base mb-2">{{ __('Objectif Agricole & Élevage') }}</h4>
+                                        <p class="text-sm text-gray-600 leading-relaxed">{{ __('Fournir des données structurelles détaillées sur l\'ensemble des exploitations agropastorales et aquacoles du pays et élaborer des bases de sondage pour les modules thématiques complémentaires.') }}</p>
+                                    </div>
+                                </div>
+                            </article>
 
-                        <!-- Section 4 : Cadre Institutionnel -->
-                        <article class="content-section">
-                            <h2 class="section-title">{{ __('Cadre Institutionnel') }}</h2>
-                            <div class="flex flex-col gap-5 mb-6">
-                                <div class="apropos-decree-card">
-                                    <div class="apropos-decree-icon">
-                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
-                                    </div>
-                                    <div class="apropos-decree-body">
-                                        <span class="apropos-decree-label">{{ __('Décret Présidentiel Officiel') }}</span>
-                                        <p class="apropos-decree-text">{{ __('Le 4ème RGPH a été institué par le Décret Présidentiel N° 2015/397 du 15 septembre 2015, plaçant l\'opération sous la responsabilité technique du Bureau Central des Recensements et des Etudes de Population (BUCREP).') }}</p>
-                                    </div>
-                                </div>
-                                <div class="apropos-decree-card apropos-decree-card--yellow">
-                                    <div class="apropos-decree-icon apropos-decree-icon--yellow">
-                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                                    </div>
-                                    <div class="apropos-decree-body">
-                                        <span class="apropos-decree-label apropos-decree-label--yellow">{{ __('Recommandation des Nations Unies') }}</span>
-                                        <p class="apropos-decree-text">{{ __('L\'ONU recommande aux pays membres de réaliser leur recensement général de la population tous les dix ans afin de disposer d\'indicateurs démographiques et socioprofessionnels actualisés, essentiels pour le cadrage des politiques de développement.') }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
+                            <!-- Utilité -->
+                            <article class="content-section">
+                                <h2 class="section-title">{{ __('Utilité du Recensement') }}</h2>
+                                <p>{{ __('Cet instrument précieux permet le cadrage, l\'élaboration, le suivi et l\'évaluation des politiques publiques aux niveaux national, régional et local. Il sert de base pour :') }}</p>
+                                <ul class="content-list">
+                                    <li>{{ __('L\'élaboration des bases de sondage pour les enquêtes inter-censitaires.') }}</li>
+                                    <li>{{ __('La planification des infrastructures de base (écoles, hôpitaux, routes, électrification).') }}</li>
+                                    <li>{{ __('La répartition équitable et rationnelle des ressources publiques.') }}</li>
+                                    <li>{{ __('Le suivi des engagements internationaux (Objectifs de Développement Durable - ODD, Agenda 2063).') }}</li>
+                                </ul>
+                            </article>
+                        </div>
 
-                        <!-- Section 5 : Les 7 Grandes Phases -->
-                        <article class="content-section">
-                            <h2 class="section-title">{{ __('Les 7 Grandes Phases du RGPH') }}</h2>
-                            <p class="mb-8 text-gray-600 leading-relaxed">{{ __('Une opération de cette envergure se déroule de manière rigoureuse en plusieurs phases successives, du cadrage initial jusqu\'à la publication finale.') }}</p>
-                            <div class="apropos-phases">
+                        <!-- 2. ONGLET: CADRE LEGAL -->
+                        <div v-if="activeTab === 'legal'" class="space-y-6 animate-fadeIn">
+                            <article class="content-section">
+                                <h2 class="section-title">{{ __('Base Juridique du Recensement') }}</h2>
+                                <p class="mb-6 text-gray-600 leading-relaxed">{{ __('Toutes les opérations de recensement au Cameroun s\'appuient sur un cadre juridique strict garantissant la souveraineté de l\'opération et la protection des données des citoyens.') }}</p>
+                                
+                                <div class="space-y-4">
+                                    <div v-for="doc in legalDocuments" :key="doc.ref" 
+                                         class="p-6 bg-white border border-gray-100 hover:border-[#2E6B5E]/30 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 flex items-start gap-4">
+                                        <div class="w-12 h-12 rounded-xl bg-[#2E6B5E]/10 text-[#2E6B5E] flex items-center justify-center flex-shrink-0">
+                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                                            </svg>
+                                        </div>
+                                        <div class="space-y-1 flex-1">
+                                            <div class="flex items-center justify-between gap-4 flex-wrap">
+                                                <h4 class="font-bold text-[#204138] text-base leading-tight">{{ doc.title[currentLocale] }}</h4>
+                                                <span class="text-[9px] px-2 py-0.5 rounded font-black bg-gray-100 text-gray-500 border border-gray-200">{{ doc.ref }}</span>
+                                            </div>
+                                            <p class="text-xs font-semibold text-[#EDAF11] uppercase tracking-wider">{{ doc.subtitle[currentLocale] }}</p>
+                                            <p class="text-xs md:text-sm text-gray-500 leading-relaxed font-medium pt-1">{{ doc.desc[currentLocale] }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
 
-                                <div class="apropos-phase-item">
-                                    <div class="apropos-phase-number">01</div>
-                                    <div class="apropos-phase-card">
-                                        <div class="apropos-phase-icon-wrap">
-                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 0 2-2h2a2 2 0 0 0 2 2"/></svg>
+                        <!-- 3. ONGLET: METHODOLOGIE -->
+                        <div v-if="activeTab === 'methodology'" class="space-y-8 animate-fadeIn">
+                            <article class="content-section">
+                                <h2 class="section-title">{{ __('Méthodologie de Collecte') }}</h2>
+                                <p class="text-gray-600 leading-relaxed mb-6">{{ __('Le 4e RGPH et le RGAE adoptent des méthodologies statistiques éprouvées et conformes aux recommandations internationales des Nations Unies, de l\'UNFPA et de la FAO.') }}</p>
+                                
+                                <div class="grid grid-cols-1 gap-6">
+                                    <div v-for="step in methodologySteps" :key="step.title.fr" 
+                                         class="p-6 bg-white border border-gray-100 hover:border-[#2E6B5E]/30 rounded-3xl shadow-sm hover:shadow-md transition-all duration-300 flex flex-col md:flex-row gap-4">
+                                        <div class="w-12 h-12 rounded-2xl bg-[#EDAF11]/15 text-[#a07402] flex items-center justify-center flex-shrink-0">
+                                            <svg v-if="step.icon === 'home'" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                                            </svg>
+                                            <svg v-else-if="step.icon === 'device-tablet'" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                                            </svg>
+                                            <svg v-else class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 0 2-2h2a2 2 0 0 0 2 2"/>
+                                            </svg>
                                         </div>
-                                        <div class="apropos-phase-content">
-                                            <h4 class="apropos-phase-title">{{ __('01. Activités Préparatoires') }}</h4>
-                                            <p class="apropos-phase-desc">{{ __('Conception des méthodologies, élaboration des questionnaires, outils de collecte, manuels d\'instruction et mobilisation des ressources financières, matérielles et humaines.') }}</p>
+                                        <div class="space-y-1">
+                                            <h4 class="font-bold text-[#204138] text-base">{{ step.title[currentLocale] }}</h4>
+                                            <p class="text-xs md:text-sm text-gray-500 leading-relaxed font-medium" v-html="step.desc[currentLocale]"></p>
                                         </div>
                                     </div>
                                 </div>
+                            </article>
+                        </div>
 
-                                <div class="apropos-phase-item">
-                                    <div class="apropos-phase-number">02</div>
-                                    <div class="apropos-phase-card">
-                                        <div class="apropos-phase-icon-wrap">
-                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
-                                        </div>
-                                        <div class="apropos-phase-content">
-                                            <h4 class="apropos-phase-title">{{ __('02. Cartographie Censitaire') }}</h4>
-                                            <p class="apropos-phase-desc">{{ __('Mise à jour exhaustive du fichier des localités et découpage du territoire national en zones de travail appelées Zones de Dénombrement (ZD). Un agent sera déployé par ZD.') }}</p>
-                                        </div>
-                                    </div>
-                                </div>
+                        <!-- 4. ONGLET: CALENDRIER & ZONES -->
+                        <div v-if="activeTab === 'calendar'" class="space-y-8 animate-fadeIn">
+                            <!-- Les 7 Phases -->
+                            <article class="content-section">
+                                <h2 class="section-title">{{ __('Les 7 Grandes Phases du RGPH') }}</h2>
+                                <p class="mb-8 text-gray-600 leading-relaxed">{{ __('Une opération de cette envergure se déroule de manière rigoureuse en plusieurs phases successives, du cadrage initial jusqu\'à la publication finale.') }}</p>
+                                <div class="apropos-phases">
 
-                                <div class="apropos-phase-item">
-                                    <div class="apropos-phase-number">03</div>
-                                    <div class="apropos-phase-card">
-                                        <div class="apropos-phase-icon-wrap">
-                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                                        </div>
-                                        <div class="apropos-phase-content">
-                                            <h4 class="apropos-phase-title">{{ __('03. Recensement Pilote') }}</h4>
-                                            <p class="apropos-phase-desc">{{ __('Test grandeur nature de l\'ensemble de l\'organisation et des méthodologies sur un échantillon d\'environ 260 zones de dénombrement représentatives (urbaines et rurales).') }}</p>
+                                    <div class="apropos-phase-item">
+                                        <div class="apropos-phase-number">01</div>
+                                        <div class="apropos-phase-card">
+                                            <div class="apropos-phase-icon-wrap">
+                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 0 2-2h2a2 2 0 0 0 2 2"/></svg>
+                                            </div>
+                                            <div class="apropos-phase-content">
+                                                <h4 class="apropos-phase-title">{{ __('01. Activités Préparatoires') }}</h4>
+                                                <p class="apropos-phase-desc">{{ __('Conception des méthodologies, élaboration des questionnaires, outils de collecte, manuels d\'instruction et mobilisation des ressources financières, matérielles et humaines.') }}</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="apropos-phase-item">
-                                    <div class="apropos-phase-number apropos-phase-number--active">04</div>
-                                    <div class="apropos-phase-card apropos-phase-card--active">
-                                        <div class="apropos-phase-icon-wrap apropos-phase-icon-wrap--active">
-                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                                        </div>
-                                        <div class="apropos-phase-content">
-                                            <h4 class="apropos-phase-title">{{ __('04. Dénombrement Principal') }}</h4>
-                                            <p class="apropos-phase-desc">{{ __('Le comptage effectif de la population et la collecte des données auprès de chaque ménage par des agents recenseurs munis de smartphones. Répondre est une obligation civique.') }}</p>
+                                    <div class="apropos-phase-item">
+                                        <div class="apropos-phase-number">02</div>
+                                        <div class="apropos-phase-card">
+                                            <div class="apropos-phase-icon-wrap">
+                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+                                            </div>
+                                            <div class="apropos-phase-content">
+                                                <h4 class="apropos-phase-title">{{ __('02. Cartographie Censitaire') }}</h4>
+                                                <p class="apropos-phase-desc">{{ __('Mise à jour exhaustive du fichier des localités et découpage du territoire national en zones de travail appelées Zones de Dénombrement (ZD). Un agent sera déployé par ZD.') }}</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="apropos-phase-item">
-                                    <div class="apropos-phase-number">05</div>
-                                    <div class="apropos-phase-card">
-                                        <div class="apropos-phase-icon-wrap">
-                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-                                        </div>
-                                        <div class="apropos-phase-content">
-                                            <h4 class="apropos-phase-title">{{ __('05. Enquête Post-Censitaire (EPC)') }}</h4>
-                                            <p class="apropos-phase-desc">{{ __('Réalisée au plus tard trois mois après le dénombrement principal pour évaluer la couverture géographique et la qualité des variables clés (sexe et âge) sur 12 strates.') }}</p>
+                                    <div class="apropos-phase-item">
+                                        <div class="apropos-phase-number">03</div>
+                                        <div class="apropos-phase-card">
+                                            <div class="apropos-phase-icon-wrap">
+                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                                            </div>
+                                            <div class="apropos-phase-content">
+                                                <h4 class="apropos-phase-title">{{ __('03. Recensement Pilote') }}</h4>
+                                                <p class="apropos-phase-desc">{{ __('Test grandeur nature de l\'ensemble de l\'organisation et des méthodologies sur un échantillon d\'environ 260 zones de dénombrement représentatives (urbaines et rurales).') }}</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="apropos-phase-item">
-                                    <div class="apropos-phase-number">06</div>
-                                    <div class="apropos-phase-card">
-                                        <div class="apropos-phase-icon-wrap">
-                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-                                        </div>
-                                        <div class="apropos-phase-content">
-                                            <h4 class="apropos-phase-title">{{ __('06. Exploitation et Analyse') }}</h4>
-                                            <p class="apropos-phase-desc">{{ __('Traitement transversal, apurement rigoureux et analyse statistique approfondie pour élaborer les tomes d\'analyse prioritaires et les monographies régionales.') }}</p>
+                                    <div class="apropos-phase-item">
+                                        <div class="apropos-phase-number apropos-phase-number--active">04</div>
+                                        <div class="apropos-phase-card apropos-phase-card--active">
+                                            <div class="apropos-phase-icon-wrap apropos-phase-icon-wrap--active">
+                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                            </div>
+                                            <div class="apropos-phase-content">
+                                                <h4 class="apropos-phase-title">{{ __('04. Dénombrement Principal') }}</h4>
+                                                <p class="apropos-phase-desc">{{ __('Le comptage effectif de la population et la collecte des données auprès de chaque ménage par des agents recenseurs munis de smartphones. Répondre est une obligation civique.') }}</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="apropos-phase-item">
-                                    <div class="apropos-phase-number">07</div>
-                                    <div class="apropos-phase-card">
-                                        <div class="apropos-phase-icon-wrap">
-                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16,6 12,2 8,6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+                                    <div class="apropos-phase-item">
+                                        <div class="apropos-phase-number">05</div>
+                                        <div class="apropos-phase-card">
+                                            <div class="apropos-phase-icon-wrap">
+                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                                            </div>
+                                            <div class="apropos-phase-content">
+                                                <h4 class="apropos-phase-title">{{ __('05. Enquête Post-Censitaire (EPC)') }}</h4>
+                                                <p class="apropos-phase-desc">{{ __('Réalisée au plus tard trois mois après le dénombrement principal pour évaluer la couverture géographique et la qualité des variables clés (sexe et âge) sur 12 strates.') }}</p>
+                                            </div>
                                         </div>
-                                        <div class="apropos-phase-content">
-                                            <h4 class="apropos-phase-title">{{ __('07. Publication et Diffusion') }}</h4>
-                                            <p class="apropos-phase-desc">{{ __('Mise à disposition et vulgarisation des résultats officiels sur supports variés et accessibles, afin de faciliter leur compréhension et utilisation par les décideurs.') }}</p>
+                                    </div>
+
+                                    <div class="apropos-phase-item">
+                                        <div class="apropos-phase-number">06</div>
+                                        <div class="apropos-phase-card">
+                                            <div class="apropos-phase-icon-wrap">
+                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                                            </div>
+                                            <div class="apropos-phase-content">
+                                                <h4 class="apropos-phase-title">{{ __('06. Exploitation et Analyse') }}</h4>
+                                                <p class="apropos-phase-desc">{{ __('Traitement transversal, apurement rigoureux et analyse statistique approfondie pour élaborer les tomes d\'analyse prioritaires et les monographies régionales.') }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="apropos-phase-item">
+                                        <div class="apropos-phase-number">07</div>
+                                        <div class="apropos-phase-card">
+                                            <div class="apropos-phase-icon-wrap">
+                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16,6 12,2 8,6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+                                            </div>
+                                            <div class="apropos-phase-content">
+                                                <h4 class="apropos-phase-title">{{ __('07. Publication et Diffusion') }}</h4>
+                                                <p class="apropos-phase-desc">{{ __('Mise à disposition et vulgarisation des résultats officiels sur supports variés et accessibles, afin de faciliter leur compréhension et utilisation par les décideurs.') }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </article>
+
+                            <!-- Zones couvertes -->
+                            <article class="content-section">
+                                <h2 class="section-title">{{ __('Zones Couvertes') }}</h2>
+                                <p class="text-gray-600 leading-relaxed mb-4">{{ __('Le recensement couvre l\'intégralité du territoire national du Cameroun sans aucune exclusion, réparti géographiquement comme suit :') }}</p>
+                                <div class="p-6 bg-gray-50/50 border border-gray-100 rounded-3xl grid grid-cols-3 gap-4 text-center">
+                                    <div class="p-2">
+                                        <span class="block text-2xl font-black text-[#204138]">10</span>
+                                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{{ __('Régions') }}</span>
+                                    </div>
+                                    <div class="p-2 border-x border-gray-200">
+                                        <span class="block text-2xl font-black text-[#204138]">58</span>
+                                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{{ __('Départements') }}</span>
+                                    </div>
+                                    <div class="p-2">
+                                        <span class="block text-2xl font-black text-[#204138]">360</span>
+                                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{{ __('Arrondissements') }}</span>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+
+                        <!-- 5. ONGLET: ORGANISATION & PARTENAIRES -->
+                        <div v-if="activeTab === 'organisation'" class="space-y-8 animate-fadeIn">
+                            <!-- Organisation centrale -->
+                            <article class="content-section">
+                                <h2 class="section-title">{{ __('Organisation Institutionnelle') }}</h2>
+                                <p class="mb-4">{{ __('L\'exécution technique des opérations est confiée au **BUCREP** (Bureau Central des Recensements et des Études de Population), organisme public expert placé sous la tutelle technique du Ministère de l\'Économie, de la Planification et de l\'Aménagement du Territoire (MINEPAT).') }}</p>
+                                <p>{{ __('Sur le terrain, l\'opération est coordonnée par des Directions Régionales, des Comités Départementaux et des Comités d\'Arrondissement présidés par les autorités administratives (Gouverneurs, Préfets, Sous-préfets) pour en garantir le bon déroulement, la logistique et la sécurité.') }}</p>
+                            </article>
+
+                            <!-- Partenaires -->
+                            <article class="content-section">
+                                <h2 class="section-title">{{ __('Partenaires Techniques et Financiers') }}</h2>
+                                <p class="text-gray-600 leading-relaxed mb-6">{{ __('Le 4e RGPH et le RGAE bénéficient de l\'appui d\'institutions internationales majeures pour le financement et la supervision technique :') }}</p>
+                                
+                                <div class="space-y-4">
+                                    <div v-for="partner in partnersList" :key="partner.name" 
+                                         class="p-6 bg-white border border-gray-100 rounded-2xl shadow-sm flex items-center gap-4 hover:border-[#2E6B5E]/20 transition-all duration-300">
+                                        <div class="w-12 h-12 rounded-xl bg-gray-50 flex items-center justify-center flex-shrink-0 overflow-hidden border border-gray-100">
+                                            <img v-if="partner.logo" :src="partner.logo" :alt="partner.name" class="w-full h-full object-cover">
+                                            <span v-else class="text-xs font-black text-gray-400 uppercase">PART</span>
+                                        </div>
+                                        <div class="space-y-0.5">
+                                            <h4 class="font-bold text-[#204138] text-base leading-tight">{{ partner.name }}</h4>
+                                            <p class="text-xs md:text-sm text-gray-500 leading-relaxed font-medium">{{ partner.role[currentLocale] }}</p>
                                         </div>
                                     </div>
                                 </div>
-
-                            </div>
-                        </article>
-
-                        <!-- Section 6 : Modernisation Numérique CAPI -->
-                        <article class="content-section">
-                            <h2 class="section-title">{{ __('Modernisation Numérique & CAPI') }}</h2>
-                            <p class="mb-6 text-gray-600 leading-relaxed">{{ __('Le Gouvernement a opté pour la méthode CAPI (Computer-Assisted Personal Interviewing) avec l\'utilisation de smartphones lors de la collecte pour plusieurs raisons stratégiques :') }}</p>
-                            <div class="apropos-capi-grid">
-                                <div class="apropos-capi-card">
-                                    <div class="apropos-capi-icon">
-                                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
-                                    </div>
-                                    <h4 class="apropos-capi-title">{{ __('Gain de Temps et Célérité') }}</h4>
-                                    <p class="apropos-capi-desc">{{ __('Raccourcissement significatif du délai de mise à disposition des résultats officiels.') }}</p>
-                                </div>
-                                <div class="apropos-capi-card">
-                                    <div class="apropos-capi-icon apropos-capi-icon--yellow">
-                                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22,4 12,14.01 9,11.01"/></svg>
-                                    </div>
-                                    <h4 class="apropos-capi-title">{{ __('Fiabilité Accrue') }}</h4>
-                                    <p class="apropos-capi-desc">{{ __('Élimination complète des phases manuelles de vérification papier, de saisie de données et de recodage.') }}</p>
-                                </div>
-                                <div class="apropos-capi-card">
-                                    <div class="apropos-capi-icon">
-                                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                                    </div>
-                                    <h4 class="apropos-capi-title">{{ __('Confidentialité Absolue') }}</h4>
-                                    <p class="apropos-capi-desc">{{ __('Les données transmises sont protégées par le secret statistique et cryptées de bout en bout.') }}</p>
-                                </div>
-                            </div>
-                        </article>
+                            </article>
+                        </div>
 
                     </div>
 
@@ -588,5 +780,18 @@ import { Link, Head } from '@inertiajs/vue3';
         flex-direction: column;
         gap: 0.75rem;
     }
+}
+
+/* Animations and tab visual helpers */
+.animate-fadeIn {
+    animation: fadeIn 0.4s ease-out forwards;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+    display: none;
+}
+.scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 </style>
