@@ -13,6 +13,7 @@ Route::get('/accueil', \App\Http\Controllers\AccueilController::class)->name('ac
 
 Route::get('/apropos', function () { return Inertia::render('Apropos'); });
 Route::get('/activites', function () { return Inertia::render('Activites'); });
+Route::get('/resultats-donnees', function () { return Inertia::render('ResultatsDonnees'); })->name('resultats-donnees');
 Route::get('/phototheque', function () { return Inertia::render('Phototheque'); })->name('phototheque');
 Route::get('/identification-agents', function () { return Inertia::render('AgentIdentification'); })->name('identification-agents');
 
