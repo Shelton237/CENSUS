@@ -124,6 +124,7 @@ def deploy(no_migrate=False, assets_only=False):
             # ── ÉTAPE 1 : Git pull ────────────────────────────────────────────
             n += 1
             step(n, TOTAL_STEPS, "Synchronisation du code source (git pull)")
+            run(ssh, "git reset --hard && git clean -fd", cwd=REMOTE_ROOT, allow_fail=True)
             out, err, code = run(ssh, "git pull", cwd=REMOTE_ROOT)
             if "Already up to date" in out:
                 warn("Déjà à jour — aucun changement de code source")
