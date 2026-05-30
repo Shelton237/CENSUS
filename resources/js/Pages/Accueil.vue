@@ -113,12 +113,15 @@ const slides = [
 
 // Stats animées
 const stats = ref([
-    { label: 'Population Estimée', value: 0, target: 28644120, suffix: '' },
-    { label: 'Ménages Recensés', value: 0, target: 5420115, suffix: '' },
-    { label: 'Agents Mobiles', value: 0, target: 35000, suffix: '+' },
+    { key: 'population', label: 'Population Estimée', value: 0, target: 28644120, suffix: '', flash: false },
+    { key: 'households', label: 'Ménages Recensés', value: 0, target: 5420115, suffix: '', flash: false },
+    { key: 'agents', label: 'Agents Mobiles', value: 0, target: 35000, suffix: '+', flash: false },
 ]);
 
+let tickingInterval = null;
+
 const animateStats = () => {
+    let completedCount = 0;
     stats.value.forEach(stat => {
         let start = 0;
         const duration = 2000;
@@ -128,12 +131,74 @@ const animateStats = () => {
             if (start >= stat.target) {
                 stat.value = stat.target;
                 clearInterval(timer);
+                completedCount++;
+                if (completedCount === stats.value.length) {
+                    startRealTimeTicking();
+                }
             } else {
                 stat.value = Math.floor(start);
             }
         }, 16);
     });
 };
+
+const startRealTimeTicking = () => {
+    if (tickingInterval) clearInterval(tickingInterval);
+    tickingInterval = setInterval(() => {
+        // Population : +1 à +3 personnes toutes les 4s
+        const popInc = Math.floor(Math.random() * 3) + 1;
+        const popStat = stats.value.find(s => s.key === 'population');
+        if (popStat) {
+            popStat.value += popInc;
+            popStat.flash = true;
+            setTimeout(() => { popStat.flash = false; }, 800);
+        }
+
+        // Ménages : +1 ménage une fois sur deux
+        if (Math.random() > 0.5) {
+            const hhStat = stats.value.find(s => s.key === 'households');
+            if (hhStat) {
+                hhStat.value += 1;
+                hhStat.flash = true;
+                setTimeout(() => { hhStat.flash = false; }, 800);
+            }
+        }
+    }, 4000);
+};
+
+// Compte à rebours de la phase de ratissage active
+const countdownTarget = new Date('2026-06-03T23:59:59').getTime();
+const countdownTime = ref({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+const isCountdownActive = ref(true);
+let countdownInterval = null;
+
+const updateCountdown = () => {
+    const now = new Date().getTime();
+    const diff = countdownTarget - now;
+    if (diff <= 0) {
+        isCountdownActive.value = false;
+        countdownTime.value = { days: 0, hours: 0, minutes: 0, seconds: 0 };
+        if (countdownInterval) clearInterval(countdownInterval);
+        return;
+    }
+    
+    countdownTime.value.days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    countdownTime.value.hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    countdownTime.value.minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    countdownTime.value.seconds = Math.floor((diff % (1000 * 60)) / 1000);
+};
+
+// Catégorie d'actualité sélectionnée pour le filtrage
+const selectedNewsCategory = ref('all');
+
+const filteredArticles = computed(() => {
+    if (!props.latestArticles) return [];
+    if (selectedNewsCategory.value === 'all') {
+        return props.latestArticles;
+    }
+    return props.latestArticles.filter(art => art.category === selectedNewsCategory.value);
+});
+
 
 const nextSlide = () => {
     activeSlide.value = (activeSlide.value + 1) % slides.length;
@@ -161,7 +226,6 @@ const cycleSocialProof = () => {
         }, 1000);
     }, 12000);
 };
-
 onMounted(() => {
     setInterval(nextSlide, 7000);
     setTimeout(animateStats, 500);
@@ -171,6 +235,10 @@ onMounted(() => {
         cycleSocialProof();
     }, 5000);
 
+    // Initialiser le compte à rebours
+    updateCountdown();
+    countdownInterval = setInterval(updateCountdown, 1000);
+
     // Load Twitter Widgets JS for live feed
     const script = document.createElement('script');
     script.setAttribute('src', 'https://platform.twitter.com/widgets.js');
@@ -178,7 +246,6 @@ onMounted(() => {
     script.setAttribute('charset', 'utf-8');
     document.head.appendChild(script);
 });
-
 // Visiteurs dynamiques (Now based on Real stats)
 const visitorStats = ref({
     total: 0,
@@ -419,9 +486,10 @@ const handleKeyDown = (e) => {
 onMounted(() => {
     window.addEventListener('keydown', handleKeyDown);
 });
-
 onUnmounted(() => {
     window.removeEventListener('keydown', handleKeyDown);
+    if (tickingInterval) clearInterval(tickingInterval);
+    if (countdownInterval) clearInterval(countdownInterval);
 });
 </script>
 
@@ -506,14 +574,154 @@ onUnmounted(() => {
         <!-- Bandeau stat dynamique -->
         <div class="hero-infobar !py-0">
             <div class="container infobar-inner !py-0 flex flex-wrap justify-between">
-                <div v-for="stat in stats" :key="stat.label" class="flex flex-col items-center py-6 px-4 min-w-[200px] border-r border-white/10 last:border-0 grow">
-                    <span class="text-[#EDAF11] text-2xl md:text-3xl font-black mb-1">
+                <div v-for="stat in stats" :key="stat.label" 
+                     class="flex flex-col items-center py-6 px-4 min-w-[200px] border-r border-white/10 last:border-0 grow relative group transition-all duration-300">
+                    
+                    <!-- Live indicator for real-time stats -->
+                    <div v-if="stat.key === 'population' || stat.key === 'households'" 
+                         class="absolute top-2 right-4 flex items-center gap-1.5 bg-[#EDAF11]/15 px-2 py-0.5 rounded-full border border-[#EDAF11]/25 scale-[0.8] select-none">
+                        <span class="relative flex h-1.5 w-1.5">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-red-500"></span>
+                        </span>
+                        <span class="text-[8px] font-black text-[#EDAF11] uppercase tracking-widest">{{ __('En Direct') }}</span>
+                    </div>
+
+                    <span class="text-[#EDAF11] text-2xl md:text-3xl font-black mb-1 transition-all duration-300"
+                          :class="{ 'scale-110 !text-white text-shadow-glow': stat.flash }">
                         {{ stat.value.toLocaleString() }}{{ stat.suffix }}
                     </span>
                     <span class="text-white/70 text-xs font-bold uppercase tracking-widest text-center">{{ __(stat.label) }}</span>
                 </div>
             </div>
         </div>
+
+        <!-- ===================== SECTION LIVE HUB (COUNTDOWN & ACCÈS RAPIDE) ===================== -->
+        <section class="live-hub-section py-12 bg-gradient-to-b from-[#f4f7f6] to-[#ffffff] border-b border-gray-100">
+            <div class="container mx-auto px-4 md:px-6">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                    
+                    <!-- 1. COMPTE À REBOURS (5 cols) -->
+                    <div class="lg:col-span-5 flex flex-col justify-between p-6 md:p-8 bg-gradient-to-br from-[#204138] to-[#122822] rounded-[32px] shadow-[0_20px_50px_rgba(32,65,56,0.15)] text-white relative overflow-hidden group">
+                        <!-- Abstract gold circle decoration -->
+                        <div class="absolute -right-16 -top-16 w-36 h-36 rounded-full bg-[#EDAF11]/10 blur-xl pointer-events-none"></div>
+                        <div class="absolute -left-16 -bottom-16 w-36 h-36 rounded-full bg-[#2E6B5E]/20 blur-xl pointer-events-none"></div>
+                        
+                        <div class="relative z-10">
+                            <div class="flex items-center gap-2 mb-4">
+                                <span class="flex h-2 w-2 relative">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                                </span>
+                                <span class="text-xs font-black uppercase tracking-widest text-[#EDAF11]">{{ __('Phase de Ratissage') }}</span>
+                            </div>
+                            
+                            <h3 class="text-xl md:text-2xl font-black mb-2 leading-tight">
+                                {{ __('Temps restant pour l\'opération en cours') }}
+                            </h3>
+                            <p class="text-xs text-white/70 mb-6 font-medium">
+                                {{ __('La collecte de rattrapage permet de recenser les ménages omis. Clôture le 03 juin 2026.') }}
+                            </p>
+                        </div>
+
+                        <!-- Grid de compte à rebours -->
+                        <div class="grid grid-cols-4 gap-3 relative z-10 select-none">
+                            <!-- Jours -->
+                            <div class="flex flex-col items-center bg-white/10 backdrop-blur-md border border-white/10 p-3 rounded-2xl">
+                                <span class="text-2xl md:text-3xl font-black text-[#EDAF11] tracking-tight">
+                                    {{ String(countdownTime.days).padStart(2, '0') }}
+                                </span>
+                                <span class="text-[9px] font-black uppercase tracking-widest text-white/50 mt-1">{{ __('Jours') }}</span>
+                            </div>
+                            <!-- Heures -->
+                            <div class="flex flex-col items-center bg-white/10 backdrop-blur-md border border-white/10 p-3 rounded-2xl">
+                                <span class="text-2xl md:text-3xl font-black text-[#EDAF11] tracking-tight">
+                                    {{ String(countdownTime.hours).padStart(2, '0') }}
+                                </span>
+                                <span class="text-[9px] font-black uppercase tracking-widest text-white/50 mt-1">{{ __('Heures') }}</span>
+                            </div>
+                            <!-- Minutes -->
+                            <div class="flex flex-col items-center bg-white/10 backdrop-blur-md border border-white/10 p-3 rounded-2xl">
+                                <span class="text-2xl md:text-3xl font-black text-[#EDAF11] tracking-tight">
+                                    {{ String(countdownTime.minutes).padStart(2, '0') }}
+                                </span>
+                                <span class="text-[9px] font-black uppercase tracking-widest text-white/50 mt-1">{{ __('Minutes') }}</span>
+                            </div>
+                            <!-- Secondes -->
+                            <div class="flex flex-col items-center bg-white/10 backdrop-blur-md border border-white/10 p-3 rounded-2xl">
+                                <span class="text-2xl md:text-3xl font-black text-white tracking-tight animate-pulse">
+                                    {{ String(countdownTime.seconds).padStart(2, '0') }}
+                                </span>
+                                <span class="text-[9px] font-black uppercase tracking-widest text-white/50 mt-1">{{ __('Secondes') }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. ACCÈS RAPIDE (7 cols) -->
+                    <div class="lg:col-span-7 flex flex-col justify-between">
+                        <div class="mb-4">
+                            <span class="text-xs font-black uppercase tracking-widest text-[#2E6B5E] block mb-1">{{ __('Accès Rapide') }}</span>
+                            <h3 class="text-2xl md:text-3xl font-black text-[#204138] leading-tight">
+                                {{ __('Trouvez rapidement les informations essentielles') }}
+                            </h3>
+                        </div>
+
+                        <!-- Grid d'accès rapide -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 grow mt-2">
+                            <!-- Résultats -->
+                            <Link href="/activites" class="flex flex-col justify-between p-6 bg-white border border-gray-100 hover:border-[#2E6B5E]/30 rounded-[24px] shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group no-underline">
+                                <div class="w-12 h-12 rounded-2xl bg-[#2E6B5E]/10 text-[#2E6B5E] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-black text-[#204138] text-base mb-1.5 group-hover:text-[#EDAF11] transition-colors">{{ __('Résultats') }}</h4>
+                                    <span class="text-xs font-bold text-gray-400 group-hover:text-[#2E6B5E] flex items-center gap-1.5 transition-colors">
+                                        {{ __('Voir les résultats') }}
+                                        <svg class="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+                                    </span>
+                                </div>
+                            </Link>
+
+                            <!-- Carte interactive -->
+                            <a href="#demographie" class="flex flex-col justify-between p-6 bg-white border border-gray-100 hover:border-[#2E6B5E]/30 rounded-[24px] shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group no-underline">
+                                <div class="w-12 h-12 rounded-2xl bg-[#EDAF11]/15 text-[#EDAF11] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0L6.343 16.657a8 8 0 1111.314 0z"/>
+                                        <circle cx="12" cy="11" r="3"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-black text-[#204138] text-base mb-1.5 group-hover:text-[#EDAF11] transition-colors">{{ __('Carte Interactive') }}</h4>
+                                    <span class="text-xs font-bold text-gray-400 group-hover:text-[#2E6B5E] flex items-center gap-1.5 transition-colors">
+                                        {{ __('Explorer la carte') }}
+                                        <svg class="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+                                    </span>
+                                </div>
+                            </a>
+
+                            <!-- Médiathèque -->
+                            <Link href="/phototheque" class="flex flex-col justify-between p-6 bg-white border border-gray-100 hover:border-[#2E6B5E]/30 rounded-[24px] shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group no-underline">
+                                <div class="w-12 h-12 rounded-2xl bg-[#2E6B5E]/10 text-[#2E6B5E] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-black text-[#204138] text-base mb-1.5 group-hover:text-[#EDAF11] transition-colors">{{ __('Médiathèque') }}</h4>
+                                    <span class="text-xs font-bold text-gray-400 group-hover:text-[#2E6B5E] flex items-center gap-1.5 transition-colors">
+                                        {{ __('Visiter la médiathèque') }}
+                                        <svg class="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+                                    </span>
+                                </div>
+                            </Link>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
 
         <!-- ===================== CHRONOGRAMME ===================== -->
         <section class="chronogramme-section" id="chronogramme">
@@ -735,53 +943,50 @@ onUnmounted(() => {
         <!-- ===================== A LA UNE ===================== -->
         <section class="alaune-section" id="a-la-une" v-if="latestArticles && latestArticles.length > 0">
             <div class="container">
-                <h2 class="alaune-title">{{ __('A la Une') }}</h2>
+                <h2 class="alaune-title">{{ __('Actualités & Communiqués') }}</h2>
 
-                <!-- Hero News (First one) -->
-                <div class="alaune-hero" v-if="latestArticles[0]">
-                    <Link :href="route('actualites.show', latestArticles[0].slug)" class="alaune-hero-card-container transition-all">
-                        <div class="alaune-hero-img-wrap relative">
-                            <video
-                                v-if="latestArticles[0].media_type === 'video' && latestArticles[0].video && !latestArticles[0].image"
-                                :src="'/storage/' + latestArticles[0].video"
-                                muted
-                                autoplay
-                                loop
-                                playsinline
-                                @timeupdate="(e) => { if (e.target.currentTime >= 5) e.target.currentTime = 0; }"
-                                class="w-full h-full object-cover absolute inset-0"
-                                style="pointer-events: none;"
-                            ></video>
-                            <img v-else :src="latestArticles[0].image ? `/storage/${latestArticles[0].image}` : '/assets/images/slides/phase_prepa.jpg'" 
-                                 :alt="latestArticles[0].title">
-                            <!-- Video Play Badge Overlay for Hero -->
-                            <div v-if="latestArticles[0].media_type === 'video'" class="absolute inset-0 bg-black/30 flex items-center justify-center transition-all">
-                                <span class="w-16 h-16 rounded-full bg-[#EDAF11] text-[#204138] flex items-center justify-center shadow-lg transform scale-100 hover:scale-110 transition-all">
-                                    <svg class="w-8 h-8 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="alaune-hero-content">
-                            <span class="tag" :class="`tag-${latestArticles[0].category}`">{{ __(latestArticles[0].tag) }}</span>
-                            <h3>{{ latestArticles[0].title }}</h3>
-                            <p>{{ latestArticles[0].excerpt }}</p>
-                            <div class="alaune-hero-link">
-                                {{ __('Lire le contenu') }}
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                            </div>
-                        </div>
-                    </Link>
+                <!-- Onglets de filtrage des actualités -->
+                <div class="flex flex-wrap items-center justify-center gap-2 mb-12 border-b border-gray-100 pb-6">
+                    <button @click="selectedNewsCategory = 'all'"
+                            class="px-6 py-3 rounded-full text-xs font-black uppercase tracking-wider transition-all duration-300 border"
+                            :class="selectedNewsCategory === 'all' ? 'bg-[#204138] border-[#204138] text-white shadow-md' : 'bg-white border-gray-200 text-gray-500 hover:border-[#204138] hover:text-[#204138]'">
+                        {{ __('Tout') }}
+                    </button>
+                    <button @click="selectedNewsCategory = 'activite'"
+                            class="px-6 py-3 rounded-full text-xs font-black uppercase tracking-wider transition-all duration-300 border"
+                            :class="selectedNewsCategory === 'activite' ? 'bg-[#204138] border-[#204138] text-white shadow-md' : 'bg-white border-gray-200 text-gray-500 hover:border-[#204138] hover:text-[#204138]'">
+                        {{ __('Actualités') }}
+                    </button>
+                    <button @click="selectedNewsCategory = 'communique'"
+                            class="px-6 py-3 rounded-full text-xs font-black uppercase tracking-wider transition-all duration-300 border"
+                            :class="selectedNewsCategory === 'communique' ? 'bg-[#204138] border-[#204138] text-white shadow-md' : 'bg-white border-gray-200 text-gray-500 hover:border-[#204138] hover:text-[#204138]'">
+                        {{ __('Communiqués') }}
+                    </button>
+                    <button @click="selectedNewsCategory = 'publication'"
+                            class="px-6 py-3 rounded-full text-xs font-black uppercase tracking-wider transition-all duration-300 border"
+                            :class="selectedNewsCategory === 'publication' ? 'bg-[#204138] border-[#204138] text-white shadow-md' : 'bg-white border-gray-200 text-gray-500 hover:border-[#204138] hover:text-[#204138]'">
+                        {{ __('Publications') }}
+                    </button>
                 </div>
 
-                <!-- Secondary News (Next 3) -->
-                <div class="alaune-cards-row mt-12">
-                    <article v-for="(article, index) in latestArticles.slice(1)" :key="index" class="article-card" :data-category="article.category">
-                        <Link :href="route('actualites.show', article.slug)" class="article-card-link">
-                            <div class="article-img relative overflow-hidden" :class="!article.image && article.media_type !== 'video' ? (article.imgClass || `article-img--${article.category === 'communique' ? 'green' : (article.category === 'activite' ? 'gold' : 'teal')}`) : ''">
-                                <img v-if="article.image" :src="`/storage/${article.image}`" class="w-full h-full object-cover absolute inset-0">
+                <div v-if="filteredArticles.length === 0" class="text-center py-16 px-4 bg-gray-50/50 rounded-[32px] border border-gray-100 max-w-2xl mx-auto flex flex-col items-center">
+                    <span class="w-16 h-16 rounded-full bg-gray-100 text-gray-400 flex items-center justify-center mb-4">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 4a2 2 0 002-2v-3a2 2 0 00-2-2h-3m3 7V9m0 0l-3-3m3 3l3-3"/>
+                        </svg>
+                    </span>
+                    <h3 class="text-lg font-black text-[#204138] mb-1">{{ __('Aucun article disponible') }}</h3>
+                    <p class="text-sm text-gray-400 max-w-sm">{{ __('Aucune publication n\'a été trouvée dans cette catégorie pour le moment. Veuillez revenir plus tard.') }}</p>
+                </div>
+
+                <div v-else>
+                    <!-- Hero News (First one) -->
+                    <div class="alaune-hero" v-if="filteredArticles[0]">
+                        <Link :href="route('actualites.show', filteredArticles[0].slug)" class="alaune-hero-card-container transition-all">
+                            <div class="alaune-hero-img-wrap relative">
                                 <video
-                                    v-else-if="article.media_type === 'video' && article.video"
-                                    :src="'/storage/' + article.video"
+                                    v-if="filteredArticles[0].media_type === 'video' && filteredArticles[0].video && !filteredArticles[0].image"
+                                    :src="'/storage/' + filteredArticles[0].video"
                                     muted
                                     autoplay
                                     loop
@@ -790,27 +995,66 @@ onUnmounted(() => {
                                     class="w-full h-full object-cover absolute inset-0"
                                     style="pointer-events: none;"
                                 ></video>
-                                <!-- Video Play Badge Overlay -->
-                                <div v-if="article.media_type === 'video'" class="absolute inset-0 bg-black/30 flex items-center justify-center transition-all">
-                                    <span class="w-12 h-12 rounded-full bg-[#EDAF11] text-[#204138] flex items-center justify-center shadow-lg transform transition-all">
-                                        <svg class="w-6 h-6 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                <img v-else :src="filteredArticles[0].image ? `/storage/${filteredArticles[0].image}` : '/assets/images/slides/phase_prepa.jpg'" 
+                                     :alt="filteredArticles[0].title">
+                                <!-- Video Play Badge Overlay for Hero -->
+                                <div v-if="filteredArticles[0].media_type === 'video'" class="absolute inset-0 bg-black/30 flex items-center justify-center transition-all">
+                                    <span class="w-16 h-16 rounded-full bg-[#EDAF11] text-[#204138] flex items-center justify-center shadow-lg transform scale-100 hover:scale-110 transition-all">
+                                        <svg class="w-8 h-8 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                                     </span>
                                 </div>
                             </div>
-                            <div class="article-card-body p-6">
-                                <div class="article-meta mb-3">
-                                    <span class="article-tag" :class="`tag-${article.category}`">{{ __(article.tag) }}</span>
-                                    <time class="article-date text-xs text-gray-400 font-bold ml-auto">{{ article.date }}</time>
+                            <div class="alaune-hero-content">
+                                <span class="tag" :class="`tag-${filteredArticles[0].category}`">{{ __(filteredArticles[0].tag) }}</span>
+                                <h3>{{ filteredArticles[0].title }}</h3>
+                                <p>{{ filteredArticles[0].excerpt }}</p>
+                                <div class="alaune-hero-link">
+                                    {{ __('Lire le contenu') }}
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                                 </div>
-                                <h3 class="article-card-title text-xl font-bold text-[#204138] mb-3 line-clamp-2">{{ article.title }}</h3>
-                                <p class="article-card-excerpt text-sm text-gray-500 line-clamp-2">{{ article.excerpt }}</p>
-                                <span class="article-read-more mt-4 text-[#204138] font-bold text-xs uppercase tracking-widest flex items-center gap-2 group-hover:text-[#EDAF11]">
-                                    {{ __('Lire la suite') }}
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                                </span>
                             </div>
                         </Link>
-                    </article>
+                    </div>
+
+                    <!-- Secondary News (Next 3) -->
+                    <div class="alaune-cards-row mt-12" v-if="filteredArticles.length > 1">
+                        <article v-for="(article, index) in filteredArticles.slice(1)" :key="index" class="article-card" :data-category="article.category">
+                            <Link :href="route('actualites.show', article.slug)" class="article-card-link">
+                                <div class="article-img relative overflow-hidden" :class="!article.image && article.media_type !== 'video' ? (article.imgClass || `article-img--${article.category === 'communique' ? 'green' : (article.category === 'activite' ? 'gold' : 'teal')}`) : ''">
+                                    <img v-if="article.image" :src="`/storage/${article.image}`" class="w-full h-full object-cover absolute inset-0">
+                                    <video
+                                        v-else-if="article.media_type === 'video' && article.video"
+                                        :src="'/storage/' + article.video"
+                                        muted
+                                        autoplay
+                                        loop
+                                        playsinline
+                                        @timeupdate="(e) => { if (e.target.currentTime >= 5) e.target.currentTime = 0; }"
+                                        class="w-full h-full object-cover absolute inset-0"
+                                        style="pointer-events: none;"
+                                    ></video>
+                                    <!-- Video Play Badge Overlay -->
+                                    <div v-if="article.media_type === 'video'" class="absolute inset-0 bg-black/30 flex items-center justify-center transition-all">
+                                        <span class="w-12 h-12 rounded-full bg-[#EDAF11] text-[#204138] flex items-center justify-center shadow-lg transform transition-all">
+                                            <svg class="w-6 h-6 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="article-card-body p-6">
+                                    <div class="article-meta mb-3">
+                                        <span class="article-tag" :class="`tag-${article.category}`">{{ __(article.tag) }}</span>
+                                        <time class="article-date text-xs text-gray-400 font-bold ml-auto">{{ article.date }}</time>
+                                    </div>
+                                    <h3 class="article-card-title text-xl font-bold text-[#204138] mb-3 line-clamp-2">{{ article.title }}</h3>
+                                    <p class="article-card-excerpt text-sm text-gray-500 line-clamp-2">{{ article.excerpt }}</p>
+                                    <span class="article-read-more mt-4 text-[#204138] font-bold text-xs uppercase tracking-widest flex items-center gap-2 group-hover:text-[#EDAF11]">
+                                        {{ __('Lire la suite') }}
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                    </span>
+                                </div>
+                            </Link>
+                        </article>
+                    </div>
                 </div>
 
                 <div class="alaune-footer mt-16 text-center">
@@ -1413,5 +1657,9 @@ onUnmounted(() => {
     background: rgba(255, 255, 255, 0.12);
     border-color: rgba(237, 175, 17, 0.4);
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+
+.text-shadow-glow {
+    text-shadow: 0 0 15px rgba(237, 175, 17, 0.7);
 }
 </style>
