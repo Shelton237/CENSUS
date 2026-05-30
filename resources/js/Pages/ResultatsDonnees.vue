@@ -575,7 +575,7 @@ const resetForm = () => {
                                 </div>
                                 <div class="p-6 bg-white border border-gray-100 rounded-3xl shadow-sm flex items-start gap-4">
                                     <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
-                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10a6 6 0 00-6-6H3v3a6 6 0 006 6h3m0 0a6 6 0 016-6h3v3a6 6 0 01-6 6h-3m0 0v9m0-9H9m3 0h3" /></svg>
                                     </div>
                                     <div>
                                         <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest">{{ __('Exploitations RGAE') }}</span>
@@ -644,7 +644,7 @@ const resetForm = () => {
                             <!-- Downloads block -->
                             <div class="p-6 bg-gradient-to-br from-[#204138] to-[#122822] rounded-3xl text-white relative overflow-hidden">
                                 <div class="absolute right-0 bottom-0 opacity-10 transform translate-x-12 translate-y-12">
-                                    <svg class="w-72 h-72" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-6h2v6zm0-8h-2V9h2v2z" /></svg>
+                                    <svg class="w-72 h-72" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 7v10c0 2.2 3.6 4 8 4s8-1.8 8-4V7M4 7c0 2.2 3.6 4 8 4s8-1.8 8-4M4 7c0-2.2 3.6-4 8-4s8 1.8 8 4m0 5c0 2.2-3.6 4-8 4s-8-1.8-8-4" /></svg>
                                 </div>
 
                                 <div class="relative z-10 space-y-4 max-w-lg">
@@ -729,7 +729,7 @@ const resetForm = () => {
                                 </div>
 
                                 <div v-if="filteredPublications.length === 0" class="md:col-span-2 p-12 text-center text-gray-400 bg-white border border-gray-100 rounded-3xl shadow-sm">
-                                    <svg class="w-12 h-12 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                    <svg class="w-12 h-12 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m-3-3h6" /></svg>
                                     <p class="font-bold">{{ __('Aucune publication trouvée.') }}</p>
                                     <p class="text-xs text-gray-400 mt-1">{{ __('Modifiez vos critères de recherche ou de catégorie.') }}</p>
                                 </div>
