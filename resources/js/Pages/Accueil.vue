@@ -77,7 +77,14 @@ const slides = [
     { 
         image: '/assets/images/backgrounds/cameroon_people_map.png', 
         title: 'Le 4ème RGPH : Notre affaire à tous', 
-        text: 'Une cartographie et un dénombrement modernes pour bâtir l\'avenir du Cameroun ensemble. Chaque citoyen compte.',
+        text: 'Une cartographie et un dénombrement modernes',
+        cta: 'En savoir plus',
+        link: '/apropos'
+    },
+    { 
+        image: '/assets/images/backgrounds/cameroon_people_map.png', 
+        title: 'Le 4ème RGPH et RGAE : Notre affaire à tous', 
+        text: 'Une cartographie et un dénombrement modernes',
         cta: 'En savoir plus',
         link: '/apropos'
     },

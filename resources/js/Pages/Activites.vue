@@ -83,26 +83,28 @@ const phases = ref([
             en: 'Main Enumeration (2026)'
         },
         description: {
-            fr: 'Phase opérationnelle majeure où plus de 30 000 agents parcourent simultanément tout le Cameroun pour interroger les ménages et les producteurs agricoles. Les informations récoltées sur tablettes sécurisées alimentent en temps réel les bases de données d\'analyse.',
-            en: 'Major operational phase where over 30,000 enumerators travel across Cameroon to interview households and agricultural producers. The information collected on secure tablets feeds the central analytical databases in real time.'
+            fr: 'Phase opérationnelle majeure : 35 355 agents recenseurs formés dans les 360 arrondissements du Cameroun sillonnent quartiers et villages pour interviewer les ménages via tablettes numériques (CAPI). Conformément à l\'arrêté N°039/CAB/PM du 06 mars 2026, le dénombrement se déroule du 24 avril au 29 mai 2026.',
+            en: 'Major operational phase: 35,355 trained enumerators across all 360 subdivisions of Cameroon canvas neighborhoods and villages to interview households via digital tablets (CAPI). Under Decree N°039/CAB/PM of March 6, 2026, the enumeration runs from April 24 to May 29, 2026.'
         },
         stats: [
-            { label: { fr: 'Progression estimée', en: 'Estimated progress' }, value: '64%' },
-            { label: { fr: 'Agents recenseurs actifs', en: 'Active enumerators' }, value: '32 000+' },
-            { label: { fr: 'Ménages recensés', en: 'Households surveyed' }, value: '3.8 M+' }
+            { label: { fr: 'Agents recenseurs formés', en: 'Trained enumerators' }, value: '35 355' },
+            { label: { fr: 'Agents terrain déployés', en: 'Deployed field agents' }, value: '~30 000' },
+            { label: { fr: 'Contrôleurs formés', en: 'Trained supervisors' }, value: '686' },
+            { label: { fr: 'Départements couverts', en: 'Departments covered' }, value: '58 / 58' },
+            { label: { fr: 'Arrondissements couverts', en: 'Subdivisions covered' }, value: '360 / 360' }
         ],
         milestones: {
             fr: [
-                'Recrutement, sélection et formation intensive des agents recenseurs et contrôleurs',
-                'Déploiement logistique sécurisé des tablettes numériques dans les 10 régions',
-                'Campagne de communication de masse et mobilisation sociale (radios, crieurs publics)',
-                'Collecte en face-à-face des variables démographiques, agricoles et d\'élevage'
+                'Formation de 35 355 agents recenseurs dans les 360 arrondissements (30 mars – 22 avr. 2026)',
+                'Présélection des agents dans les 58 départements, listes signées par les Préfets',
+                'Recyclage de 686 contrôleurs et 110 CAFL par 54 formateurs nationaux',
+                'Collecte porte-à-porte en face-à-face : démographie, agriculture, élevage, aquaculture'
             ],
             en: [
-                'Recruitment, selection, and intensive training of enumerators and supervisors',
-                'Secure logistical deployment of digital tablets to all 10 administrative regions',
-                'Mass communication and social mobilization campaign (radio, banners, town criers)',
-                'Face-to-face collection of demographics, livestock, and agricultural variables'
+                'Training of 35,355 enumerators across all 360 subdivisions (Mar 30 – Apr 22, 2026)',
+                'Preselection of agents in 58 departments, lists validated by Prefects',
+                'Retraining of 686 supervisors and 110 CAFL officers by 54 national trainers',
+                'Door-to-door face-to-face collection: demographics, agriculture, livestock, aquaculture'
             ]
         }
     },
@@ -200,6 +202,168 @@ const statusBadgeClass = (status) => {
 const isPercentage = (value) => {
     return typeof value === 'string' && value.endsWith('%');
 };
+
+const slogan = {
+    fr: "Le recensement est une affaire de tous, contribuons à sa réussite.",
+    en: "The census is everyone's business, let's contribute to its success."
+};
+
+const denombrementPhases = [
+    {
+        num: 1,
+        title: {
+            fr: "Phase 1 : Mise à jour de la ZD + Numérotation",
+            en: "Phase 1: Enumeration Area Update + Numbering"
+        },
+        duration: {
+            fr: "14 jours (dès le 24 Avril 2026)",
+            en: "14 days (from April 24, 2026)"
+        },
+        details: {
+            fr: "Mise à jour cartographique de la zone de dénombrement (ZD) et numérotation des structures et ménages. Marquage des domiciles par le sigle officiel « GC » (General Census) suivi du numéro de ZD et des identifiants uniques de structure et de ménage pour n'oublier personne.",
+            en: "Mapping update of the enumeration area (ZD) and numbering of structures and households. Marking homes with the official acronym 'GC' (General Census) followed by the ZD number and unique structure/household identifiers to ensure no one is left behind."
+        }
+    },
+    {
+        num: 2,
+        title: {
+            fr: "Phase 2 : Collecte proprement dite",
+            en: "Phase 2: Main Data Collection"
+        },
+        duration: {
+            fr: "30 jours (dès le 8 Mai 2026)",
+            en: "30 days (from May 8, 2026)"
+        },
+        details: {
+            fr: "Déploiement d'environ 30 000 agents recenseurs et chefs d'équipes sur l'ensemble du territoire national pour interroger les chefs de ménage en face-à-face via des tablettes numériques (CAPI). Collecte de données démographiques, d'éducation, d'emploi, de fécondité, de décès, de transferts de la diaspora et d'activités agropastorales.",
+            en: "Deployment of approximately 30,000 enumerators and team leaders across the national territory to conduct face-to-face household interviews using digital tablets (CAPI). Collection of demographic, education, employment, fertility, mortality, diaspora transfers, and agropastoral data."
+        }
+    },
+    {
+        num: 3,
+        title: {
+            fr: "Phase 3 : Ratissage",
+            en: "Phase 3: Catch-up & Mopping up"
+        },
+        duration: {
+            fr: "5 jours",
+            en: "5 days"
+        },
+        details: {
+            fr: "Période complémentaire de ratissage pour identifier et recenser les ménages omis. Un Call Center dédié est mis en place au numéro vert gratuit « 8585 » permettant aux ménages non comptés de se signaler.",
+            en: "Complementary mopping-up period to identify and survey any omitted households. A dedicated Call Center is set up via the toll-free number '8585' for households to report themselves if missed."
+        }
+    }
+];
+
+const preparatoryMilestones = [
+    {
+        date: "18-30 Sept 2025",
+        title: { fr: "Recyclage des Superviseurs (170)", en: "Supervisor Retraining (170)" },
+        desc: {
+            fr: "170 responsables issus des 10 régions (Coordinations Nationales RGPH-RGAE et Ministères) formés à Ebolowa sur les procédures techniques, administratives, financières et logistiques.",
+            en: "170 senior officials from all 10 regions (National RGPH-RGAE Coordination and Ministries) trained in Ebolowa on technical, administrative, financial, and logistical procedures."
+        }
+    },
+    {
+        date: "18 Oct – 5 Nov 2025",
+        title: { fr: "Test en Zones de Crises", en: "Crisis Zone Census Test" },
+        desc: {
+            fr: "Test du recensement hybride (interview + télédétection) avec l'appui de l'UNFPA et de la FAO dans les arrondissements de Bamenda 1er, Buea, Fongo-Tongo et Mora.",
+            en: "Hybrid census test (interview + remote sensing) with UNFPA and FAO support in the subdivisions of Bamenda I, Buea, Fongo-Tongo, and Mora."
+        }
+    },
+    {
+        date: "Nov – Déc 2025",
+        title: { fr: "Reparamétrage des Smartphones", en: "Smartphone Reconfiguration" },
+        desc: {
+            fr: "Checking complet de la flotte de smartphones, remplacement des batteries défectueuses, constitution d'une réserve suffisante avec l'appui de l'OMS via l'UNFPA.",
+            en: "Full checking of smartphone fleet, replacement of faulty batteries, and securing backup stock with WHO support via UNFPA."
+        }
+    },
+    {
+        date: "Déc 2025",
+        title: { fr: "Atelier de Modélisation Spatiale", en: "Spatial Modeling Workshop" },
+        desc: {
+            fr: "Test de la méthodologie d'estimation démographique et agricole par modélisation spatiale pour les zones inaccessibles. Résultats satisfaisants, proches du dénombrement classique.",
+            en: "Testing of demographic and agricultural estimation methodology via spatial modeling for inaccessible areas. Results deemed satisfactory, close to classic enumeration findings."
+        }
+    },
+    {
+        date: "Déc 2025 – Fév 2026",
+        title: { fr: "Stratégie de Communication Finalisée", en: "Communication Strategy Finalized" },
+        desc: {
+            fr: "Finalisation à Ebolowa puis Yaoundé (avec l'UNFPA) du plan de communication censitaire : mobilisation sociale, campagne médiatique (radio, TV, digital, SMS), sensibilisation de proximité, caravanes motorisées.",
+            en: "Finalization in Ebolowa then Yaoundé (with UNFPA) of the census communication plan: social mobilization, media campaign (radio, TV, digital, SMS), community outreach, mobile caravans."
+        }
+    },
+    {
+        date: "16 Fév – 06 Mars 2026",
+        title: { fr: "Recyclage des Contrôleurs (686)", en: "Supervisor Retraining (686)" },
+        desc: {
+            fr: "686 candidats contrôleurs formés par 54 formateurs nationaux dans les 10 régions sur les compétences théoriques, pratiques et managériales pour encadrer les chefs d'équipes et agents recenseurs.",
+            en: "686 supervisor candidates trained by 54 national trainers in all 10 regions on theoretical, practical, and managerial skills to manage team leaders and enumerators."
+        }
+    },
+    {
+        date: "23 Fév – 04 Mars 2026",
+        title: { fr: "Recyclage des CAFL (110)", en: "CAFL Officers Retraining (110)" },
+        desc: {
+            fr: "110 Cadres Administratifs, Financiers et Logistiques recyclés. Les Délégués Départementaux du MINEPAT formés sur leur rôle d'Ordonnateurs Délégués pour autoriser les dépenses départementales.",
+            en: "110 Administrative, Financial, and Logistical Officers retrained. MINEPAT Departmental Delegates briefed on their role as Budget Delegates authorizing local expenditures."
+        }
+    },
+    {
+        date: "06 – 29 Mars 2026",
+        title: { fr: "Présélection dans les 58 Départements", en: "Preselection in 58 Departments" },
+        desc: {
+            fr: "Commissions de présélection tenues dans les 58 départements. Listes des candidats présélectionnés par arrondissement signées par les Préfets.",
+            en: "Preselection committees held in all 58 departments. Lists of preselected candidates by subdivision signed off by Prefects."
+        }
+    },
+    {
+        date: "30 Mars – 22 Avr 2026",
+        title: { fr: "Formation de 35 355 Agents Recenseurs", en: "35,355 Enumerators Trained" },
+        desc: {
+            fr: "Formation intensive de 35 355 candidats agents recenseurs dans les 360 arrondissements du Cameroun, pour collecter les données socio-démographiques et agropastorales.",
+            en: "Intensive training of 35,355 enumerator candidates across all 360 subdivisions of Cameroon, to collect socio-demographic and agropastoral data."
+        }
+    },
+    {
+        date: "Déc 2025 – Avr 2026",
+        title: { fr: "Acheminement du Matériel de Terrain", en: "Field Equipment Deployment" },
+        desc: {
+            fr: "Acheminement du matériel de formation et de collecte vers les sous-préfectures. Des retards ont été enregistrés au Nord-Ouest et au Sud-Ouest en raison des contraintes sécuritaires.",
+            en: "Delivery of training and collection equipment to sub-prefectures. Delays encountered in the Northwest and Southwest due to security constraints."
+        }
+    },
+    {
+        date: "Nov 2025 – Mai 2026",
+        title: { fr: "Plan de Sécurité Tricolore (Rouge/Orange/Vert)", en: "Three-Zone Security Plan (Red/Orange/Green)" },
+        desc: {
+            fr: "Sécurité assurée par Police (urbain), Gendarmerie (rural) et Armée (zones à risques). Cartographie sécuritaire continue avec le MINDEF. Plan de contingence revu avec la Task force sécurité.",
+            en: "Security provided by Police (urban), Gendarmerie (rural), and Army (risk zones). Continuous security mapping with MINDEF. Contingency plan revised with the security task force."
+        }
+    },
+    {
+        date: "Mars – Mai 2026",
+        title: { fr: "Conventions MTN & Orange Money", en: "MTN & Orange Money Agreements" },
+        desc: {
+            fr: "Conventions signées avec MTN Mobile Money et Orange Money pour le paiement électronique des frais de subsistance (en vigueur depuis mars 2026) et des salaires des agents recenseurs.",
+            en: "Agreements signed with MTN Mobile Money and Orange Money for electronic payment of field staff allowances (effective March 2026) and enumerator salaries."
+        }
+    },
+    {
+        date: "Avr – Mai 2026",
+        title: { fr: "Installation des Comités Locaux (58 Départements)", en: "Local Committee Installation (58 Departments)" },
+        desc: {
+            fr: "Installation des Comités Départementaux dans les 58 départements puis des comités d'arrondissements pour appuyer la mobilisation sociale, la sécurité et le pilotage de proximité de la collecte.",
+            en: "Installation of Departmental Committees in all 58 departments, followed by Subdivisional Committees to support social mobilization, security, and local oversight of data collection."
+        }
+    }
+];
+
+const activeSubTab = ref('phases'); // 'phases' or 'preparatory'
 </script>
 
 <template>
@@ -349,33 +513,116 @@ const isPercentage = (value) => {
 
                                 <!-- Livrables/Étapes clés -->
                                 <div class="pt-6 border-t border-gray-100">
-                                    <h3 class="text-xs font-black text-gray-400 uppercase tracking-widest mb-4">
-                                        {{ currentLocale === 'en' ? 'Key Milestones & Deliverables' : 'Livrables & Étapes clés' }}
-                                    </h3>
-                                    <ul class="space-y-4">
-                                        <li v-for="(milestone, idx) in selectedPhase.milestones[currentLocale]" :key="idx" class="flex items-start gap-3.5">
-                                            <!-- Completed checkmark -->
-                                            <span v-if="selectedPhase.status === 'completed'" class="mt-1 flex-shrink-0 w-5 h-5 rounded-full bg-[#2E9146]/10 flex items-center justify-center">
-                                                <svg class="w-3 h-3 text-[#2E9146]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
-                                                </svg>
-                                            </span>
-                                            <!-- Active chevron -->
-                                            <span v-else-if="selectedPhase.status === 'active'" class="mt-1 flex-shrink-0 w-5 h-5 rounded-full bg-[#F1A502]/10 flex items-center justify-center animate-pulse">
-                                                <svg class="w-3 h-3 text-[#F1A502]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7" />
-                                                </svg>
-                                            </span>
-                                            <!-- Upcoming locked circle -->
-                                            <span v-else class="mt-1 flex-shrink-0 w-5 h-5 rounded-full bg-gray-100 flex items-center justify-center">
-                                                <svg class="w-2.5 h-2.5 text-gray-400" fill="currentColor" viewBox="0 0 8 8">
-                                                    <circle cx="4" cy="4" r="3" />
-                                                </svg>
-                                            </span>
-                                            <span class="text-gray-700 text-sm md:text-base leading-relaxed font-medium">{{ milestone }}</span>
-                                        </li>
-                                    </ul>
-                                </div>
+                                     <div v-if="selectedPhase.id === 'denombrement'" class="space-y-6">
+                                         <!-- Slogan Callout -->
+                                         <div class="p-5 rounded-2xl bg-gradient-to-br from-[#204138] to-[#2E6B5E] text-white border border-[#2E6B5E]/30 relative overflow-hidden group hover:shadow-lg transition-all duration-300">
+                                             <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-white/[0.03] rounded-full pointer-events-none transition-transform duration-500 group-hover:scale-125"></div>
+                                             <div class="flex items-center gap-4 relative z-10">
+                                                 <span class="p-3 rounded-xl bg-white/10 flex-shrink-0 text-[#EDAF11]">
+                                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                                                     </svg>
+                                                 </span>
+                                                 <div>
+                                                     <span class="text-[9px] font-black uppercase tracking-widest text-[#EDAF11]">{{ currentLocale === 'en' ? 'Official Slogan' : 'Slogan Officiel' }}</span>
+                                                     <p class="text-sm md:text-base font-black leading-snug mt-0.5 italic">
+                                                         "{{ slogan[currentLocale] }}"
+                                                     </p>
+                                                 </div>
+                                             </div>
+                                         </div>
+
+                                         <!-- Sub-tabs Switcher -->
+                                         <div class="flex border-b border-gray-100 gap-6 text-xs font-black uppercase tracking-wider select-none">
+                                             <button 
+                                                 @click="activeSubTab = 'phases'" 
+                                                 class="pb-2.5 relative transition-all"
+                                                 :class="activeSubTab === 'phases' ? 'text-[#204138]' : 'text-gray-400 hover:text-gray-600'"
+                                             >
+                                                 {{ currentLocale === 'en' ? 'Field Phases' : 'Phases du Terrain' }}
+                                                 <span v-if="activeSubTab === 'phases'" class="absolute bottom-0 left-0 right-0 h-0.5 bg-[#204138] rounded-full"></span>
+                                             </button>
+                                             <button 
+                                                 @click="activeSubTab = 'preparatory'" 
+                                                 class="pb-2.5 relative transition-all"
+                                                 :class="activeSubTab === 'preparatory' ? 'text-[#204138]' : 'text-gray-400 hover:text-gray-600'"
+                                             >
+                                                 {{ currentLocale === 'en' ? 'Preparatory Work' : 'Travaux Préparatoires' }}
+                                                 <span v-if="activeSubTab === 'preparatory'" class="absolute bottom-0 left-0 right-0 h-0.5 bg-[#204138] rounded-full"></span>
+                                             </button>
+                                         </div>
+
+                                         <!-- Sub-tab contents -->
+                                         <div v-if="activeSubTab === 'phases'" class="space-y-4">
+                                             <div v-for="subPhase in denombrementPhases" :key="subPhase.num" class="p-4 rounded-xl border border-gray-100 hover:border-gray-200 hover:bg-gray-50/30 transition-all flex gap-3.5">
+                                                 <span class="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center font-black text-sm bg-[#2E6B5E]/10 text-[#2E6B5E]">
+                                                     {{ subPhase.num }}
+                                                 </span>
+                                                 <div class="space-y-1 flex-1">
+                                                     <div class="flex items-center gap-2.5 flex-wrap">
+                                                         <h4 class="font-bold text-[#204138] text-sm md:text-base leading-tight">{{ subPhase.title[currentLocale] }}</h4>
+                                                         <span class="text-[10px] px-2 py-0.5 rounded-full font-bold bg-[#EDAF11]/10 text-[#a07402] border border-[#EDAF11]/25">
+                                                             {{ subPhase.duration[currentLocale] }}
+                                                         </span>
+                                                     </div>
+                                                     <p class="text-xs md:text-sm text-gray-500 leading-relaxed font-medium">{{ subPhase.details[currentLocale] }}</p>
+
+                                                     <!-- Call Center green card for phase 3 -->
+                                                     <div v-if="subPhase.num === 3" class="mt-3.5 flex items-center gap-3 p-3 bg-green-50/50 border border-green-100 rounded-xl max-w-xs">
+                                                         <span class="flex-shrink-0 w-8 h-8 bg-[#2E9146]/10 text-[#2E9146] rounded-lg flex items-center justify-center">
+                                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                                             </svg>
+                                                         </span>
+                                                         <div>
+                                                             <span class="text-[9px] font-black uppercase text-green-700/70 tracking-wider block">{{ currentLocale === 'en' ? 'Toll-free Hotline' : 'Numéro Vert Gratuit' }}</span>
+                                                             <a href="tel:8585" class="text-sm font-black text-[#2E9146] hover:underline">Call Center 8585</a>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div>
+
+                                         <div v-else class="space-y-4 pl-4 border-l-2 border-gray-100">
+                                             <div v-for="(milestone, idx) in preparatoryMilestones" :key="idx" class="relative pl-4 pb-2 last:pb-0">
+                                                 <span class="absolute -left-[23px] top-1 w-2.5 h-2.5 rounded-full bg-[#2E9146]/20 border border-white flex items-center justify-center">
+                                                     <span class="w-1.5 h-1.5 rounded-full bg-[#2E9146]"></span>
+                                                 </span>
+                                                 <div class="space-y-0.5">
+                                                     <div class="flex items-center gap-2 flex-wrap">
+                                                         <span class="text-[9px] font-black text-[#2E9146] uppercase bg-[#2E9146]/10 px-1.5 py-0.5 rounded leading-none">{{ milestone.date }}</span>
+                                                         <h4 class="font-bold text-[#204138] text-xs leading-none">{{ milestone.title[currentLocale] }}</h4>
+                                                     </div>
+                                                     <p class="text-[11px] text-gray-500 leading-normal font-medium">{{ milestone.desc[currentLocale] }}</p>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+
+                                     <ul v-else class="space-y-4">
+                                         <li v-for="(milestone, idx) in selectedPhase.milestones[currentLocale]" :key="idx" class="flex items-start gap-3.5">
+                                             <!-- Completed checkmark -->
+                                             <span v-if="selectedPhase.status === 'completed'" class="mt-1 flex-shrink-0 w-5 h-5 rounded-full bg-[#2E9146]/10 flex items-center justify-center">
+                                                 <svg class="w-3 h-3 text-[#2E9146]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                                                 </svg>
+                                             </span>
+                                             <!-- Active chevron -->
+                                             <span v-else-if="selectedPhase.status === 'active'" class="mt-1 flex-shrink-0 w-5 h-5 rounded-full bg-[#F1A502]/10 flex items-center justify-center animate-pulse">
+                                                 <svg class="w-3 h-3 text-[#F1A502]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7" />
+                                                 </svg>
+                                             </span>
+                                             <!-- Upcoming locked circle -->
+                                             <span v-else class="mt-1 flex-shrink-0 w-5 h-5 rounded-full bg-gray-100 flex items-center justify-center">
+                                                 <svg class="w-2.5 h-2.5 text-gray-400" fill="currentColor" viewBox="0 0 8 8">
+                                                     <circle cx="4" cy="4" r="3" />
+                                                 </svg>
+                                             </span>
+                                             <span class="text-gray-700 text-sm md:text-base leading-relaxed font-medium">{{ milestone }}</span>
+                                         </li>
+                                     </ul>
+                                 </div>
                             </div>
                             
                             <!-- Stats & Action Card -->
