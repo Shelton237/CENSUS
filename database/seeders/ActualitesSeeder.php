@@ -200,7 +200,7 @@ HTML,
             // Éviter les doublons sur le slug
             if (!DB::table('articles')->where('slug', $article['slug'])->exists()) {
                 DB::table('articles')->insert($article);
-                $this->command->info("  [OK] Article insere : " . $article['title']);
+                $this->command->info("  [OK] Article insere : " . $article['title_fr']);
             } else {
                 $this->command->warn("  [SKIP] Article deja present : " . $article['slug']);
             }
