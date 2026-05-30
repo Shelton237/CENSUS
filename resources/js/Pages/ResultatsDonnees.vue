@@ -1,7 +1,9 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import MainLayout from '@/Layouts/MainLayout.vue';
-import { Head, usePage } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 const page = usePage();
 const __ = (key) => {
@@ -142,6 +144,184 @@ const selectedRegion = computed(() => regionalData[selectedRegionId.value]);
 const hoverRegionId = ref(null);
 
 const geoLevel = ref('region'); // region, departement, commune
+
+// --- Leaflet Map ---
+const mapContainer = ref(null);
+let mapInstance = null;
+let geojsonLayer = null;
+let layersByRegionId = {};
+
+// Approximate GeoJSON polygons for Cameroon's 10 regions
+const cameroonRegionsGeoJSON = {
+    type: 'FeatureCollection',
+    features: [
+        {
+            type: 'Feature',
+            properties: { id: 'extreme_nord', name_fr: 'Extrême-Nord' },
+            geometry: {
+                type: 'Polygon',
+                coordinates: [[[13.4,10.0],[15.1,10.0],[15.1,12.5],[14.7,13.1],[13.5,13.1],[12.5,12.0],[12.3,11.1],[13.1,10.2],[13.4,10.0]]]
+            }
+        },
+        {
+            type: 'Feature',
+            properties: { id: 'nord', name_fr: 'Nord' },
+            geometry: {
+                type: 'Polygon',
+                coordinates: [[[12.5,8.4],[15.1,8.4],[15.1,10.0],[13.4,10.0],[13.1,10.2],[12.3,11.1],[12.2,10.0],[11.7,9.2],[12.0,8.5],[12.5,8.4]]]
+            }
+        },
+        {
+            type: 'Feature',
+            properties: { id: 'adamaoua', name_fr: 'Adamaoua' },
+            geometry: {
+                type: 'Polygon',
+                coordinates: [[[11.5,6.5],[15.1,6.5],[15.1,8.4],[12.5,8.4],[12.0,8.5],[11.7,9.2],[11.2,8.6],[11.0,7.5],[11.5,6.5]]]
+            }
+        },
+        {
+            type: 'Feature',
+            properties: { id: 'nord_ouest', name_fr: 'Nord-Ouest' },
+            geometry: {
+                type: 'Polygon',
+                coordinates: [[[9.6,5.9],[11.0,5.9],[11.0,7.2],[10.1,7.2],[9.6,6.7],[9.6,5.9]]]
+            }
+        },
+        {
+            type: 'Feature',
+            properties: { id: 'ouest', name_fr: 'Ouest' },
+            geometry: {
+                type: 'Polygon',
+                coordinates: [[[9.6,5.2],[11.0,5.2],[11.0,5.9],[9.6,5.9],[9.6,5.2]]]
+            }
+        },
+        {
+            type: 'Feature',
+            properties: { id: 'sud_ouest', name_fr: 'Sud-Ouest' },
+            geometry: {
+                type: 'Polygon',
+                coordinates: [[[8.5,4.0],[9.6,4.0],[9.6,5.9],[9.1,6.3],[8.5,5.8],[8.2,4.7],[8.5,4.0]]]
+            }
+        },
+        {
+            type: 'Feature',
+            properties: { id: 'littoral', name_fr: 'Littoral' },
+            geometry: {
+                type: 'Polygon',
+                coordinates: [[[9.2,3.5],[11.0,3.5],[11.0,5.2],[9.6,5.2],[9.2,4.7],[9.1,4.0],[9.2,3.5]]]
+            }
+        },
+        {
+            type: 'Feature',
+            properties: { id: 'centre', name_fr: 'Centre' },
+            geometry: {
+                type: 'Polygon',
+                coordinates: [[[11.0,3.5],[14.5,3.5],[14.5,6.5],[11.5,6.5],[11.0,5.9],[11.0,5.2],[11.0,3.5]]]
+            }
+        },
+        {
+            type: 'Feature',
+            properties: { id: 'est', name_fr: 'Est' },
+            geometry: {
+                type: 'Polygon',
+                coordinates: [[[14.5,2.0],[16.2,2.0],[16.2,6.5],[15.1,6.5],[14.5,6.5],[14.5,2.0]]]
+            }
+        },
+        {
+            type: 'Feature',
+            properties: { id: 'sud', name_fr: 'Sud' },
+            geometry: {
+                type: 'Polygon',
+                coordinates: [[[9.1,2.0],[14.5,2.0],[14.5,3.5],[11.0,3.5],[9.2,3.5],[8.6,2.8],[9.1,2.0]]]
+            }
+        }
+    ]
+};
+
+const getRegionStyle = (regionId, active = false, hovered = false) => {
+    if (active) return { fillColor: '#204138', fillOpacity: 0.85, color: '#EDAF11', weight: 3 };
+    if (hovered) return { fillColor: '#EDAF11', fillOpacity: 0.4, color: '#EDAF11', weight: 2 };
+    return { fillColor: '#204138', fillOpacity: 0.12, color: '#204138', weight: 1.5 };
+};
+
+const initLeafletMap = () => {
+    if (!mapContainer.value || mapInstance) return;
+    mapInstance = L.map(mapContainer.value, {
+        center: [5.5, 12.4],
+        zoom: 5,
+        zoomControl: true,
+        attributionControl: true,
+        scrollWheelZoom: false,
+    });
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 19,
+    }).addTo(mapInstance);
+
+    layersByRegionId = {};
+    geojsonLayer = L.geoJSON(cameroonRegionsGeoJSON, {
+        style: (feature) => ({
+            ...getRegionStyle(feature.properties.id, selectedRegionId.value === feature.properties.id),
+            dashArray: null,
+        }),
+        onEachFeature: (feature, layer) => {
+            const rid = feature.properties.id;
+            const rData = regionalData[rid];
+            layersByRegionId[rid] = layer;
+
+            layer.bindTooltip(
+                `<div style="font-weight:800;font-size:12px;color:#204138;">${rData?.name?.fr || rid}</div><div style="font-size:11px;color:#555;">${rData?.capital?.fr || ''}</div>`,
+                { sticky: true, opacity: 0.97, className: 'leaflet-census-tooltip' }
+            );
+
+            layer.on('mouseover', () => {
+                hoverRegionId.value = rid;
+                if (rid !== selectedRegionId.value) {
+                    layer.setStyle(getRegionStyle(rid, false, true));
+                }
+            });
+            layer.on('mouseout', () => {
+                hoverRegionId.value = null;
+                if (rid !== selectedRegionId.value) {
+                    layer.setStyle(getRegionStyle(rid, false, false));
+                }
+            });
+            layer.on('click', () => {
+                selectedRegionId.value = rid;
+            });
+        }
+    }).addTo(mapInstance);
+};
+
+const updateLayerStyles = (newId, oldId) => {
+    if (!geojsonLayer) return;
+    if (oldId && layersByRegionId[oldId]) {
+        layersByRegionId[oldId].setStyle(getRegionStyle(oldId, false, false));
+    }
+    if (newId && layersByRegionId[newId]) {
+        layersByRegionId[newId].setStyle(getRegionStyle(newId, true, false));
+        // Fly to region
+        try { mapInstance.flyToBounds(layersByRegionId[newId].getBounds(), { duration: 0.6, padding: [30, 30] }); } catch {}
+    }
+};
+
+onMounted(() => {
+    initLeafletMap();
+    // Apply initial active style
+    if (mapInstance && layersByRegionId[selectedRegionId.value]) {
+        updateLayerStyles(selectedRegionId.value, null);
+    }
+});
+
+onUnmounted(() => {
+    if (mapInstance) { mapInstance.remove(); mapInstance = null; }
+});
+
+watch(selectedRegionId, (newId, oldId) => {
+    updateLayerStyles(newId, oldId);
+});
 
 // --- Données Tableaux Statistiques ---
 const searchQuery = ref('');
@@ -385,103 +565,13 @@ const resetForm = () => {
 
                                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                                     
-                                    <!-- Map SVG Container (Lefthand 7 cols on Desktop) -->
-                                    <div class="lg:col-span-7 bg-[#204138]/5 border border-[#204138]/10 rounded-2xl p-4 flex items-center justify-center relative overflow-hidden">
-                                        <svg viewBox="0 0 400 480" class="w-full max-w-[420px] h-auto drop-shadow-md select-none transition-all duration-300">
-                                            
-                                            <!-- Extrême-Nord -->
-                                            <path d="M 220,10 L 250,50 L 230,100 L 190,70 L 195,30 Z" 
-                                                  class="map-region-path"
-                                                  :class="{ 'active': selectedRegionId === 'extreme_nord', 'hovered': hoverRegionId === 'extreme_nord' }"
-                                                  @mouseover="hoverRegionId = 'extreme_nord'"
-                                                  @mouseleave="hoverRegionId = null"
-                                                  @click="selectedRegionId = 'extreme_nord'" />
-
-                                            <!-- Nord -->
-                                            <path d="M 190,70 L 230,100 L 250,150 L 170,140 L 160,110 Z" 
-                                                  class="map-region-path"
-                                                  :class="{ 'active': selectedRegionId === 'nord', 'hovered': hoverRegionId === 'nord' }"
-                                                  @mouseover="hoverRegionId = 'nord'"
-                                                  @mouseleave="hoverRegionId = null"
-                                                  @click="selectedRegionId = 'nord'" />
-
-                                            <!-- Adamaoua -->
-                                            <path d="M 170,140 L 250,150 L 280,180 L 250,220 L 140,200 L 150,160 Z" 
-                                                  class="map-region-path"
-                                                  :class="{ 'active': selectedRegionId === 'adamaoua', 'hovered': hoverRegionId === 'adamaoua' }"
-                                                  @mouseover="hoverRegionId = 'adamaoua'"
-                                                  @mouseleave="hoverRegionId = null"
-                                                  @click="selectedRegionId = 'adamaoua'" />
-
-                                            <!-- Nord-Ouest -->
-                                            <path d="M 140,200 L 160,200 L 150,230 L 120,230 L 110,210 Z" 
-                                                  class="map-region-path"
-                                                  :class="{ 'active': selectedRegionId === 'nord_ouest', 'hovered': hoverRegionId === 'nord_ouest' }"
-                                                  @mouseover="hoverRegionId = 'nord_ouest'"
-                                                  @mouseleave="hoverRegionId = null"
-                                                  @click="selectedRegionId = 'nord_ouest'" />
-
-                                            <!-- Ouest -->
-                                            <path d="M 150,230 L 175,230 L 170,260 L 135,260 L 130,245 Z" 
-                                                  class="map-region-path"
-                                                  :class="{ 'active': selectedRegionId === 'ouest', 'hovered': hoverRegionId === 'ouest' }"
-                                                  @mouseover="hoverRegionId = 'ouest'"
-                                                  @mouseleave="hoverRegionId = null"
-                                                  @click="selectedRegionId = 'ouest'" />
-
-                                            <!-- Sud-Ouest -->
-                                            <path d="M 110,210 L 130,245 L 120,280 L 90,260 L 95,225 Z" 
-                                                  class="map-region-path"
-                                                  :class="{ 'active': selectedRegionId === 'sud_ouest', 'hovered': hoverRegionId === 'sud_ouest' }"
-                                                  @mouseover="hoverRegionId = 'sud_ouest'"
-                                                  @mouseleave="hoverRegionId = null"
-                                                  @click="selectedRegionId = 'sud_ouest'" />
-
-                                            <!-- Littoral -->
-                                            <path d="M 120,280 L 170,260 L 165,300 L 125,320 Z" 
-                                                  class="map-region-path"
-                                                  :class="{ 'active': selectedRegionId === 'littoral', 'hovered': hoverRegionId === 'littoral' }"
-                                                  @mouseover="hoverRegionId = 'littoral'"
-                                                  @mouseleave="hoverRegionId = null"
-                                                  @click="selectedRegionId = 'littoral'" />
-
-                                            <!-- Centre -->
-                                            <path d="M 170,260 L 220,240 L 250,285 L 220,335 L 165,300 Z" 
-                                                  class="map-region-path"
-                                                  :class="{ 'active': selectedRegionId === 'centre', 'hovered': hoverRegionId === 'centre' }"
-                                                  @mouseover="hoverRegionId = 'centre'"
-                                                  @mouseleave="hoverRegionId = null"
-                                                  @click="selectedRegionId = 'centre'" />
-
-                                            <!-- Est -->
-                                            <path d="M 250,220 L 320,240 L 330,340 L 260,350 L 250,285 Z" 
-                                                  class="map-region-path"
-                                                  :class="{ 'active': selectedRegionId === 'est', 'hovered': hoverRegionId === 'est' }"
-                                                  @mouseover="hoverRegionId = 'est'"
-                                                  @mouseleave="hoverRegionId = null"
-                                                  @click="selectedRegionId = 'est'" />
-
-                                            <!-- Sud -->
-                                            <path d="M 165,300 L 220,335 L 260,350 L 250,420 L 160,400 Z" 
-                                                  class="map-region-path"
-                                                  :class="{ 'active': selectedRegionId === 'sud', 'hovered': hoverRegionId === 'sud' }"
-                                                  @mouseover="hoverRegionId = 'sud'"
-                                                  @mouseleave="hoverRegionId = null"
-                                                  @click="selectedRegionId = 'sud'" />
-
-                                            <!-- Text labels on map -->
-                                            <text x="215" y="55" class="map-label pointer-events-none">EXT-N</text>
-                                            <text x="200" y="115" class="map-label pointer-events-none">NORD</text>
-                                            <text x="200" y="180" class="map-label pointer-events-none">ADAM</text>
-                                            <text x="135" y="215" class="map-label pointer-events-none">N-O</text>
-                                            <text x="150" y="248" class="map-label pointer-events-none">OU</text>
-                                            <text x="110" y="248" class="map-label pointer-events-none">S-O</text>
-                                            <text x="145" y="293" class="map-label pointer-events-none">LIT</text>
-                                            <text x="205" y="295" class="map-label pointer-events-none">CEN</text>
-                                            <text x="285" y="290" class="map-label pointer-events-none">EST</text>
-                                            <text x="205" y="375" class="map-label pointer-events-none">SUD</text>
-
-                                        </svg>
+                                    <!-- Leaflet Map Container (Lefthand 7 cols on Desktop) -->
+                                    <div class="lg:col-span-7 bg-[#204138]/5 border border-[#204138]/10 rounded-2xl overflow-hidden relative" style="height: 480px;">
+                                        <div ref="mapContainer" id="census-leaflet-map" style="width:100%;height:100%;border-radius:inherit;z-index:0;"></div>
+                                        <!-- Region hover badge -->
+                                        <div v-if="hoverRegionId && hoverRegionId !== selectedRegionId" class="absolute bottom-3 left-3 z-[500] bg-white/90 backdrop-blur rounded-xl px-3 py-1.5 text-xs font-black text-[#204138] shadow border border-[#204138]/10 pointer-events-none transition-all">
+                                            {{ regionalData[hoverRegionId]?.name?.fr }}
+                                        </div>
                                     </div>
 
                                     <!-- Selected Region Panel Info (Righthand 5 cols on Desktop) -->
@@ -894,44 +984,26 @@ const resetForm = () => {
 <style scoped>
 @import "../../css/inner.css";
 
-/* --- Stylisation interactive de la carte SVG --- */
-.map-region-path {
-    fill: rgba(32, 65, 56, 0.15);
-    stroke: #204138;
-    stroke-width: 2;
-    stroke-linejoin: round;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.map-region-path:hover,
-.map-region-path.hovered {
-    fill: rgba(237, 175, 17, 0.35);
-    stroke: #EDAF11;
-    filter: drop-shadow(0px 4px 6px rgba(237, 175, 17, 0.3));
-}
-
-.map-region-path.active {
-    fill: #204138;
-    stroke: #EDAF11;
-    stroke-width: 3;
-    filter: drop-shadow(0px 4px 10px rgba(32, 65, 56, 0.4));
-}
-
-/* Libellés de la carte */
-.map-label {
-    fill: #162c26;
-    font-size: 10px;
-    font-weight: 900;
-    letter-spacing: 0.02em;
-    text-anchor: middle;
+/* --- Leaflet Census Custom Tooltip --- */
+:global(.leaflet-census-tooltip) {
+    background: #fff;
+    border: 1px solid rgba(32,65,56,0.15);
+    border-radius: 8px;
+    padding: 6px 10px;
+    box-shadow: 0 4px 16px rgba(32,65,56,0.12);
     font-family: 'Inter', sans-serif;
-    opacity: 0.85;
 }
-
-.map-region-path.active + .map-label {
-    fill: #ffffff;
-    opacity: 1;
+:global(.leaflet-census-tooltip::before) {
+    display: none;
+}
+/* Remove default leaflet blue outline on focus */
+:global(.leaflet-container) {
+    font-family: 'Inter', sans-serif;
+    border-radius: 1rem;
+}
+:global(.leaflet-control-attribution) {
+    font-size: 9px;
+    opacity: 0.6;
 }
 
 /* Animations transitions d'onglets */

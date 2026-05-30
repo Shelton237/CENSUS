@@ -21,6 +21,7 @@
         "vue": "^3.4.0"
     },
     "dependencies": {
-        "@svg-maps/cameroon": "^2.0.0"
+        "@svg-maps/cameroon": "^2.0.0",
+        "leaflet": "^1.9.4"
     }
 }
