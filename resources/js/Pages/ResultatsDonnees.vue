@@ -1,9 +1,8 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
+import { ref, computed } from 'vue';
 import MainLayout from '@/Layouts/MainLayout.vue';
 import { Head, Link, usePage } from '@inertiajs/vue3';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
+import CarteInteractive from '@/Components/CarteInteractive.vue';
 
 const page = usePage();
 const __ = (key) => {
@@ -141,187 +140,9 @@ const regionalData = {
 const selectedRegionId = ref('centre');
 const selectedRegion = computed(() => regionalData[selectedRegionId.value]);
 
-const hoverRegionId = ref(null);
+const hoverRegionId = ref('');
 
 const geoLevel = ref('region'); // region, departement, commune
-
-// --- Leaflet Map ---
-const mapContainer = ref(null);
-let mapInstance = null;
-let geojsonLayer = null;
-let layersByRegionId = {};
-
-// Accurate GeoJSON polygons for Cameroon's 10 administrative regions
-const cameroonRegionsGeoJSON = {
-    type: 'FeatureCollection',
-    features: [
-        {
-            type: 'Feature',
-            properties: { id: 'extreme_nord', name_fr: 'Extrême-Nord' },
-            geometry: {
-                type: 'Polygon',
-                coordinates: [[[13.5,9.9],[14.0,9.8],[14.8,9.85],[15.2,10.05],[15.65,10.3],[15.5,11.0],[15.6,11.8],[15.1,12.1],[14.5,12.35],[14.2,12.9],[13.5,13.05],[13.0,13.1],[12.5,12.7],[12.3,12.0],[12.4,11.2],[12.6,10.7],[12.9,10.3],[13.2,10.1],[13.5,9.9]]]
-            }
-        },
-        {
-            type: 'Feature',
-            properties: { id: 'nord', name_fr: 'Nord' },
-            geometry: {
-                type: 'Polygon',
-                coordinates: [[[11.7,8.3],[12.3,8.0],[13.2,7.9],[14.2,8.0],[15.0,8.2],[15.2,9.0],[15.2,9.85],[14.8,9.85],[14.0,9.8],[13.5,9.9],[13.2,10.1],[12.9,10.3],[12.6,10.7],[12.4,11.2],[12.3,12.0],[11.8,11.5],[11.5,10.8],[11.3,9.8],[11.5,9.0],[11.7,8.3]]]
-            }
-        },
-        {
-            type: 'Feature',
-            properties: { id: 'adamaoua', name_fr: 'Adamaoua' },
-            geometry: {
-                type: 'Polygon',
-                coordinates: [[[11.3,6.6],[11.8,6.3],[12.5,6.0],[13.5,6.0],[14.5,6.0],[15.2,6.5],[15.2,8.2],[15.0,8.2],[14.2,8.0],[13.2,7.9],[12.3,8.0],[11.7,8.3],[11.5,8.0],[11.2,7.5],[11.0,7.2],[11.0,6.8],[11.3,6.6]]]
-            }
-        },
-        {
-            type: 'Feature',
-            properties: { id: 'nord_ouest', name_fr: 'Nord-Ouest' },
-            geometry: {
-                type: 'Polygon',
-                coordinates: [[[9.5,6.2],[9.8,5.9],[10.3,5.8],[10.9,5.9],[11.0,6.2],[11.0,6.8],[10.8,7.2],[10.5,7.5],[10.0,7.5],[9.7,7.2],[9.5,6.8],[9.5,6.2]]]
-            }
-        },
-        {
-            type: 'Feature',
-            properties: { id: 'ouest', name_fr: 'Ouest' },
-            geometry: {
-                type: 'Polygon',
-                coordinates: [[[9.8,4.95],[10.2,4.85],[10.6,4.9],[10.9,5.0],[11.0,5.4],[11.0,5.9],[10.9,5.9],[10.3,5.8],[9.8,5.9],[9.5,5.6],[9.5,5.2],[9.8,4.95]]]
-            }
-        },
-        {
-            type: 'Feature',
-            properties: { id: 'sud_ouest', name_fr: 'Sud-Ouest' },
-            geometry: {
-                type: 'Polygon',
-                coordinates: [[[8.5,4.2],[8.8,3.9],[9.1,3.7],[9.5,3.8],[9.6,4.2],[9.7,4.7],[9.8,5.2],[9.5,5.6],[9.5,6.2],[9.2,6.3],[9.0,6.0],[8.7,5.6],[8.5,5.0],[8.3,4.5],[8.5,4.2]]]
-            }
-        },
-        {
-            type: 'Feature',
-            properties: { id: 'littoral', name_fr: 'Littoral' },
-            geometry: {
-                type: 'Polygon',
-                coordinates: [[[9.3,3.3],[9.8,3.1],[10.3,3.0],[10.8,3.1],[11.0,3.5],[11.0,4.5],[11.0,5.0],[10.9,5.0],[10.6,4.9],[10.2,4.85],[9.8,4.95],[9.7,4.7],[9.6,4.2],[9.5,3.8],[9.3,3.5],[9.3,3.3]]]
-            }
-        },
-        {
-            type: 'Feature',
-            properties: { id: 'centre', name_fr: 'Centre' },
-            geometry: {
-                type: 'Polygon',
-                coordinates: [[[10.8,3.0],[11.5,2.8],[12.5,2.7],[13.5,2.7],[13.5,6.0],[12.5,6.0],[11.8,6.3],[11.3,6.6],[11.0,6.8],[11.0,5.9],[11.0,5.4],[11.0,5.0],[11.0,4.5],[11.0,3.5],[10.8,3.0]]]
-            }
-        },
-        {
-            type: 'Feature',
-            properties: { id: 'est', name_fr: 'Est' },
-            geometry: {
-                type: 'Polygon',
-                coordinates: [[[13.5,2.0],[14.5,2.0],[15.5,2.1],[16.0,2.2],[16.2,3.0],[16.2,5.0],[16.2,6.5],[15.2,6.5],[15.2,6.0],[14.5,6.0],[13.5,6.0],[13.5,5.0],[13.5,2.7],[13.5,2.0]]]
-            }
-        },
-        {
-            type: 'Feature',
-            properties: { id: 'sud', name_fr: 'Sud' },
-            geometry: {
-                type: 'Polygon',
-                coordinates: [[[8.8,2.2],[9.3,2.0],[10.5,2.0],[11.5,2.0],[12.5,2.0],[13.5,2.0],[13.5,2.7],[12.5,2.7],[11.5,2.8],[10.8,3.0],[11.0,3.5],[10.8,3.1],[10.3,3.0],[9.8,3.1],[9.3,3.3],[9.1,3.7],[8.8,3.5],[8.5,3.0],[8.8,2.2]]]
-            }
-        }
-    ]
-};
-
-const getRegionStyle = (regionId, active = false, hovered = false) => {
-    if (active) return { fillColor: '#204138', fillOpacity: 0.85, color: '#EDAF11', weight: 3 };
-    if (hovered) return { fillColor: '#EDAF11', fillOpacity: 0.4, color: '#EDAF11', weight: 2 };
-    return { fillColor: '#204138', fillOpacity: 0.12, color: '#204138', weight: 1.5 };
-};
-
-const initLeafletMap = () => {
-    if (!mapContainer.value || mapInstance) return;
-    mapInstance = L.map(mapContainer.value, {
-        center: [5.5, 12.4],
-        zoom: 5,
-        zoomControl: true,
-        attributionControl: true,
-        scrollWheelZoom: false,
-    });
-
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
-        subdomains: 'abcd',
-        maxZoom: 19,
-    }).addTo(mapInstance);
-
-    layersByRegionId = {};
-    geojsonLayer = L.geoJSON(cameroonRegionsGeoJSON, {
-        style: (feature) => ({
-            ...getRegionStyle(feature.properties.id, selectedRegionId.value === feature.properties.id),
-            dashArray: null,
-        }),
-        onEachFeature: (feature, layer) => {
-            const rid = feature.properties.id;
-            const rData = regionalData[rid];
-            layersByRegionId[rid] = layer;
-
-            layer.bindTooltip(
-                `<div style="font-weight:800;font-size:12px;color:#204138;">${rData?.name?.fr || rid}</div><div style="font-size:11px;color:#555;">${rData?.capital?.fr || ''}</div>`,
-                { sticky: true, opacity: 0.97, className: 'leaflet-census-tooltip' }
-            );
-
-            layer.on('mouseover', () => {
-                hoverRegionId.value = rid;
-                if (rid !== selectedRegionId.value) {
-                    layer.setStyle(getRegionStyle(rid, false, true));
-                }
-            });
-            layer.on('mouseout', () => {
-                hoverRegionId.value = null;
-                if (rid !== selectedRegionId.value) {
-                    layer.setStyle(getRegionStyle(rid, false, false));
-                }
-            });
-            layer.on('click', () => {
-                selectedRegionId.value = rid;
-            });
-        }
-    }).addTo(mapInstance);
-};
-
-const updateLayerStyles = (newId, oldId) => {
-    if (!geojsonLayer) return;
-    if (oldId && layersByRegionId[oldId]) {
-        layersByRegionId[oldId].setStyle(getRegionStyle(oldId, false, false));
-    }
-    if (newId && layersByRegionId[newId]) {
-        layersByRegionId[newId].setStyle(getRegionStyle(newId, true, false));
-        // Fly to region
-        try { mapInstance.flyToBounds(layersByRegionId[newId].getBounds(), { duration: 0.6, padding: [30, 30] }); } catch {}
-    }
-};
-
-onMounted(() => {
-    initLeafletMap();
-    // Apply initial active style
-    if (mapInstance && layersByRegionId[selectedRegionId.value]) {
-        updateLayerStyles(selectedRegionId.value, null);
-    }
-});
-
-onUnmounted(() => {
-    if (mapInstance) { mapInstance.remove(); mapInstance = null; }
-});
-
-watch(selectedRegionId, (newId, oldId) => {
-    updateLayerStyles(newId, oldId);
-});
 
 // --- Données Tableaux Statistiques ---
 const searchQuery = ref('');
@@ -564,12 +385,18 @@ const resetForm = () => {
                                 </div>
 
                                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                                    
-                                    <!-- Leaflet Map Container (Lefthand 7 cols on Desktop) -->
-                                    <div class="lg:col-span-7 bg-[#204138]/5 border border-[#204138]/10 rounded-2xl overflow-hidden relative" style="height: 480px;">
-                                        <div ref="mapContainer" id="census-leaflet-map" style="width:100%;height:100%;border-radius:inherit;z-index:0;"></div>
+
+                                    <!-- Carte SVG Interactive (Lefthand 7 cols on Desktop) -->
+                                    <div class="lg:col-span-7 bg-[#204138]/5 border border-[#204138]/10 rounded-2xl overflow-hidden relative">
+                                        <CarteInteractive
+                                            v-model="selectedRegionId"
+                                            :hoveredId="hoverRegionId"
+                                            @region-hover="(r) => hoverRegionId = r.id"
+                                            @region-leave="() => hoverRegionId = ''"
+                                            class="w-full"
+                                        />
                                         <!-- Region hover badge -->
-                                        <div v-if="hoverRegionId && hoverRegionId !== selectedRegionId" class="absolute bottom-3 left-3 z-[500] bg-white/90 backdrop-blur rounded-xl px-3 py-1.5 text-xs font-black text-[#204138] shadow border border-[#204138]/10 pointer-events-none transition-all">
+                                        <div v-if="hoverRegionId && hoverRegionId !== selectedRegionId" class="absolute bottom-3 left-3 z-10 bg-white/90 backdrop-blur rounded-xl px-3 py-1.5 text-xs font-black text-[#204138] shadow border border-[#204138]/10 pointer-events-none transition-all">
                                             {{ regionalData[hoverRegionId]?.name?.fr }}
                                         </div>
                                     </div>

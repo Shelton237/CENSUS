@@ -381,19 +381,19 @@ const socialPosts = computed(() => {
 
 // Données régionales pour la carte interactive
 const regionalStats = ref({
-    'far-north': { name: 'Extrême-Nord', population: 4325490, agents: 4500, surface: '34 263 km²' },
-    'north': { name: 'Nord', population: 2686835, agents: 2800, surface: '66 090 km²' },
-    'adamawa': { name: 'Adamaoua', population: 1251670, agents: 1500, surface: '63 701 km²' },
-    'east': { name: 'Est', population: 1111667, agents: 1300, surface: '109 002 km²' },
-    'central': { name: 'Centre', population: 4627092, agents: 5100, surface: '68 953 km²' },
-    'south': { name: 'Sud', population: 830113, agents: 1100, surface: '47 191 km²' },
+    'extreme_nord': { name: 'Extrême-Nord', population: 4325490, agents: 4500, surface: '34 263 km²' },
+    'nord': { name: 'Nord', population: 2686835, agents: 2800, surface: '66 090 km²' },
+    'adamaoua': { name: 'Adamaoua', population: 1251670, agents: 1500, surface: '63 701 km²' },
+    'est': { name: 'Est', population: 1111667, agents: 1300, surface: '109 002 km²' },
+    'centre': { name: 'Centre', population: 4627092, agents: 5100, surface: '68 953 km²' },
+    'sud': { name: 'Sud', population: 830113, agents: 1100, surface: '47 191 km²' },
     'littoral': { name: 'Littoral', population: 3824816, agents: 4800, surface: '20 248 km²' },
-    'west': { name: 'Ouest', population: 1989803, agents: 2300, surface: '13 892 km²' },
-    'northwest': { name: 'Nord-Ouest', population: 2107469, agents: 2100, surface: '17 300 km²' },
-    'southwest': { name: 'Sud-Ouest', population: 1619623, agents: 1800, surface: '25 410 km²' }
+    'ouest': { name: 'Ouest', population: 1989803, agents: 2300, surface: '13 892 km²' },
+    'nord_ouest': { name: 'Nord-Ouest', population: 2107469, agents: 2100, surface: '17 300 km²' },
+    'sud_ouest': { name: 'Sud-Ouest', population: 1619623, agents: 1800, surface: '25 410 km²' }
 });
 
-const hoveredRegionData = ref(regionalStats.value['central']);
+const hoveredRegionData = ref(regionalStats.value['centre']);
 
 const handleRegionHover = (region) => {
     hoveredRegionData.value = regionalStats.value[region.id] || null;
