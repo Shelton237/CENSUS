@@ -574,7 +574,7 @@ onUnmounted(() => {
         <!-- Bandeau stat dynamique -->
         <div class="hero-infobar !py-0">
             <div class="container infobar-inner !py-0 flex flex-wrap justify-between">
-                <div v-for="stat in stats" :key="stat.label" 
+                <div v-for="stat in stats.filter(s => s.key !== 'population' && s.key !== 'households')" :key="stat.label"
                      class="flex flex-col items-center py-6 px-4 min-w-[200px] border-r border-white/10 last:border-0 grow relative group transition-all duration-300">
                     
                     <!-- Live indicator for real-time stats -->

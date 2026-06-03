@@ -104,7 +104,7 @@ def deploy(no_migrate=False, assets_only=False):
     print(f"  URL      : {SITE_URL}")
     print(f"  Mode     : {'assets uniquement' if assets_only else 'complet (sans migrations)' if no_migrate else 'complet'}")
 
-    TOTAL_STEPS = 5 if assets_only else (7 if no_migrate else 8)
+    TOTAL_STEPS = 3 if assets_only else (5 if no_migrate else 6)
 
     # ── Connexion SSH ─────────────────────────────────────────────────────────
     print(f"\n{CYAN}Connexion SSH à {HOST}...{RESET}")
@@ -131,21 +131,7 @@ def deploy(no_migrate=False, assets_only=False):
             else:
                 ok("Code mis à jour depuis GitHub")
 
-            # ── ÉTAPE 2 : Composer install ────────────────────────────────────
-            n += 1
-            step(n, TOTAL_STEPS, "Installation des dépendances PHP (composer)")
-            run(ssh,
-                "composer install --no-interaction --no-dev --optimize-autoloader --quiet",
-                cwd=REMOTE_ROOT, timeout=300)
-            ok("Dépendances Composer installées")
-
-        # ── ÉTAPE 3 : npm ci ──────────────────────────────────────────────────
-        n += 1
-        step(n, TOTAL_STEPS, "Installation des dépendances Node.js (npm ci)")
-        run(ssh, "npm ci --silent", cwd=REMOTE_ROOT, timeout=300)
-        ok("Dépendances npm installées")
-
-        # ── ÉTAPE 4 : npm run build ───────────────────────────────────────────
+        # ── ÉTAPE 2 : npm run build ──────────────────────────────────────────
         n += 1
         step(n, TOTAL_STEPS, "Compilation des assets Vite (npm run build)")
         info("Cela peut prendre 1-3 minutes...")
@@ -153,7 +139,7 @@ def deploy(no_migrate=False, assets_only=False):
         ok("Assets compilés avec succès")
 
         if not assets_only:
-            # ── ÉTAPE 5 : Migrations ──────────────────────────────────────────
+            # ── ÉTAPE 3 : Migrations ──────────────────────────────────────────
             if not no_migrate:
                 n += 1
                 step(n, TOTAL_STEPS, "Migrations de la base de données")
@@ -162,7 +148,7 @@ def deploy(no_migrate=False, assets_only=False):
                     cwd=REMOTE_ROOT, timeout=120)
                 ok("Migrations appliquées")
 
-            # ── ÉTAPE 6 : Vider les caches ────────────────────────────────────
+            # ── ÉTAPE 4 : Vider les caches ────────────────────────────────────
             n += 1
             step(n, TOTAL_STEPS, "Vidage des caches Laravel")
             caches = [
@@ -176,7 +162,7 @@ def deploy(no_migrate=False, assets_only=False):
                 run(ssh, cmd, cwd=REMOTE_ROOT)
             ok("Tous les caches vidés")
 
-            # ── ÉTAPE 7 : Reconstruire les caches optimisés ───────────────────
+            # ── ÉTAPE 5 : Reconstruire les caches optimisés ───────────────────
             n += 1
             step(n, TOTAL_STEPS, "Reconstruction des caches optimisés")
             run(ssh, "php artisan config:cache", cwd=REMOTE_ROOT)
@@ -184,7 +170,7 @@ def deploy(no_migrate=False, assets_only=False):
             run(ssh, "php artisan view:cache", cwd=REMOTE_ROOT, allow_fail=True)
             ok("Caches de production reconstruits")
 
-        # ── ÉTAPE FINALE : Permissions ────────────────────────────────────────
+        # ── ÉTAPE 6 : Permissions ────────────────────────────────────────────
         n += 1
         step(n, TOTAL_STEPS, "Correction des permissions")
         run(ssh, f"chown -R www-data:www-data {REMOTE_ROOT}/public/build/", cwd=None)
