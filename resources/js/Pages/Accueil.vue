@@ -716,33 +716,35 @@ onUnmounted(() => {
         <!-- ===================== CHRONOGRAMME ===================== -->
         <section class="chronogramme-section" id="chronogramme">
             <div class="container">
-                <div class="section-header chron-header">
-                    <h2>{{ __('Chronogramme des activités') }}</h2>
-                    <p>{{ __('Consultez les étapes') }}</p>
+                <!-- En-tête institutionnel -->
+                <div class="mb-8">
+                    <span class="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#EDAF11] block mb-2">{{ __('Calendrier opérationnel') }}</span>
+                    <h2 class="text-2xl md:text-3xl font-bold text-[#204138] leading-snug">{{ __('Chronogramme des activités') }}</h2>
+                    <p class="text-sm text-[#204138]/50 mt-2 max-w-2xl">{{ __('Consultez les étapes clés du processus de recensement et le suivi en temps réel de chaque phase du projet.') }}</p>
                 </div>
 
-                <!-- Légende Professionnelle des Statuts -->
-                <div class="flex flex-wrap items-center justify-center gap-6 mb-8 mt-2 select-none">
-                    <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-gray-500 bg-white px-3 py-1.5 rounded-full border border-gray-100 shadow-sm">
-                        <span class="w-3 h-3 rounded-full bg-[#2E9146] flex items-center justify-center">
+                <!-- Légende institutionnelle (carrés plats, sans pills) -->
+                <div class="flex flex-wrap items-center gap-6 mb-8 mt-1 select-none border-b border-[#204138]/8 pb-6">
+                    <div class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.14em] text-[#204138]/60">
+                        <span class="w-3 h-3 bg-[#2E9146] flex items-center justify-center flex-shrink-0">
                             <svg class="w-2 h-2 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
                         </span>
                         <span>{{ __('Terminée') }}</span>
                     </div>
-                    <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-gray-500 bg-white px-3 py-1.5 rounded-full border border-gray-100 shadow-sm">
-                        <span class="w-3 h-3 rounded-full bg-[#F1A502] relative flex">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F1A502] opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-3 w-3 bg-[#F1A502]"></span>
+                    <div class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.14em] text-[#204138]/60">
+                        <span class="w-3 h-3 bg-[#EDAF11] relative flex flex-shrink-0">
+                            <span class="animate-ping absolute inline-flex h-full w-full bg-[#EDAF11] opacity-60"></span>
+                            <span class="relative inline-flex h-3 w-3 bg-[#EDAF11]"></span>
                         </span>
                         <span>{{ __('En cours') }}</span>
                     </div>
-                    <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-gray-500 bg-white px-3 py-1.5 rounded-full border border-gray-100 shadow-sm">
-                        <span class="w-3 h-3 rounded-full border-2 border-gray-300 bg-gray-100"></span>
+                    <div class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.14em] text-[#204138]/60">
+                        <span class="w-3 h-3 border border-gray-300 bg-gray-100 flex-shrink-0"></span>
                         <span>{{ __('À venir') }}</span>
                     </div>
                 </div>
 
-                <div class="timeline-wrapper p-6 bg-white border border-gray-100 rounded-3xl shadow-sm">
+                <div class="timeline-wrapper p-6 bg-white border border-[#204138]/8">
                     <div class="timeline-row">
                         <!-- Début -->
                         <div class="tl-endpoint tl-start select-none">
@@ -842,10 +844,10 @@ onUnmounted(() => {
 
                 <!-- Bouton d'action vers la page dédiée -->
                 <div class="flex justify-center mt-10">
-                    <Link href="/activites" class="group inline-flex items-center gap-3 px-8 py-4 bg-[#295E4D] hover:bg-[#1E4539] text-white font-bold rounded-full transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 no-underline">
-                        <span>{{ __('Suivre les détails et statistiques en direct') }}</span>
-                        <svg class="w-5 h-5 text-white transition-transform duration-300 group-hover:translate-x-1.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>
+                    <Link href="/activites" class="group inline-flex items-center gap-3 px-8 py-4 bg-[#204138] hover:bg-[#2b5549] text-white font-bold border-l-4 border-[#EDAF11] transition-colors duration-200 no-underline">
+                        <span class="text-sm tracking-wide">{{ __('Suivre les détails et statistiques en direct') }}</span>
+                        <svg class="w-4 h-4 text-[#EDAF11] transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
                         </svg>
                     </Link>
                 </div>
