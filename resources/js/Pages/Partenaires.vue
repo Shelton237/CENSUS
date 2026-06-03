@@ -1,103 +1,135 @@
 <script setup>
 import MainLayout from '@/Layouts/MainLayout.vue';
 import { Head } from '@inertiajs/vue3';
+import { ref, computed } from 'vue';
 
-const financialPartners = [
+const activeFilter = ref('tous');
+
+const partners = [
+    // ── Financiers ──────────────────────────────────────────────
     {
-        name: 'Gouvernement du Cameroun',
-        acronym: 'GVT',
-        logo: null,
-        role: 'Financement principal & tutelle institutionnelle',
-        desc: 'Le Gouvernement camerounais assure le financement majoritaire du 4ème RGPH et RGAE via le budget de l\'État, sous la coordination du Ministère de l\'Économie, de la Planification et de l\'Aménagement du Territoire (MINEPAT).',
-        website: 'https://www.minepat.gov.cm',
-        color: '#204138',
-        contribution: 'Financement principal',
-    },
-    {
+        id: 1,
+        category: 'financier',
         name: 'Banque Mondiale',
         acronym: 'WB',
         logo: '/assets/images/partenaire/worldbank.svg',
         role: 'Partenaire financier — Projet HISWACA',
-        desc: 'La Banque Mondiale soutient le recensement à travers le projet HISWACA (Harmonized Integrated Statistical Work in Africa and Central Africa), apportant un financement clé pour les équipements numériques et la formation des agents.',
-        website: 'https://www.banquemondiale.org/fr/country/cameroon',
-        color: '#009FDA',
         contribution: '7 milliards FCFA',
+        desc: 'La Banque Mondiale soutient le recensement à travers le projet HISWACA, apportant un financement clé pour les équipements numériques, les tablettes CAPI et la formation des agents de terrain.',
+        website: 'https://www.banquemondiale.org/fr/country/cameroon',
     },
     {
+        id: 2,
+        category: 'financier',
         name: 'HISWACA',
         acronym: 'HIS',
         logo: '/assets/images/partenaire/hiswaca-e1770819554832.jpg',
-        role: 'Programme de soutien statistique régional',
-        desc: 'Le programme HISWACA (Harmonized Integrated Statistical Work in Africa and Central Africa) coordonne l\'appui technique et financier aux opérations statistiques des pays d\'Afrique Centrale, dont le Cameroun.',
-        website: '#',
-        color: '#1B6CA8',
+        role: 'Programme régional de statistiques',
         contribution: 'Coordination régionale',
+        desc: 'Le programme HISWACA coordonne l\'appui technique et financier aux opérations statistiques des pays d\'Afrique Centrale, dont le Cameroun, dans le cadre d\'un effort de coopération régionale.',
+        website: null,
     },
-];
-
-const technicalPartners = [
     {
+        id: 3,
+        category: 'financier',
+        name: 'Gouvernement du Cameroun',
+        acronym: 'GVT',
+        logo: null,
+        role: 'Financement principal & tutelle',
+        contribution: 'Budget de l\'État',
+        desc: 'Le Gouvernement camerounais assure le financement majoritaire via le budget de l\'État et la coordination nationale à travers le MINEPAT, tutelle technique du BUCREP.',
+        website: 'https://www.minepat.gov.cm',
+    },
+
+    // ── Techniques ──────────────────────────────────────────────
+    {
+        id: 4,
+        category: 'technique',
         name: 'UNFPA',
-        fullName: 'Fonds des Nations Unies pour la Population',
+        acronym: 'UNFPA',
         logo: '/assets/images/partenaire/unfpa.png',
         role: 'Assistance technique démographique',
-        desc: 'L\'UNFPA apporte une expertise démographique de pointe, notamment pour la conception des outils de collecte, la cartographie numérique des zones de dénombrement et le suivi en temps réel des opérations de terrain.',
+        contribution: 'Expertise & outils SIG',
+        desc: 'L\'UNFPA fournit une expertise démographique de pointe pour la conception des outils de collecte, la cartographie numérique et le suivi en temps réel des opérations de terrain.',
         website: 'https://cameroon.unfpa.org/',
-        color: '#009FDA',
     },
     {
+        id: 5,
+        category: 'technique',
         name: 'FAO',
-        fullName: 'Organisation des Nations Unies pour l\'Alimentation et l\'Agriculture',
+        acronym: 'FAO',
         logo: '/assets/images/partenaire/fao.png',
-        role: 'Appui méthodologique volet agricole',
-        desc: 'La FAO supervise et appuie le volet agricole du recensement (RGAE), en fournissant les méthodologies standardisées, les nomenclatures agricoles internationales et un soutien technique pour la collecte des données agropastorales.',
+        role: 'Appui méthodologique agricole',
+        contribution: 'Supervision RGAE',
+        desc: 'La FAO supervise le volet agricole du recensement (RGAE), en fournissant les méthodologies standardisées, les nomenclatures agricoles internationales et un appui technique pour les données agropastorales.',
         website: 'https://www.fao.org/cameroon/fr/',
-        color: '#4C9C2E',
     },
     {
+        id: 6,
+        category: 'technique',
         name: 'OMS',
-        fullName: 'Organisation Mondiale de la Santé',
         acronym: 'OMS',
         logo: null,
-        role: 'Logistique et matériel technique',
+        role: 'Logistique & matériel technique',
+        contribution: 'Appui opérationnel',
         desc: 'L\'OMS contribue à la logistique opérationnelle du recensement, notamment pour la mise à disposition de matériel technique et l\'appui aux opérations dans les zones à accès difficile.',
         website: 'https://www.who.int/fr/countries/cmr',
-        color: '#007DC5',
     },
-];
 
-const institutionalPartners = [
+    // ── Institutionnels ─────────────────────────────────────────
     {
+        id: 7,
+        category: 'institutionnel',
         name: 'BUCREP',
-        fullName: 'Bureau Central des Recensements et des Études de Population',
         acronym: 'BUCREP',
         logo: null,
         role: 'Maître d\'œuvre technique officiel',
-        desc: 'Organisme public expert créé en 1999, le BUCREP est le bras opérationnel du gouvernement pour la réalisation du 4ème RGPH et RGAE. Il coordonne l\'ensemble des opérations, de la cartographie jusqu\'à la publication des résultats.',
+        contribution: 'Exécution nationale',
+        desc: 'Organisme public créé en 1999, le BUCREP est le bras opérationnel du gouvernement. Il coordonne l\'ensemble des opérations, de la cartographie jusqu\'à la publication des résultats.',
         website: 'https://bucrep.org',
-        color: '#204138',
     },
     {
+        id: 8,
+        category: 'institutionnel',
         name: 'MINEPAT',
-        fullName: 'Ministère de l\'Économie, de la Planification et de l\'Aménagement du Territoire',
         acronym: 'MINEPAT',
         logo: null,
         role: 'Tutelle technique du BUCREP',
-        desc: 'Le MINEPAT assure la tutelle technique du BUCREP et supervise l\'orientation stratégique du recensement, en veillant à son intégration dans les politiques nationales de planification et de développement.',
+        contribution: 'Pilotage stratégique',
+        desc: 'Le MINEPAT supervise l\'orientation stratégique du recensement et veille à son intégration dans les politiques nationales de planification et de développement durable.',
         website: 'https://www.minepat.gov.cm',
-        color: '#204138',
     },
     {
+        id: 9,
+        category: 'institutionnel',
         name: 'INS',
-        fullName: 'Institut National de la Statistique du Cameroun',
         acronym: 'INS',
         logo: null,
         role: 'Partenaire statistique national',
-        desc: 'L\'INS collabore avec le BUCREP pour la validation méthodologique, la cohérence des nomenclatures statistiques nationales et la diffusion des résultats du recensement auprès des utilisateurs institutionnels.',
+        contribution: 'Validation méthodologique',
+        desc: 'L\'Institut National de la Statistique collabore avec le BUCREP pour la validation méthodologique, la cohérence des nomenclatures et la diffusion des résultats auprès des utilisateurs.',
         website: 'https://www.statistics-cameroon.org',
-        color: '#2E6B5E',
     },
 ];
+
+const filters = [
+    { key: 'tous', label: 'Tous les partenaires', count: partners.length },
+    { key: 'financier', label: 'Financiers', count: partners.filter(p => p.category === 'financier').length },
+    { key: 'technique', label: 'Techniques', count: partners.filter(p => p.category === 'technique').length },
+    { key: 'institutionnel', label: 'Institutionnels', count: partners.filter(p => p.category === 'institutionnel').length },
+];
+
+const filtered = computed(() =>
+    activeFilter.value === 'tous' ? partners : partners.filter(p => p.category === activeFilter.value)
+);
+
+const categoryColors = {
+    financier:      { bg: 'bg-[#EDAF11]/15', text: 'text-[#92660A]', label: 'Financier' },
+    technique:      { bg: 'bg-[#204138]/10', text: 'text-[#204138]', label: 'Technique' },
+    institutionnel: { bg: 'bg-blue-50',       text: 'text-blue-700',  label: 'Institutionnel' },
+};
+
+const logoPartners = partners.filter(p => p.logo);
 </script>
 
 <template>
@@ -107,135 +139,132 @@ const institutionalPartners = [
     </Head>
 
     <MainLayout>
-        <!-- Hero -->
-        <section class="relative pt-32 pb-20 overflow-hidden bg-[#204138]">
-            <div class="absolute inset-0 z-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
-            <div class="container relative z-10 text-center">
-                <span class="inline-block py-1 px-3 rounded-full bg-[#EDAF11]/20 text-[#EDAF11] font-bold text-sm tracking-widest uppercase mb-4">Transparence & Coopération</span>
-                <h1 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">Nos Partenaires</h1>
-                <p class="text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">Le 4ème RGPH et RGAE est le fruit d'une collaboration entre le Gouvernement camerounais et des organisations nationales et internationales de premier plan.</p>
+        <!-- ═══════════════ HERO ═══════════════ -->
+        <section class="relative pt-32 pb-24 overflow-hidden bg-[#204138]">
+            <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+            <!-- Déco dorée -->
+            <div class="absolute bottom-0 left-0 right-0 h-1 bg-[#EDAF11]"></div>
+            <div class="container relative z-10 text-center max-w-3xl mx-auto px-4">
+                <span class="inline-block py-1.5 px-4 rounded-full bg-[#EDAF11]/20 text-[#EDAF11] font-bold text-xs tracking-widest uppercase mb-5">Transparence & Coopération</span>
+                <h1 class="text-4xl md:text-5xl font-black text-white mb-5 leading-tight">Nos Partenaires</h1>
+                <p class="text-lg text-white/75 leading-relaxed">Le 4ème RGPH et RGAE est le fruit d'une collaboration étroite entre le Gouvernement camerounais et des organisations nationales et internationales de premier plan.</p>
             </div>
         </section>
 
-        <main style="padding: 70px 0 100px; background: #FDFDFD;">
+        <!-- ═══════════════ LOGO WALL ═══════════════ -->
+        <section class="bg-white border-b border-gray-100 py-10">
+            <div class="container max-w-5xl mx-auto px-4">
+                <p class="text-center text-[10px] font-bold uppercase tracking-[0.18em] text-gray-400 mb-8">Ils nous font confiance</p>
+                <div class="flex flex-wrap items-center justify-center gap-6 md:gap-10">
+                    <div v-for="p in logoPartners" :key="p.id"
+                         class="flex items-center justify-center w-28 h-14 grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-300">
+                        <img :src="p.logo" :alt="p.name" class="max-w-full max-h-full object-contain">
+                    </div>
+                    <!-- Logos texte pour les sans-logo -->
+                    <div v-for="p in partners.filter(p => !p.logo).slice(0,3)" :key="'txt-'+p.id"
+                         class="flex items-center justify-center w-28 h-14 opacity-40 hover:opacity-80 transition-opacity duration-300">
+                        <span class="text-sm font-black text-[#204138] tracking-wider">{{ p.acronym }}</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════ STATS BAND ═══════════════ -->
+        <section class="bg-[#204138] py-10">
+            <div class="container max-w-5xl mx-auto px-4">
+                <div class="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/10">
+                    <div class="flex flex-col items-center py-4 px-6">
+                        <span class="text-3xl md:text-4xl font-black text-[#EDAF11] tabular-nums">9</span>
+                        <span class="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/50 mt-1.5 text-center">Partenaires</span>
+                    </div>
+                    <div class="flex flex-col items-center py-4 px-6">
+                        <span class="text-3xl md:text-4xl font-black text-[#EDAF11] tabular-nums">7Mds</span>
+                        <span class="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/50 mt-1.5 text-center">FCFA mobilisés</span>
+                    </div>
+                    <div class="flex flex-col items-center py-4 px-6">
+                        <span class="text-3xl md:text-4xl font-black text-[#EDAF11] tabular-nums">3</span>
+                        <span class="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/50 mt-1.5 text-center">Catégories</span>
+                    </div>
+                    <div class="flex flex-col items-center py-4 px-6">
+                        <span class="text-3xl md:text-4xl font-black text-[#EDAF11] tabular-nums">2026</span>
+                        <span class="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/50 mt-1.5 text-center">Dénombrement</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════ FILTRES + CARTES ═══════════════ -->
+        <main class="bg-[#F7F9F8] py-16">
             <div class="container max-w-5xl mx-auto px-4">
 
-                <!-- ══ 1. PARTENAIRES FINANCIERS ══ -->
-                <section class="mb-20">
-                    <div class="flex items-center gap-3 mb-8 pb-5 border-b border-[#204138]/10">
-                        <div class="w-8 h-8 bg-[#EDAF11] flex items-center justify-center rounded-lg flex-shrink-0">
-                            <svg class="w-4 h-4 text-[#204138]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <span class="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#EDAF11] block">Soutien budgétaire</span>
-                            <h2 class="text-xl font-bold text-[#204138]">Partenaires Financiers</h2>
-                        </div>
-                    </div>
+                <!-- Filtres -->
+                <div class="flex flex-wrap gap-2 mb-10 justify-center">
+                    <button v-for="f in filters" :key="f.key"
+                            @click="activeFilter = f.key"
+                            class="flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-200 cursor-pointer border"
+                            :class="activeFilter === f.key
+                                ? 'bg-[#204138] text-white border-[#204138] shadow-md'
+                                : 'bg-white text-gray-500 border-gray-200 hover:border-[#204138] hover:text-[#204138]'">
+                        {{ f.label }}
+                        <span class="text-[10px] font-black px-1.5 py-0.5 rounded-full"
+                              :class="activeFilter === f.key ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-500'">
+                            {{ f.count }}
+                        </span>
+                    </button>
+                </div>
 
-                    <div class="space-y-4">
-                        <div v-for="p in financialPartners" :key="p.name"
-                             class="bg-white border border-[#204138]/8 rounded-2xl p-6 hover:border-[#204138]/20 hover:shadow-md transition-all duration-300">
-                            <div class="flex items-start gap-5 flex-wrap md:flex-nowrap">
-                                <!-- Logo -->
-                                <div class="w-20 h-16 rounded-xl border border-gray-100 flex items-center justify-center flex-shrink-0 overflow-hidden bg-gray-50">
-                                    <img v-if="p.logo" :src="p.logo" :alt="p.name" class="w-full h-full object-contain p-2">
-                                    <span v-else class="text-sm font-black" :style="`color: ${p.color}`">{{ p.acronym }}</span>
+                <!-- Grille de cartes -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    <article v-for="p in filtered" :key="p.id"
+                             class="bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col cursor-default">
+
+                        <!-- Bandeau couleur catégorie -->
+                        <div class="h-1.5 w-full"
+                             :class="p.category === 'financier' ? 'bg-[#EDAF11]' : p.category === 'technique' ? 'bg-[#204138]' : 'bg-blue-500'">
+                        </div>
+
+                        <div class="p-6 flex flex-col flex-1">
+                            <!-- Logo + Badge -->
+                            <div class="flex items-start justify-between mb-5">
+                                <div class="w-16 h-12 rounded-xl border border-gray-100 bg-gray-50 flex items-center justify-center overflow-hidden flex-shrink-0">
+                                    <img v-if="p.logo" :src="p.logo" :alt="p.name" class="w-full h-full object-contain p-2" loading="lazy">
+                                    <span v-else class="text-[11px] font-black text-[#204138]">{{ p.acronym }}</span>
                                 </div>
-                                <!-- Contenu -->
-                                <div class="flex-1 min-w-0">
-                                    <div class="flex items-start justify-between gap-4 flex-wrap mb-2">
-                                        <div>
-                                            <h3 class="font-bold text-[#204138] text-base leading-snug">{{ p.name }}</h3>
-                                            <p class="text-xs font-semibold text-[#EDAF11] mt-0.5">{{ p.role }}</p>
-                                        </div>
-                                        <span class="text-[10px] font-bold uppercase tracking-[0.12em] text-white px-3 py-1 rounded-full"
-                                              :style="`background: ${p.color}`">
-                                            {{ p.contribution }}
-                                        </span>
-                                    </div>
-                                    <p class="text-sm text-gray-500 leading-relaxed mb-3">{{ p.desc }}</p>
-                                    <a v-if="p.website !== '#'" :href="p.website" target="_blank" rel="noopener noreferrer"
-                                       class="inline-flex items-center gap-1.5 text-xs font-semibold no-underline transition-colors duration-200"
-                                       :style="`color: ${p.color}`">
-                                        Visiter le site officiel
-                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                                    </a>
-                                </div>
+                                <span class="text-[9px] font-bold uppercase tracking-[0.12em] px-2.5 py-1 rounded-full"
+                                      :class="[categoryColors[p.category].bg, categoryColors[p.category].text]">
+                                    {{ categoryColors[p.category].label }}
+                                </span>
                             </div>
-                        </div>
-                    </div>
-                </section>
 
-                <!-- ══ 2. PARTENAIRES TECHNIQUES ══ -->
-                <section class="mb-20">
-                    <div class="flex items-center gap-3 mb-8 pb-5 border-b border-[#204138]/10">
-                        <div class="w-8 h-8 bg-[#204138] flex items-center justify-center rounded-lg flex-shrink-0">
-                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <span class="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#EDAF11] block">Expertise & méthodologie</span>
-                            <h2 class="text-xl font-bold text-[#204138]">Partenaires Techniques</h2>
-                        </div>
-                    </div>
+                            <!-- Nom + Rôle -->
+                            <h3 class="font-bold text-[#204138] text-base leading-snug mb-1">{{ p.name }}</h3>
+                            <p class="text-xs font-semibold text-[#EDAF11] mb-3">{{ p.role }}</p>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div v-for="p in technicalPartners" :key="p.name"
-                             class="bg-white border border-[#204138]/8 rounded-2xl p-6 hover:border-[#204138]/20 hover:shadow-md transition-all duration-300 flex flex-col">
-                            <!-- Logo -->
-                            <div class="w-16 h-12 rounded-xl border border-gray-100 flex items-center justify-center mb-4 overflow-hidden bg-gray-50">
-                                <img v-if="p.logo" :src="p.logo" :alt="p.name" class="w-full h-full object-contain p-1.5">
-                                <span v-else class="text-sm font-black" :style="`color: ${p.color}`">{{ p.acronym }}</span>
+                            <!-- Contribution pill -->
+                            <div class="inline-flex items-center gap-1.5 mb-4 self-start">
+                                <svg class="w-3 h-3 text-[#204138]/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <span class="text-[10px] font-bold text-[#204138]/60 uppercase tracking-wider">{{ p.contribution }}</span>
                             </div>
-                            <h3 class="font-bold text-[#204138] text-base mb-0.5">{{ p.name }}</h3>
-                            <p class="text-[10px] font-semibold uppercase tracking-[0.1em] mb-3" :style="`color: ${p.color}`">{{ p.role }}</p>
-                            <p class="text-xs text-gray-500 leading-relaxed flex-1 mb-4">{{ p.desc }}</p>
-                            <a :href="p.website" target="_blank" rel="noopener noreferrer"
-                               class="inline-flex items-center gap-1.5 text-xs font-semibold no-underline mt-auto transition-colors duration-200"
-                               :style="`color: ${p.color}`">
-                                {{ p.fullName }}
-                                <svg class="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+
+                            <!-- Description -->
+                            <p class="text-sm text-gray-500 leading-relaxed flex-1 mb-5">{{ p.desc }}</p>
+
+                            <!-- Lien site -->
+                            <a v-if="p.website" :href="p.website" target="_blank" rel="noopener noreferrer"
+                               class="flex items-center justify-between pt-4 border-t border-gray-100 text-xs font-bold text-[#204138] hover:text-[#EDAF11] transition-colors duration-200 no-underline group cursor-pointer">
+                                <span>Visiter le site officiel</span>
+                                <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                                </svg>
                             </a>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- ══ 3. PARTENAIRES INSTITUTIONNELS ══ -->
-                <section>
-                    <div class="flex items-center gap-3 mb-8 pb-5 border-b border-[#204138]/10">
-                        <div class="w-8 h-8 bg-[#204138] flex items-center justify-center rounded-lg flex-shrink-0">
-                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <span class="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#EDAF11] block">Cadre national</span>
-                            <h2 class="text-xl font-bold text-[#204138]">Partenaires Institutionnels</h2>
-                        </div>
-                    </div>
-
-                    <div class="space-y-3">
-                        <div v-for="p in institutionalPartners" :key="p.name"
-                             class="flex items-start gap-5 p-5 bg-white border border-[#204138]/8 rounded-xl hover:border-[#204138]/20 hover:shadow-sm transition-all duration-300">
-                            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-                                 :style="`background: ${p.color}15`">
-                                <span class="text-[11px] font-black" :style="`color: ${p.color}`">{{ p.acronym }}</span>
+                            <div v-else class="pt-4 border-t border-gray-100">
+                                <span class="text-[10px] text-gray-300 uppercase tracking-wider">Site non disponible</span>
                             </div>
-                            <div class="flex-1 min-w-0">
-                                <h3 class="font-bold text-[#204138] text-sm leading-snug">{{ p.name }}</h3>
-                                <p class="text-[10px] font-semibold uppercase tracking-[0.1em] text-[#EDAF11] mb-2">{{ p.role }}</p>
-                                <p class="text-xs text-gray-500 leading-relaxed">{{ p.desc }}</p>
-                            </div>
-                            <a :href="p.website" target="_blank" rel="noopener noreferrer"
-                               class="flex-shrink-0 text-[10px] font-bold uppercase tracking-[0.1em] text-[#204138]/50 hover:text-[#204138] border border-[#204138]/15 hover:border-[#204138]/40 px-3 py-1.5 rounded-lg transition-colors duration-200 no-underline hidden md:block">
-                                Site officiel
-                            </a>
                         </div>
-                    </div>
-                </section>
+                    </article>
+                </div>
 
             </div>
         </main>
