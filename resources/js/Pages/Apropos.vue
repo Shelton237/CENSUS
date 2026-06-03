@@ -466,6 +466,20 @@ const partnersList = [
                                     </div>
                                 </div>
 
+                                <!-- Organigramme -->
+                                <div class="mb-6">
+                                    <p class="text-[10px] font-bold uppercase tracking-[0.14em] text-[#204138]/50 mb-3">Organigramme institutionnel</p>
+                                    <div class="border border-[#204138]/10 overflow-hidden">
+                                        <img
+                                            src="https://bucrep.org/wp-content/uploads/2025/07/Avant-Projet_Organigramme_BUCREP-5-juillet-francais-25-1-1024x724.png"
+                                            alt="Organigramme du BUCREP"
+                                            class="w-full h-auto block"
+                                            loading="lazy"
+                                        >
+                                    </div>
+                                    <p class="text-[10px] text-gray-400 mt-2 text-right">Source : bucrep.org — Avant-projet organigramme, juillet 2025</p>
+                                </div>
+
                                 <!-- Coordination terrain -->
                                 <div class="p-5 bg-[#F7F9F8] border-l-4 border-[#204138]/30">
                                     <p class="text-[10px] font-bold uppercase tracking-[0.14em] text-[#204138]/50 mb-1.5">Coordination de terrain</p>
