@@ -3,124 +3,101 @@ import MainLayout from '@/Layouts/MainLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
 
+const props = defineProps({ dbPartners: { type: Array, default: () => [] } });
+
+// Résolution logo : priorité DB, puis static, puis null
+const resolveLogoFromDb = (name) => {
+    const match = props.dbPartners.find(p => p.name.toLowerCase() === name.toLowerCase());
+    if (!match || !match.logo) return null;
+    // FAO : forcer SVG comme le carousel
+    if (name === 'FAO') return '/assets/images/partenaire/fao.svg';
+    let src = match.logo;
+    if (!src.startsWith('http') && !src.startsWith('/assets') && !src.startsWith('/storage')) {
+        src = `/storage/${src}`;
+    }
+    return src;
+};
+
 const activeFilter = ref('tous');
 
-const partners = [
+const partners = computed(() => [
     // ── Financiers ──────────────────────────────────────────────
     {
-        id: 1,
-        category: 'financier',
-        name: 'Banque Mondiale',
-        acronym: 'WB',
-        logo: '/assets/images/partenaire/worldbank.svg',
-        role: 'Partenaire financier — Projet HISWACA',
-        contribution: '7 milliards FCFA',
+        id: 1, category: 'financier', name: 'Banque Mondiale', acronym: 'WB',
+        logo: resolveLogoFromDb('Banque Mondiale') || '/assets/images/partenaire/worldbank.svg',
+        role: 'Partenaire financier — Projet HISWACA', contribution: '7 milliards FCFA',
         desc: 'La Banque Mondiale soutient le recensement à travers le projet HISWACA, apportant un financement clé pour les équipements numériques, les tablettes CAPI et la formation des agents de terrain.',
         website: 'https://www.banquemondiale.org/fr/country/cameroon',
     },
     {
-        id: 2,
-        category: 'financier',
-        name: 'HISWACA',
-        acronym: 'HIS',
-        logo: '/assets/images/partenaire/hiswaca-e1770819554832.jpg',
-        role: 'Programme régional de statistiques',
-        contribution: 'Coordination régionale',
+        id: 2, category: 'financier', name: 'HISWACA', acronym: 'HIS',
+        logo: resolveLogoFromDb('HISWACA') || '/assets/images/partenaire/hiswaca-e1770819554832.jpg',
+        role: 'Programme régional de statistiques', contribution: 'Coordination régionale',
         desc: 'Le programme HISWACA coordonne l\'appui technique et financier aux opérations statistiques des pays d\'Afrique Centrale, dont le Cameroun, dans le cadre d\'un effort de coopération régionale.',
         website: null,
     },
     {
-        id: 3,
-        category: 'financier',
-        name: 'Gouvernement du Cameroun',
-        acronym: 'GVT',
-        logo: null,
-        role: 'Financement principal & tutelle',
-        contribution: 'Budget de l\'État',
+        id: 3, category: 'financier', name: 'Gouvernement du Cameroun', acronym: 'GVT',
+        logo: resolveLogoFromDb('Gouvernement du Cameroun'),
+        role: 'Financement principal & tutelle', contribution: 'Budget de l\'État',
         desc: 'Le Gouvernement camerounais assure le financement majoritaire via le budget de l\'État et la coordination nationale à travers le MINEPAT, tutelle technique du BUCREP.',
         website: 'https://www.minepat.gov.cm',
     },
-
     // ── Techniques ──────────────────────────────────────────────
     {
-        id: 4,
-        category: 'technique',
-        name: 'UNFPA',
-        acronym: 'UNFPA',
-        logo: '/assets/images/partenaire/unfpa.png',
-        role: 'Assistance technique démographique',
-        contribution: 'Expertise & outils SIG',
+        id: 4, category: 'technique', name: 'UNFPA', acronym: 'UNFPA',
+        logo: resolveLogoFromDb('UNFPA') || '/assets/images/partenaire/unfpa.png',
+        role: 'Assistance technique démographique', contribution: 'Expertise & outils SIG',
         desc: 'L\'UNFPA fournit une expertise démographique de pointe pour la conception des outils de collecte, la cartographie numérique et le suivi en temps réel des opérations de terrain.',
         website: 'https://cameroon.unfpa.org/',
     },
     {
-        id: 5,
-        category: 'technique',
-        name: 'FAO',
-        acronym: 'FAO',
-        logo: '/assets/images/partenaire/fao.png',
-        role: 'Appui méthodologique agricole',
-        contribution: 'Supervision RGAE',
+        id: 5, category: 'technique', name: 'FAO', acronym: 'FAO',
+        logo: resolveLogoFromDb('FAO') || '/assets/images/partenaire/fao.svg',
+        role: 'Appui méthodologique agricole', contribution: 'Supervision RGAE',
         desc: 'La FAO supervise le volet agricole du recensement (RGAE), en fournissant les méthodologies standardisées, les nomenclatures agricoles internationales et un appui technique pour les données agropastorales.',
         website: 'https://www.fao.org/cameroon/fr/',
     },
     {
-        id: 6,
-        category: 'technique',
-        name: 'OMS',
-        acronym: 'OMS',
-        logo: null,
-        role: 'Logistique & matériel technique',
-        contribution: 'Appui opérationnel',
+        id: 6, category: 'technique', name: 'OMS', acronym: 'OMS',
+        logo: resolveLogoFromDb('OMS'),
+        role: 'Logistique & matériel technique', contribution: 'Appui opérationnel',
         desc: 'L\'OMS contribue à la logistique opérationnelle du recensement, notamment pour la mise à disposition de matériel technique et l\'appui aux opérations dans les zones à accès difficile.',
         website: 'https://www.who.int/fr/countries/cmr',
     },
-
     // ── Institutionnels ─────────────────────────────────────────
     {
-        id: 7,
-        category: 'institutionnel',
-        name: 'BUCREP',
-        acronym: 'BUCREP',
-        logo: null,
-        role: 'Maître d\'œuvre technique officiel',
-        contribution: 'Exécution nationale',
+        id: 7, category: 'institutionnel', name: 'BUCREP', acronym: 'BUCREP',
+        logo: resolveLogoFromDb('BUCREP'),
+        role: 'Maître d\'œuvre technique officiel', contribution: 'Exécution nationale',
         desc: 'Organisme public créé en 1999, le BUCREP est le bras opérationnel du gouvernement. Il coordonne l\'ensemble des opérations, de la cartographie jusqu\'à la publication des résultats.',
         website: 'https://bucrep.org',
     },
     {
-        id: 8,
-        category: 'institutionnel',
-        name: 'MINEPAT',
-        acronym: 'MINEPAT',
-        logo: null,
-        role: 'Tutelle technique du BUCREP',
-        contribution: 'Pilotage stratégique',
+        id: 8, category: 'institutionnel', name: 'MINEPAT', acronym: 'MINEPAT',
+        logo: resolveLogoFromDb('MINEPAT'),
+        role: 'Tutelle technique du BUCREP', contribution: 'Pilotage stratégique',
         desc: 'Le MINEPAT supervise l\'orientation stratégique du recensement et veille à son intégration dans les politiques nationales de planification et de développement durable.',
         website: 'https://www.minepat.gov.cm',
     },
     {
-        id: 9,
-        category: 'institutionnel',
-        name: 'INS',
-        acronym: 'INS',
-        logo: null,
-        role: 'Partenaire statistique national',
-        contribution: 'Validation méthodologique',
+        id: 9, category: 'institutionnel', name: 'INS', acronym: 'INS',
+        logo: resolveLogoFromDb('INS'),
+        role: 'Partenaire statistique national', contribution: 'Validation méthodologique',
         desc: 'L\'Institut National de la Statistique collabore avec le BUCREP pour la validation méthodologique, la cohérence des nomenclatures et la diffusion des résultats auprès des utilisateurs.',
         website: 'https://www.statistics-cameroon.org',
     },
-];
+]);
 
-const filters = [
-    { key: 'tous', label: 'Tous les partenaires', count: partners.length },
-    { key: 'financier', label: 'Financiers', count: partners.filter(p => p.category === 'financier').length },
-    { key: 'technique', label: 'Techniques', count: partners.filter(p => p.category === 'technique').length },
-    { key: 'institutionnel', label: 'Institutionnels', count: partners.filter(p => p.category === 'institutionnel').length },
-];
+const filters = computed(() => [
+    { key: 'tous',          label: 'Tous les partenaires', count: partners.value.length },
+    { key: 'financier',     label: 'Financiers',           count: partners.value.filter(p => p.category === 'financier').length },
+    { key: 'technique',     label: 'Techniques',           count: partners.value.filter(p => p.category === 'technique').length },
+    { key: 'institutionnel',label: 'Institutionnels',      count: partners.value.filter(p => p.category === 'institutionnel').length },
+]);
 
 const filtered = computed(() =>
-    activeFilter.value === 'tous' ? partners : partners.filter(p => p.category === activeFilter.value)
+    activeFilter.value === 'tous' ? partners.value : partners.value.filter(p => p.category === activeFilter.value)
 );
 
 const categoryColors = {
@@ -129,7 +106,7 @@ const categoryColors = {
     institutionnel: { bg: 'bg-blue-50',       text: 'text-blue-700',  label: 'Institutionnel' },
 };
 
-const logoPartners = partners.filter(p => p.logo);
+const logoPartners = computed(() => partners.value.filter(p => p.logo));
 </script>
 
 <template>
