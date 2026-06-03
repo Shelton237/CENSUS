@@ -169,30 +169,6 @@ const logoPartners = partners.filter(p => p.logo);
             </div>
         </section>
 
-        <!-- ═══════════════ STATS BAND ═══════════════ -->
-        <section class="bg-[#204138] py-10">
-            <div class="container max-w-5xl mx-auto px-4">
-                <div class="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/10">
-                    <div class="flex flex-col items-center py-4 px-6">
-                        <span class="text-3xl md:text-4xl font-black text-[#EDAF11] tabular-nums">9</span>
-                        <span class="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/50 mt-1.5 text-center">Partenaires</span>
-                    </div>
-                    <div class="flex flex-col items-center py-4 px-6">
-                        <span class="text-3xl md:text-4xl font-black text-[#EDAF11] tabular-nums">7Mds</span>
-                        <span class="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/50 mt-1.5 text-center">FCFA mobilisés</span>
-                    </div>
-                    <div class="flex flex-col items-center py-4 px-6">
-                        <span class="text-3xl md:text-4xl font-black text-[#EDAF11] tabular-nums">3</span>
-                        <span class="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/50 mt-1.5 text-center">Catégories</span>
-                    </div>
-                    <div class="flex flex-col items-center py-4 px-6">
-                        <span class="text-3xl md:text-4xl font-black text-[#EDAF11] tabular-nums">2026</span>
-                        <span class="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/50 mt-1.5 text-center">Dénombrement</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <!-- ═══════════════ FILTRES + CARTES ═══════════════ -->
         <main class="bg-[#F7F9F8] py-16">
             <div class="container max-w-5xl mx-auto px-4">
