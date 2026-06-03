@@ -167,7 +167,7 @@ const startRealTimeTicking = () => {
 };
 
 // Compte à rebours de la phase de ratissage active
-const countdownTarget = new Date('2026-06-03T23:59:59').getTime();
+const countdownTarget = new Date('2026-07-31T23:59:59').getTime();
 const countdownTime = ref({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 const isCountdownActive = ref(true);
 let countdownInterval = null;
@@ -597,125 +597,115 @@ onUnmounted(() => {
         </div>
 
         <!-- ===================== SECTION LIVE HUB (COUNTDOWN & ACCÈS RAPIDE) ===================== -->
-        <section class="live-hub-section py-12 bg-gradient-to-b from-[#f4f7f6] to-[#ffffff] border-b border-gray-100">
-            <div class="container mx-auto px-4 md:px-6">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-                    
-                    <!-- 1. COMPTE À REBOURS (5 cols) -->
-                    <div class="lg:col-span-5 flex flex-col justify-between p-6 md:p-8 bg-gradient-to-br from-[#204138] to-[#122822] rounded-[32px] shadow-[0_20px_50px_rgba(32,65,56,0.15)] text-white relative overflow-hidden group">
-                        <!-- Abstract gold circle decoration -->
-                        <div class="absolute -right-16 -top-16 w-36 h-36 rounded-full bg-[#EDAF11]/10 blur-xl pointer-events-none"></div>
-                        <div class="absolute -left-16 -bottom-16 w-36 h-36 rounded-full bg-[#2E6B5E]/20 blur-xl pointer-events-none"></div>
-                        
-                        <div class="relative z-10">
-                            <div class="flex items-center gap-2 mb-4">
-                                <span class="flex h-2 w-2 relative">
-                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                                </span>
-                                <span class="text-xs font-black uppercase tracking-widest text-[#EDAF11]">{{ __('Phase de Ratissage') }}</span>
-                            </div>
-                            
-                            <h3 class="text-xl md:text-2xl font-black mb-2 leading-tight">
-                                {{ __('Temps restant pour l\'opération en cours') }}
-                            </h3>
-                            <p class="text-xs text-white/70 mb-6 font-medium">
-                                {{ __('La collecte de rattrapage permet de recenser les ménages omis. Clôture le 03 juin 2026.') }}
-                            </p>
+        <section class="py-14 bg-[#F7F9F8] border-t border-b border-[#204138]/10">
+            <div class="container mx-auto px-4 md:px-6 max-w-7xl">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+
+                    <!-- 1. COMPTE À REBOURS -->
+                    <div class="lg:col-span-5">
+
+                        <!-- Indicateur de statut -->
+                        <div class="flex items-center gap-2.5 mb-5">
+                            <span class="flex h-2 w-2 relative">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                            </span>
+                            <span class="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#204138]/70">{{ __('Phase de Ratissage') }} &middot; {{ __('En cours') }}</span>
                         </div>
 
-                        <!-- Grid de compte à rebours -->
-                        <div class="grid grid-cols-4 gap-3 relative z-10 select-none">
-                            <!-- Jours -->
-                            <div class="flex flex-col items-center bg-white/10 backdrop-blur-md border border-white/10 p-3 rounded-2xl">
-                                <span class="text-2xl md:text-3xl font-black text-[#EDAF11] tracking-tight">
-                                    {{ String(countdownTime.days).padStart(2, '0') }}
-                                </span>
-                                <span class="text-[9px] font-black uppercase tracking-widest text-white/50 mt-1">{{ __('Jours') }}</span>
-                            </div>
-                            <!-- Heures -->
-                            <div class="flex flex-col items-center bg-white/10 backdrop-blur-md border border-white/10 p-3 rounded-2xl">
-                                <span class="text-2xl md:text-3xl font-black text-[#EDAF11] tracking-tight">
-                                    {{ String(countdownTime.hours).padStart(2, '0') }}
-                                </span>
-                                <span class="text-[9px] font-black uppercase tracking-widest text-white/50 mt-1">{{ __('Heures') }}</span>
-                            </div>
-                            <!-- Minutes -->
-                            <div class="flex flex-col items-center bg-white/10 backdrop-blur-md border border-white/10 p-3 rounded-2xl">
-                                <span class="text-2xl md:text-3xl font-black text-[#EDAF11] tracking-tight">
-                                    {{ String(countdownTime.minutes).padStart(2, '0') }}
-                                </span>
-                                <span class="text-[9px] font-black uppercase tracking-widest text-white/50 mt-1">{{ __('Minutes') }}</span>
-                            </div>
-                            <!-- Secondes -->
-                            <div class="flex flex-col items-center bg-white/10 backdrop-blur-md border border-white/10 p-3 rounded-2xl">
-                                <span class="text-2xl md:text-3xl font-black text-white tracking-tight animate-pulse">
-                                    {{ String(countdownTime.seconds).padStart(2, '0') }}
-                                </span>
-                                <span class="text-[9px] font-black uppercase tracking-widest text-white/50 mt-1">{{ __('Secondes') }}</span>
+                        <!-- Card institutionnelle avec accent gauche doré -->
+                        <div class="bg-[#204138] border-l-4 border-[#EDAF11]">
+                            <div class="p-6 md:p-8">
+                                <h3 class="text-lg md:text-xl font-bold text-white leading-snug mb-2">
+                                    {{ __('Temps restant pour l\'opération en cours') }}
+                                </h3>
+                                <p class="text-sm text-white/55 leading-relaxed mb-8">
+                                    {{ __('La collecte de rattrapage permet de recenser les ménages omis.') }}
+                                    {{ __('Clôture le') }} <strong class="text-white/75 font-semibold">{{ __('31 juillet 2026') }}</strong>.
+                                </p>
+
+                                <!-- Grille décompte avec séparateurs -->
+                                <div class="grid grid-cols-4 divide-x divide-white/10 select-none">
+                                    <div v-for="(item, i) in [
+                                        { value: countdownTime.days,    label: 'Jours' },
+                                        { value: countdownTime.hours,   label: 'Heures' },
+                                        { value: countdownTime.minutes, label: 'Minutes' },
+                                        { value: countdownTime.seconds, label: 'Secondes', pulse: true }
+                                    ]" :key="i"
+                                    class="flex flex-col items-center justify-center py-5 px-2">
+                                        <span class="text-3xl md:text-4xl font-black tabular-nums leading-none text-[#EDAF11]"
+                                              :class="{ 'animate-pulse': item.pulse }">
+                                            {{ String(item.value).padStart(2, '0') }}
+                                        </span>
+                                        <span class="text-[9px] font-semibold uppercase tracking-[0.15em] text-white/35 mt-2.5">{{ __(item.label) }}</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- 2. ACCÈS RAPIDE (7 cols) -->
-                    <div class="lg:col-span-7 flex flex-col justify-between">
-                        <div class="mb-4">
-                            <span class="text-xs font-black uppercase tracking-widest text-[#2E6B5E] block mb-1">{{ __('Accès Rapide') }}</span>
-                            <h3 class="text-2xl md:text-3xl font-black text-[#204138] leading-tight">
+                    <!-- 2. ACCÈS RAPIDE -->
+                    <div class="lg:col-span-7">
+
+                        <!-- En-tête de section -->
+                        <div class="mb-6 pb-5 border-b border-[#204138]/12">
+                            <span class="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#EDAF11] block mb-2">{{ __('Accès Rapide') }}</span>
+                            <h3 class="text-xl md:text-2xl font-bold text-[#204138] leading-snug">
                                 {{ __('Trouvez rapidement les informations essentielles') }}
                             </h3>
                         </div>
 
-                        <!-- Grid d'accès rapide -->
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 grow mt-2">
-                            <!-- Résultats -->
-                            <Link href="/activites" class="flex flex-col justify-between p-6 bg-white border border-gray-100 hover:border-[#2E6B5E]/30 rounded-[24px] shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group no-underline">
-                                <div class="w-12 h-12 rounded-2xl bg-[#2E6B5E]/10 text-[#2E6B5E] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2"/>
+                        <!-- Liste institutionnelle -->
+                        <div class="divide-y divide-[#204138]/8">
+
+                            <!-- Résultats & Données -->
+                            <Link href="/resultats-donnees" class="group flex items-center gap-5 py-5 -mx-3 px-3 hover:bg-white transition-colors duration-200 cursor-pointer no-underline">
+                                <div class="w-10 h-10 flex-shrink-0 bg-[#204138]/8 flex items-center justify-center text-[#204138] group-hover:bg-[#EDAF11] group-hover:text-white transition-all duration-200">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2"/>
                                     </svg>
                                 </div>
-                                <div>
-                                    <h4 class="font-black text-[#204138] text-base mb-1.5 group-hover:text-[#EDAF11] transition-colors">{{ __('Résultats') }}</h4>
-                                    <span class="text-xs font-bold text-gray-400 group-hover:text-[#2E6B5E] flex items-center gap-1.5 transition-colors">
-                                        {{ __('Voir les résultats') }}
-                                        <svg class="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
-                                    </span>
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="text-sm font-bold text-[#204138] group-hover:text-[#EDAF11] transition-colors duration-200">{{ __('Résultats & Données') }}</h4>
+                                    <p class="text-xs text-gray-400 mt-0.5 font-normal">{{ __('Tableaux, publications et statistiques officielles') }}</p>
                                 </div>
+                                <svg class="w-4 h-4 text-gray-300 group-hover:text-[#EDAF11] group-hover:translate-x-0.5 transition-all duration-200 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                </svg>
                             </Link>
 
                             <!-- Carte interactive -->
-                            <a href="#demographie" class="flex flex-col justify-between p-6 bg-white border border-gray-100 hover:border-[#2E6B5E]/30 rounded-[24px] shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group no-underline">
-                                <div class="w-12 h-12 rounded-2xl bg-[#EDAF11]/15 text-[#EDAF11] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0L6.343 16.657a8 8 0 1111.314 0z"/>
-                                        <circle cx="12" cy="11" r="3"/>
+                            <a href="#demographie" class="group flex items-center gap-5 py-5 -mx-3 px-3 hover:bg-white transition-colors duration-200 cursor-pointer no-underline">
+                                <div class="w-10 h-10 flex-shrink-0 bg-[#EDAF11]/10 flex items-center justify-center text-[#B8860B] group-hover:bg-[#EDAF11] group-hover:text-white transition-all duration-200">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
                                     </svg>
                                 </div>
-                                <div>
-                                    <h4 class="font-black text-[#204138] text-base mb-1.5 group-hover:text-[#EDAF11] transition-colors">{{ __('Carte Interactive') }}</h4>
-                                    <span class="text-xs font-bold text-gray-400 group-hover:text-[#2E6B5E] flex items-center gap-1.5 transition-colors">
-                                        {{ __('Explorer la carte') }}
-                                        <svg class="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
-                                    </span>
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="text-sm font-bold text-[#204138] group-hover:text-[#EDAF11] transition-colors duration-200">{{ __('Carte Interactive') }}</h4>
+                                    <p class="text-xs text-gray-400 mt-0.5 font-normal">{{ __('Visualisation géographique par région et département') }}</p>
                                 </div>
+                                <svg class="w-4 h-4 text-gray-300 group-hover:text-[#EDAF11] group-hover:translate-x-0.5 transition-all duration-200 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                </svg>
                             </a>
 
                             <!-- Médiathèque -->
-                            <Link href="/phototheque" class="flex flex-col justify-between p-6 bg-white border border-gray-100 hover:border-[#2E6B5E]/30 rounded-[24px] shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group no-underline">
-                                <div class="w-12 h-12 rounded-2xl bg-[#2E6B5E]/10 text-[#2E6B5E] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            <Link href="/phototheque" class="group flex items-center gap-5 py-5 -mx-3 px-3 hover:bg-white transition-colors duration-200 cursor-pointer no-underline">
+                                <div class="w-10 h-10 flex-shrink-0 bg-[#204138]/8 flex items-center justify-center text-[#204138] group-hover:bg-[#EDAF11] group-hover:text-white transition-all duration-200">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                     </svg>
                                 </div>
-                                <div>
-                                    <h4 class="font-black text-[#204138] text-base mb-1.5 group-hover:text-[#EDAF11] transition-colors">{{ __('Médiathèque') }}</h4>
-                                    <span class="text-xs font-bold text-gray-400 group-hover:text-[#2E6B5E] flex items-center gap-1.5 transition-colors">
-                                        {{ __('Visiter la médiathèque') }}
-                                        <svg class="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
-                                    </span>
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="text-sm font-bold text-[#204138] group-hover:text-[#EDAF11] transition-colors duration-200">{{ __('Médiathèque') }}</h4>
+                                    <p class="text-xs text-gray-400 mt-0.5 font-normal">{{ __('Photos, vidéos et reportages de terrain') }}</p>
                                 </div>
+                                <svg class="w-4 h-4 text-gray-300 group-hover:text-[#EDAF11] group-hover:translate-x-0.5 transition-all duration-200 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                </svg>
                             </Link>
+
                         </div>
                     </div>
 
