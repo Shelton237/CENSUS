@@ -194,18 +194,15 @@ const logoPartners = partners.filter(p => p.logo);
                     <article v-for="p in filtered" :key="p.id"
                              class="bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col cursor-default">
 
-                        <!-- Bandeau couleur catégorie -->
-                        <div class="h-1.5 w-full"
-                             :class="p.category === 'financier' ? 'bg-[#EDAF11]' : p.category === 'technique' ? 'bg-[#204138]' : 'bg-blue-500'">
+                        <!-- Logo plein largeur -->
+                        <div class="w-full h-28 bg-gray-50 border-b border-gray-100 flex items-center justify-center px-8 py-4">
+                            <img v-if="p.logo" :src="p.logo" :alt="p.name" class="w-full max-h-full object-contain" loading="lazy">
+                            <span v-else class="text-xl font-black text-[#204138] tracking-widest">{{ p.acronym }}</span>
                         </div>
 
                         <div class="p-6 flex flex-col flex-1">
-                            <!-- Logo + Badge -->
-                            <div class="flex items-start justify-between mb-5">
-                                <div class="w-16 h-12 rounded-xl border border-gray-100 bg-gray-50 flex items-center justify-center overflow-hidden flex-shrink-0">
-                                    <img v-if="p.logo" :src="p.logo" :alt="p.name" class="w-full h-full object-contain p-2" loading="lazy">
-                                    <span v-else class="text-[11px] font-black text-[#204138]">{{ p.acronym }}</span>
-                                </div>
+                            <!-- Badge catégorie -->
+                            <div class="flex justify-end mb-4">
                                 <span class="text-[9px] font-bold uppercase tracking-[0.12em] px-2.5 py-1 rounded-full"
                                       :class="[categoryColors[p.category].bg, categoryColors[p.category].text]">
                                     {{ categoryColors[p.category].label }}
