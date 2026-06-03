@@ -58,8 +58,8 @@ const submit = () => {
                         <div style="display: flex; flex-direction: column; gap: 12px;">
 
                             <!-- Téléphone -->
-                            <a href="tel:+237693873145" style="display: flex; align-items: center; gap: 14px; padding: 16px 18px; background: #F7F9F8; border-left: 4px solid #204138; text-decoration: none; transition: background 0.2s;">
-                                <span style="width: 38px; height: 38px; background: #204138; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <a href="tel:+237693873145" style="display: flex; align-items: center; gap: 14px; padding: 16px 18px; background: #F7F9F8; border-left: 4px solid #204138; border-radius: 12px; text-decoration: none; transition: background 0.2s;">
+                                <span style="width: 38px; height: 38px; background: #204138; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.02 1.18 2 2 0 012 .02h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
                                 </span>
                                 <div>
@@ -69,8 +69,8 @@ const submit = () => {
                             </a>
 
                             <!-- Email -->
-                            <a href="mailto:recensement90@gmail.com" style="display: flex; align-items: center; gap: 14px; padding: 16px 18px; background: #F7F9F8; border-left: 4px solid #EDAF11; text-decoration: none; transition: background 0.2s;">
-                                <span style="width: 38px; height: 38px; background: #EDAF11; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <a href="mailto:recensement90@gmail.com" style="display: flex; align-items: center; gap: 14px; padding: 16px 18px; background: #F7F9F8; border-left: 4px solid #EDAF11; border-radius: 12px; text-decoration: none; transition: background 0.2s;">
+                                <span style="width: 38px; height: 38px; background: #EDAF11; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                                 </span>
                                 <div>
@@ -80,8 +80,8 @@ const submit = () => {
                             </a>
 
                             <!-- Messenger -->
-                            <a href="https://m.me/Cameroon-CENSUS-2026" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; gap: 14px; padding: 16px 18px; background: #F7F9F8; border-left: 4px solid #1877F2; text-decoration: none; transition: background 0.2s;">
-                                <span style="width: 38px; height: 38px; background: #1877F2; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <a href="https://m.me/Cameroon-CENSUS-2026" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; gap: 14px; padding: 16px 18px; background: #F7F9F8; border-left: 4px solid #1877F2; border-radius: 12px; text-decoration: none; transition: background 0.2s;">
+                                <span style="width: 38px; height: 38px; background: #1877F2; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.477 2 2 6.145 2 11.243c0 2.908 1.438 5.504 3.688 7.2V22l3.37-1.85c.9.249 1.853.383 2.942.383 5.523 0 10-4.145 10-9.243C22 6.145 17.523 2 12 2zm1.007 12.433l-2.548-2.717-4.973 2.717 5.472-5.808 2.61 2.717 4.91-2.717-5.471 5.808z"/></svg>
                                 </span>
                                 <div>

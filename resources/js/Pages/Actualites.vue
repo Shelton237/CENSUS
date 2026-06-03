@@ -103,14 +103,14 @@ const filteredArticles = () => {
 
                         <!-- Dossier de presse -->
                         <div class="bg-[#F7F9F8] border-l-4 border-[#204138] p-6">
-                            <div class="w-10 h-10 bg-[#204138] flex items-center justify-center mb-5 rounded-sm">
+                            <div class="w-10 h-10 bg-[#204138] flex items-center justify-center mb-5 rounded-lg">
                                 <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                                 </svg>
                             </div>
                             <h3 class="font-bold text-[#204138] text-base mb-2">Dossier de Presse</h3>
                             <p class="text-xs text-gray-500 mb-6 leading-relaxed">Présentation officielle du 4ème RGPH et RGAE, faits clés, chiffres de référence et informations à destination des médias.</p>
-                            <div class="p-3 bg-white border border-[#204138]/10 rounded-sm mb-4">
+                            <div class="p-3 bg-white border border-[#204138]/10 rounded-lg mb-4">
                                 <p class="text-[10px] font-bold uppercase tracking-[0.12em] text-[#204138]/50 mb-1">Disponible sur demande</p>
                                 <a href="mailto:recensement90@gmail.com?subject=Demande%20dossier%20de%20presse%20RGPH4"
                                    class="text-xs font-semibold text-[#204138] hover:text-[#EDAF11] transition-colors no-underline break-all">
@@ -121,7 +121,7 @@ const filteredArticles = () => {
 
                         <!-- Contact presse -->
                         <div class="bg-[#204138] border-l-4 border-[#EDAF11] p-6">
-                            <div class="w-10 h-10 bg-[#EDAF11] flex items-center justify-center mb-5 rounded-sm">
+                            <div class="w-10 h-10 bg-[#EDAF11] flex items-center justify-center mb-5 rounded-lg">
                                 <svg class="w-5 h-5 text-[#204138]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
                                 </svg>
@@ -130,21 +130,21 @@ const filteredArticles = () => {
                             <div class="space-y-4">
                                 <a href="tel:+237693873145"
                                    class="flex items-center gap-3 no-underline group">
-                                    <span class="w-7 h-7 bg-white/10 flex items-center justify-center rounded-sm flex-shrink-0 group-hover:bg-[#EDAF11] transition-colors duration-200">
+                                    <span class="w-7 h-7 bg-white/10 flex items-center justify-center rounded-lg flex-shrink-0 group-hover:bg-[#EDAF11] transition-colors duration-200">
                                         <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
                                     </span>
                                     <span class="text-sm font-semibold text-white/85 group-hover:text-white transition-colors">(+237) 6 93 87 31 45</span>
                                 </a>
                                 <a href="mailto:recensement90@gmail.com"
                                    class="flex items-center gap-3 no-underline group">
-                                    <span class="w-7 h-7 bg-white/10 flex items-center justify-center rounded-sm flex-shrink-0 group-hover:bg-[#EDAF11] transition-colors duration-200">
+                                    <span class="w-7 h-7 bg-white/10 flex items-center justify-center rounded-lg flex-shrink-0 group-hover:bg-[#EDAF11] transition-colors duration-200">
                                         <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                                     </span>
                                     <span class="text-sm font-semibold text-white/85 group-hover:text-white transition-colors">recensement90@gmail.com</span>
                                 </a>
                                 <a href="https://m.me/Cameroon-CENSUS-2026" target="_blank" rel="noopener noreferrer"
                                    class="flex items-center gap-3 no-underline group">
-                                    <span class="w-7 h-7 bg-white/10 flex items-center justify-center rounded-sm flex-shrink-0 group-hover:bg-[#EDAF11] transition-colors duration-200">
+                                    <span class="w-7 h-7 bg-white/10 flex items-center justify-center rounded-lg flex-shrink-0 group-hover:bg-[#EDAF11] transition-colors duration-200">
                                         <svg class="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.145 2 11.243c0 2.908 1.438 5.504 3.688 7.2V22l3.37-1.85c.9.249 1.853.383 2.942.383 5.523 0 10-4.145 10-9.243C22 6.145 17.523 2 12 2zm1.007 12.433l-2.548-2.717-4.973 2.717 5.472-5.808 2.61 2.717 4.91-2.717-5.471 5.808z"/></svg>
                                     </span>
                                     <span class="text-sm font-semibold text-white/85 group-hover:text-white transition-colors">Cameroon-CENSUS-2026</span>
@@ -154,7 +154,7 @@ const filteredArticles = () => {
 
                         <!-- Kit média -->
                         <div class="bg-[#F7F9F8] border-l-4 border-[#EDAF11] p-6">
-                            <div class="w-10 h-10 bg-[#EDAF11]/15 flex items-center justify-center mb-5 rounded-sm">
+                            <div class="w-10 h-10 bg-[#EDAF11]/15 flex items-center justify-center mb-5 rounded-lg">
                                 <svg class="w-5 h-5 text-[#B8860B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                 </svg>
@@ -163,17 +163,17 @@ const filteredArticles = () => {
                             <p class="text-xs text-gray-500 mb-5 leading-relaxed">Logos officiels, éléments graphiques et photographies de terrain en haute résolution à usage éditorial.</p>
                             <div class="space-y-2">
                                 <a href="/assets/images/badge.png" download
-                                   class="flex items-center justify-between py-2.5 px-3 bg-white border border-[#204138]/8 hover:border-[#204138]/30 text-xs font-semibold text-[#204138] transition-colors duration-200 no-underline rounded-sm">
+                                   class="flex items-center justify-between py-2.5 px-3 bg-white border border-[#204138]/8 hover:border-[#204138]/30 text-xs font-semibold text-[#204138] transition-colors duration-200 no-underline rounded-lg">
                                     <span>Logo RGPH4 officiel</span>
                                     <svg class="w-3.5 h-3.5 text-[#204138]/40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                                 </a>
                                 <a href="/assets/images/logo-rgae.jpg" download
-                                   class="flex items-center justify-between py-2.5 px-3 bg-white border border-[#204138]/8 hover:border-[#204138]/30 text-xs font-semibold text-[#204138] transition-colors duration-200 no-underline rounded-sm">
+                                   class="flex items-center justify-between py-2.5 px-3 bg-white border border-[#204138]/8 hover:border-[#204138]/30 text-xs font-semibold text-[#204138] transition-colors duration-200 no-underline rounded-lg">
                                     <span>Logo RGAE officiel</span>
                                     <svg class="w-3.5 h-3.5 text-[#204138]/40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                                 </a>
                                 <Link href="/phototheque"
-                                   class="flex items-center justify-between py-2.5 px-3 bg-[#204138] hover:bg-[#2b5549] text-xs font-bold text-white transition-colors duration-200 no-underline rounded-sm">
+                                   class="flex items-center justify-between py-2.5 px-3 bg-[#204138] hover:bg-[#2b5549] text-xs font-bold text-white transition-colors duration-200 no-underline rounded-lg">
                                     <span>Photothèque officielle</span>
                                     <svg class="w-3.5 h-3.5 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                                 </Link>
