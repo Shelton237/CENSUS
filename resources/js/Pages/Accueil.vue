@@ -844,7 +844,7 @@ onUnmounted(() => {
 
                 <!-- Bouton d'action vers la page dédiée -->
                 <div class="flex justify-center mt-10">
-                    <Link href="/activites" class="group inline-flex items-center gap-3 px-8 py-4 bg-[#204138] hover:bg-[#2b5549] text-white font-bold border-l-4 border-[#EDAF11] transition-colors duration-200 no-underline">
+                    <Link href="/activites" class="group inline-flex items-center gap-3 px-8 py-4 bg-[#204138] hover:bg-[#2b5549] text-white font-bold border-l-4 border-[#EDAF11] rounded-md transition-colors duration-200 no-underline">
                         <span class="text-sm tracking-wide">{{ __('Suivre les détails et statistiques en direct') }}</span>
                         <svg class="w-4 h-4 text-[#EDAF11] transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>

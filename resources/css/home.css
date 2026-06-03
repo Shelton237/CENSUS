@@ -660,7 +660,7 @@ body {
     min-width: 90px;
     min-height: 90px;
     flex-shrink: 0;
-    border-radius: 2px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -718,7 +718,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 2px;
+    border-radius: 6px;
     font-weight: 700;
     font-size: 13px;
     text-align: center;
@@ -825,7 +825,7 @@ body {
     z-index: 2;
     background: #EDAF11;
     padding: 2px 6px;
-    border-radius: 2px;
+    border-radius: 4px;
 }
 
 /* Années — Typographie discrète mais lisible */
