@@ -16,6 +16,7 @@ Route::get('/activites', function () { return Inertia::render('Activites'); });
 Route::get('/resultats-donnees', function () { return Inertia::render('ResultatsDonnees'); })->name('resultats-donnees');
 Route::get('/phototheque', function () { return Inertia::render('Phototheque'); })->name('phototheque');
 Route::get('/identification-agents', function () { return Inertia::render('AgentIdentification'); })->name('identification-agents');
+Route::get('/ressources', function () { return Inertia::render('Ressources'); })->name('ressources');
 
 use App\Http\Controllers\ArticleController;
 Route::get('/actualites', [ArticleController::class, 'index'])->name('actualites.index');

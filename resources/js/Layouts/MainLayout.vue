@@ -83,6 +83,7 @@ onMounted(() => {
                             <li><Link href="/apropos" class="nav-link" :class="{ active: $page.component === 'Apropos' }">{{ __('À propos') }}</Link></li>
                             <li><Link href="/identification-agents" class="nav-link" :class="{ active: $page.component === 'AgentIdentification' }">{{ __('Identification des Agents') }}</Link></li>
                             <li><Link href="/phototheque" class="nav-link" :class="{ active: $page.component === 'Phototheque' }">{{ __('Photothèque') }}</Link></li>
+                            <li><Link href="/ressources" class="nav-link" :class="{ active: $page.component === 'Ressources' }">{{ __('Ressources') }}</Link></li>
                             <li><Link href="/resultats-donnees" class="nav-link" :class="{ active: $page.component === 'ResultatsDonnees' }">{{ __('Résultats & Données') }}</Link></li>
                             <li class="nav-search">
                                 <button @click="toggleSearch" class="search-btn" aria-label="Rechercher">
