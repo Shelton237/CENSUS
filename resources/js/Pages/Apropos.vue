@@ -410,11 +410,67 @@ const partnersList = [
 
                         <!-- 5. ONGLET: ORGANISATION & PARTENAIRES -->
                         <div v-if="activeTab === 'organisation'" class="space-y-8 animate-fadeIn">
-                            <!-- Organisation centrale -->
+
+                            <!-- À propos du BUCREP -->
                             <article class="content-section">
-                                <h2 class="section-title">{{ __('Organisation Institutionnelle') }}</h2>
-                                <p class="mb-4">{{ __('L\'exécution technique des opérations est confiée au **BUCREP** (Bureau Central des Recensements et des Études de Population), organisme public expert placé sous la tutelle technique du Ministère de l\'Économie, de la Planification et de l\'Aménagement du Territoire (MINEPAT).') }}</p>
-                                <p>{{ __('Sur le terrain, l\'opération est coordonnée par des Directions Régionales, des Comités Départementaux et des Comités d\'Arrondissement présidés par les autorités administratives (Gouverneurs, Préfets, Sous-préfets) pour en garantir le bon déroulement, la logistique et la sécurité.') }}</p>
+                                <span class="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#EDAF11] block mb-3">À propos du BUCREP</span>
+                                <h2 class="section-title">Bureau Central des Recensements et des Études de Population</h2>
+
+                                <!-- Mission -->
+                                <div class="mb-6 p-5 bg-[#F7F9F8] border-l-4 border-[#204138]">
+                                    <p class="text-[10px] font-bold uppercase tracking-[0.14em] text-[#204138]/50 mb-1.5">Notre Mission</p>
+                                    <p class="text-sm font-semibold text-[#204138] leading-relaxed">Accompagner le gouvernement dans la planification du développement et le suivi des politiques publiques</p>
+                                </div>
+
+                                <p class="mb-4 text-gray-600 leading-relaxed">Créé en <strong class="text-[#204138]">1999</strong>, le BUCREP est placé sous la tutelle technique du Ministère de l'Économie, de la Planification et de l'Aménagement du Territoire (MINEPAT) et sous la tutelle financière du Ministère des Finances. Il a pour mission de réaliser les recensements et enquêtes démographiques au niveau national, d'élaborer des études sur la population afin de soutenir les politiques publiques, et de diffuser des données fiables à destination des décideurs, chercheurs et citoyens.</p>
+
+                                <!-- Vision -->
+                                <div class="p-5 bg-[#F7F9F8] border-l-4 border-[#EDAF11]">
+                                    <p class="text-[10px] font-bold uppercase tracking-[0.14em] text-[#204138]/50 mb-1.5">Notre Vision</p>
+                                    <p class="text-sm text-gray-600 leading-relaxed mb-3">Le BUCREP ambitionne de se positionner comme la <strong class="text-[#204138]">référence dans le domaine des études de population et de la démographie</strong>, en gagnant en notoriété, en améliorant son image et en développant ses prestations à l'échelle nationale et internationale.</p>
+                                    <p class="text-sm text-gray-600 leading-relaxed">Le BUCREP vise à assurer la mise à disposition régulière des données sur la population, à garantir leur fiabilité par le développement continu de la compétence professionnelle, à favoriser leur accessibilité via les technologies de l'information et enfin à produire des revenus pour son autonomisation progressive.</p>
+                                </div>
+                            </article>
+
+                            <!-- Principaux organes -->
+                            <article class="content-section">
+                                <h2 class="section-title">Principaux Organes</h2>
+                                <p class="text-gray-500 text-sm mb-6 leading-relaxed">Pour remplir ses missions, le BUCREP est administré par deux organes de gestion et un organe consultatif placé auprès du Directeur Général.</p>
+
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                                    <!-- Conseil d'Administration -->
+                                    <div class="p-5 bg-white border border-[#204138]/10 border-l-4 border-l-[#204138] rounded-sm">
+                                        <div class="w-10 h-10 bg-[#204138] flex items-center justify-center mb-4 rounded-sm">
+                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                        </div>
+                                        <h4 class="font-bold text-[#204138] mb-2 text-sm">Conseil d'Administration</h4>
+                                        <p class="text-xs text-gray-500 leading-relaxed">Définit et oriente la politique générale et évalue la gestion dans les limites fixées par l'objet social. Composé de <strong class="text-[#204138]">12 membres</strong>.</p>
+                                    </div>
+
+                                    <!-- Direction Générale -->
+                                    <div class="p-5 bg-[#204138] border-l-4 border-[#EDAF11] rounded-sm">
+                                        <div class="w-10 h-10 bg-[#EDAF11] flex items-center justify-center mb-4 rounded-sm">
+                                            <svg class="w-5 h-5 text-[#204138]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                                        </div>
+                                        <h4 class="font-bold text-white mb-2 text-sm">Direction Générale</h4>
+                                        <p class="text-xs text-white/70 leading-relaxed">Assure la gestion et l'application de la politique générale sous le contrôle du CA. Placée sous l'autorité d'un <strong class="text-white">Directeur Général assisté d'un DGA</strong>.</p>
+                                    </div>
+
+                                    <!-- Conseil Scientifique -->
+                                    <div class="p-5 bg-white border border-[#EDAF11]/25 border-l-4 border-l-[#EDAF11] rounded-sm">
+                                        <div class="w-10 h-10 bg-[#EDAF11]/15 flex items-center justify-center mb-4 rounded-sm">
+                                            <svg class="w-5 h-5 text-[#B8860B]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                                        </div>
+                                        <h4 class="font-bold text-[#204138] mb-2 text-sm">Conseil Scientifique</h4>
+                                        <p class="text-xs text-gray-500 leading-relaxed">Assure le respect de la démarche scientifique dans la préparation et l'exécution de toutes les activités. Organe <strong class="text-[#204138]">consultatif</strong> placé auprès du DG.</p>
+                                    </div>
+                                </div>
+
+                                <!-- Coordination terrain -->
+                                <div class="p-5 bg-[#F7F9F8] border-l-4 border-[#204138]/30">
+                                    <p class="text-[10px] font-bold uppercase tracking-[0.14em] text-[#204138]/50 mb-1.5">Coordination de terrain</p>
+                                    <p class="text-sm text-gray-600 leading-relaxed">L'opération est coordonnée par des <strong class="text-[#204138]">Directions Régionales</strong>, des Comités Départementaux et des Comités d'Arrondissement présidés par les autorités administratives (Gouverneurs, Préfets, Sous-préfets) pour en garantir le bon déroulement, la logistique et la sécurité.</p>
+                                </div>
                             </article>
 
                             <!-- Partenaires -->
