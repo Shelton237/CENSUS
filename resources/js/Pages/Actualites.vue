@@ -110,13 +110,13 @@ const filteredArticles = () => {
                             </div>
                             <h3 class="font-bold text-[#204138] text-base mb-2">Dossier de Presse</h3>
                             <p class="text-xs text-gray-500 mb-6 leading-relaxed">Présentation officielle du 4ème RGPH et RGAE, faits clés, chiffres de référence et informations à destination des médias.</p>
-                            <a href="/assets/documents/dossier-presse.pdf" download
-                               class="inline-flex items-center gap-2 bg-[#204138] hover:bg-[#2b5549] text-white text-xs font-bold px-4 py-2.5 transition-colors duration-200 rounded-sm no-underline">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-                                </svg>
-                                Télécharger le dossier
-                            </a>
+                            <div class="p-3 bg-white border border-[#204138]/10 rounded-sm mb-4">
+                                <p class="text-[10px] font-bold uppercase tracking-[0.12em] text-[#204138]/50 mb-1">Disponible sur demande</p>
+                                <a href="mailto:recensement90@gmail.com?subject=Demande%20dossier%20de%20presse%20RGPH4"
+                                   class="text-xs font-semibold text-[#204138] hover:text-[#EDAF11] transition-colors no-underline break-all">
+                                    recensement90@gmail.com
+                                </a>
+                            </div>
                         </div>
 
                         <!-- Contact presse -->
