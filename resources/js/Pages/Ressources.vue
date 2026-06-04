@@ -22,12 +22,12 @@ const manuals = [
 ];
 
 const usefulLinks = [
-    { name: 'BUCREP',         descKey: 'link_bucrep_desc',   url: 'https://bucrep.org',                        color: '#204138' },
-    { name: 'INS Cameroun',   descKey: 'link_ins_desc',      url: 'https://www.statistics-cameroon.org',       color: '#204138' },
-    { name: 'UNFPA Cameroun', descKey: 'link_unfpa_desc',    url: 'https://cameroon.unfpa.org',                color: '#1B6CA8' },
-    { name: 'FAO Cameroun',   descKey: 'link_fao_desc',      url: 'https://www.fao.org/cameroon',              color: '#1B6CA8' },
-    { name: 'Banque Mondiale',descKey: 'link_wb_desc',       url: 'https://www.worldbank.org/fr/country/cameroon', color: '#009FDA' },
-    { name: 'MINEPAT',        descKey: 'link_minepat_desc',  url: 'https://www.minepat.gov.cm',                color: '#204138' },
+    { name: 'BUCREP',         descKey: 'link_bucrep_desc',   url: 'https://bucrep.org',                           logo: '/assets/images/partenaire/bucrep.png' },
+    { name: 'INS Cameroun',   descKey: 'link_ins_desc',      url: 'https://www.statistics-cameroon.org',          logo: '/assets/images/partenaire/ins.png' },
+    { name: 'UNFPA Cameroun', descKey: 'link_unfpa_desc',    url: 'https://cameroon.unfpa.org',                   logo: '/assets/images/partenaire/unfpa.png' },
+    { name: 'FAO Cameroun',   descKey: 'link_fao_desc',      url: 'https://www.fao.org/cameroon',                 logo: '/assets/images/partenaire/fao.svg' },
+    { name: 'Banque Mondiale',descKey: 'link_wb_desc',       url: 'https://www.worldbank.org/fr/country/cameroon', logo: '/assets/images/partenaire/worldbank.svg' },
+    { name: 'MINEPAT',        descKey: 'link_minepat_desc',  url: 'https://www.minepat.gov.cm',                   logo: '/assets/images/partenaire/minepat.jpg' },
 ];
 </script>
 
@@ -167,11 +167,9 @@ const usefulLinks = [
                         <a v-for="link in usefulLinks" :key="link.name"
                            :href="link.url" target="_blank" rel="noopener noreferrer"
                            class="group flex items-center gap-3 p-4 bg-white border border-[#204138]/8 hover:border-[#204138]/25 hover:bg-[#F7F9F8] transition-colors duration-200 no-underline">
-                            <div class="w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-lg"
-                                 :style="`background: ${link.color}18`">
-                                <svg class="w-4 h-4" :style="`color: ${link.color}`" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
-                                </svg>
+                            <div class="w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-lg bg-white border border-gray-100 p-1.5">
+                                <img :src="link.logo" :alt="link.name"
+                                     class="w-full h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-300">
                             </div>
                             <div class="flex-1 min-w-0">
                                 <p class="text-sm font-bold text-[#204138] leading-snug group-hover:text-[#2b5549]">{{ link.name }}</p>
