@@ -1,502 +1,372 @@
 <script setup>
-import { ref, computed } from 'vue';
 import MainLayout from '@/Layouts/MainLayout.vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, useForm, usePage } from '@inertiajs/vue3';
+import { ref } from 'vue';
 
-// Form Data structure
+const page = usePage();
+const __ = (key) => page.props.translations?.[key] || key;
+
 const form = useForm({
-    // Step 1: Informations Personnelles
     first_name: '',
     last_name: '',
     gender: '',
     birth_date: '',
     id_card_number: '',
-
-    // Step 2: Coordonnées & Localisation
     phone: '',
     email: '',
     region: '',
     city: '',
-    address: '',
-
-    // Step 3: Compétences & Expérience
+    arrondissement: '',
     education_level: '',
-    languages: [],
-    previous_experience: false,
-    experience_details: ''
+    languages: '',
+    previous_experience: '',
+    experience_details: '',
+    has_smartphone: '',
+    has_email: '',
+    fonctionnaire: '',
 });
 
-// Wizard State
-const currentStep = ref(1);
-const totalSteps = 3;
-const successMessage = ref('');
-const slideDirection = ref('forward'); // 'forward' | 'backward'
+const submitted = ref(false);
 
-// Regions list
+const submitForm = () => {
+    form.post(route('candidature.store'), {
+        onSuccess: () => {
+            submitted.value = true;
+            form.reset();
+        },
+        onError: () => {},
+    });
+};
+
 const regions = [
     'Adamaoua', 'Centre', 'Est', 'Extrême-Nord', 'Littoral',
     'Nord', 'Nord-Ouest', 'Ouest', 'Sud', 'Sud-Ouest'
 ];
 
-const nextStep = () => {
-    if (currentStep.value < totalSteps) {
-        slideDirection.value = 'forward';
-        currentStep.value++;
-    }
-};
+const educationLevels = [
+    'BEPC / GCE O-Level',
+    'Baccalauréat / GCE A-Level',
+    'BTS / HND',
+    'Licence / Bachelor',
+    'Master / Maîtrise',
+    'Doctorat',
+];
 
-const prevStep = () => {
-    if (currentStep.value > 1) {
-        slideDirection.value = 'backward';
-        currentStep.value--;
-    }
-};
-
-const submitForm = () => {
-    form.post(route('candidature.store'), {
-        onSuccess: () => {
-            currentStep.value = 1;
-            form.reset();
-            successMessage.value = "Votre candidature a été soumise avec succès ! Vous serez contacté très prochainement.";
-            setTimeout(() => { successMessage.value = ''; }, 6000);
-        },
-        onError: (errors) => {
-            console.error(errors);
-            if (errors.first_name || errors.last_name || errors.gender || errors.birth_date || errors.id_card_number) {
-                slideDirection.value = 'backward';
-                currentStep.value = 1;
-            } else if (errors.phone || errors.email || errors.region || errors.city || errors.address) {
-                slideDirection.value = 'backward';
-                currentStep.value = 2;
-            }
-        }
-    });
-};
-
-// Progress bar calculation
-const completionPercentage = computed(() => {
-    return ((currentStep.value - 1) / (totalSteps - 1)) * 100;
-});
+const fieldClass = (hasError) =>
+    `w-full px-4 py-3 rounded-xl border text-sm transition-colors duration-150 focus:outline-none focus:ring-2 ${
+        hasError
+            ? 'border-red-300 bg-red-50 focus:border-red-400 focus:ring-red-100'
+            : 'border-gray-200 bg-white focus:border-[#EDAF11] focus:ring-[#EDAF11]/20'
+    }`;
 </script>
 
 <template>
     <Head>
-        <title>Recrutement des Agents Recenseurs</title>
-        <meta name="description" content="Postulez pour devenir agent recenseur pour le 4ème RGPH du Cameroun.">
+        <title>Recrutement Agents Recenseurs | RGPH4 & RGAE Cameroun</title>
+        <meta name="description" content="Postulez pour devenir agent recenseur du 4ème RGPH et RGAE du Cameroun. 32 059 postes à pourvoir.">
+        <meta property="og:title" content="Recrutement Agents Recenseurs | RGPH4 & RGAE Cameroun">
+        <meta property="og:image" content="https://census.diginova.cm/assets/images/backgrounds/cameroon_people_map.png">
     </Head>
 
     <MainLayout>
-        <!-- Hero Section pour la candidature -->
-        <section class="candidature-hero relative pt-32 pb-20 overflow-hidden bg-[#204138]">
-            <div class="absolute inset-0 z-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+        <!-- Hero -->
+        <section class="relative pt-32 pb-16 bg-[#204138] overflow-hidden">
+            <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
             <div class="container relative z-10 text-center">
-                <span class="inline-block py-1 px-3 rounded-full bg-[#EDAF11]/20 text-[#EDAF11] font-bold text-sm tracking-widest uppercase mb-4">{{ __('Rejoignez-nous') }}</span>
-                <h1 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">{{ __('Devenez Agent Recenseur') }}</h1>
-                <p class="text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">
-                    {{ __('Participez activement au développement du pays en rejoignant l\'équipe nationale du 4ème RGPH. Soumettez votre candidature en quelques étapes.') }}
+                <span class="inline-block py-1 px-3 rounded-full bg-[#EDAF11]/20 text-[#EDAF11] font-bold text-xs tracking-widest uppercase mb-4">Recrutement national 2026</span>
+                <h1 class="text-4xl md:text-5xl font-black text-white mb-4 leading-tight">Devenez Agent Recenseur</h1>
+                <p class="text-lg text-white/75 max-w-xl mx-auto">
+                    <span class="font-black text-[#EDAF11] text-2xl">32 059</span> postes sur contrat à durée déterminée dans les 10 régions du Cameroun.
                 </p>
             </div>
         </section>
 
-        <!-- ══ INFO RECRUTEMENT ══ -->
-        <section class="bg-[#F7F9F8] border-b border-[#204138]/10 py-14">
-            <div class="container max-w-5xl mx-auto px-4">
-
-                <!-- Chiffre clé -->
-                <div class="text-center mb-12">
-                    <span class="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#EDAF11] block mb-2">Recrutement national 2026</span>
-                    <div class="text-5xl md:text-6xl font-black text-[#204138] tabular-nums">32 059</div>
-                    <p class="text-base text-gray-500 mt-2">agents recenseurs à recruter sur contrat à durée déterminée (CDD)</p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-
-                    <!-- Critères d'éligibilité -->
-                    <div class="bg-white rounded-2xl p-6 border border-[#204138]/8">
-                        <div class="w-10 h-10 bg-[#204138] flex items-center justify-center rounded-xl mb-4">
-                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                        </div>
-                        <h3 class="font-bold text-[#204138] text-sm mb-4 uppercase tracking-wider">Critères d'éligibilité</h3>
-                        <ul class="space-y-2.5">
-                            <li class="flex items-start gap-2 text-xs text-gray-600">
-                                <span class="w-1.5 h-1.5 bg-[#EDAF11] rounded-full mt-1.5 flex-shrink-0"></span>
-                                Être camerounais(e)
-                            </li>
-                            <li class="flex items-start gap-2 text-xs text-gray-600">
-                                <span class="w-1.5 h-1.5 bg-[#EDAF11] rounded-full mt-1.5 flex-shrink-0"></span>
-                                Âgé(e) de 18 à 50 ans au 1er janvier
-                            </li>
-                            <li class="flex items-start gap-2 text-xs text-gray-600">
-                                <span class="w-1.5 h-1.5 bg-[#EDAF11] rounded-full mt-1.5 flex-shrink-0"></span>
-                                Niveau minimum BEPC, GCE ou équivalent
-                            </li>
-                            <li class="flex items-start gap-2 text-xs text-gray-600">
-                                <span class="w-1.5 h-1.5 bg-[#EDAF11] rounded-full mt-1.5 flex-shrink-0"></span>
-                                Aptitude physique pour le travail de terrain
-                            </li>
-                            <li class="flex items-start gap-2 text-xs text-gray-600">
-                                <span class="w-1.5 h-1.5 bg-[#EDAF11] rounded-full mt-1.5 flex-shrink-0"></span>
-                                Parler au moins une langue locale de l'arrondissement ciblé
-                            </li>
-                            <li class="flex items-start gap-2 text-xs text-gray-600">
-                                <span class="w-1.5 h-1.5 bg-[#EDAF11] rounded-full mt-1.5 flex-shrink-0"></span>
-                                Posséder un smartphone Android
-                            </li>
-                            <li class="flex items-start gap-2 text-xs text-gray-600">
-                                <span class="w-1.5 h-1.5 bg-[#EDAF11] rounded-full mt-1.5 flex-shrink-0"></span>
-                                Disposer d'une adresse e-mail active
-                            </li>
-                            <li class="flex items-start gap-2 text-xs text-gray-600">
-                                <span class="w-1.5 h-1.5 bg-[#EDAF11] rounded-full mt-1.5 flex-shrink-0"></span>
-                                Être disponible pendant toute la durée de l'opération
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- Pièces à fournir -->
-                    <div class="bg-white rounded-2xl p-6 border border-[#204138]/8">
-                        <div class="w-10 h-10 bg-[#EDAF11] flex items-center justify-center rounded-xl mb-4">
-                            <svg class="w-5 h-5 text-[#204138]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                            </svg>
-                        </div>
-                        <h3 class="font-bold text-[#204138] text-sm mb-4 uppercase tracking-wider">Pièces à fournir</h3>
-                        <p class="text-[10px] text-gray-400 mb-3 uppercase tracking-wider font-semibold">Pour les candidats présélectionnés</p>
-                        <ul class="space-y-2.5">
-                            <li class="flex items-start gap-2 text-xs text-gray-600">
-                                <span class="w-1.5 h-1.5 bg-[#204138] rounded-full mt-1.5 flex-shrink-0"></span>
-                                Lettre de candidature timbrée
-                            </li>
-                            <li class="flex items-start gap-2 text-xs text-gray-600">
-                                <span class="w-1.5 h-1.5 bg-[#204138] rounded-full mt-1.5 flex-shrink-0"></span>
-                                CV avec expérience en collecte de données statistiques
-                            </li>
-                            <li class="flex items-start gap-2 text-xs text-gray-600">
-                                <span class="w-1.5 h-1.5 bg-[#204138] rounded-full mt-1.5 flex-shrink-0"></span>
-                                Photocopie de la CNI en cours de validité
-                            </li>
-                            <li class="flex items-start gap-2 text-xs text-gray-600">
-                                <span class="w-1.5 h-1.5 bg-[#204138] rounded-full mt-1.5 flex-shrink-0"></span>
-                                Photocopie du diplôme le plus élevé
-                            </li>
-                            <li class="flex items-start gap-2 text-xs text-gray-600">
-                                <span class="w-1.5 h-1.5 bg-[#204138] rounded-full mt-1.5 flex-shrink-0"></span>
-                                Certificat médical de moins de 3 mois
-                            </li>
-                            <li class="flex items-start gap-2 text-xs text-gray-600">
-                                <span class="w-1.5 h-1.5 bg-[#204138] rounded-full mt-1.5 flex-shrink-0"></span>
-                                Justificatif d'expérience (si applicable)
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- Informations importantes -->
-                    <div class="bg-white rounded-2xl p-6 border border-[#204138]/8">
-                        <div class="w-10 h-10 bg-[#204138]/10 flex items-center justify-center rounded-xl mb-4">
-                            <svg class="w-5 h-5 text-[#204138]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                        </div>
-                        <h3 class="font-bold text-[#204138] text-sm mb-4 uppercase tracking-wider">À noter</h3>
-                        <ul class="space-y-3">
-                            <li class="flex items-start gap-2 text-xs text-gray-600">
-                                <span class="w-1.5 h-1.5 bg-red-400 rounded-full mt-1.5 flex-shrink-0"></span>
-                                Formation obligatoire de <strong class="text-[#204138]">28 jours</strong> dans les chefs-lieux d'arrondissement
-                            </li>
-                            <li class="flex items-start gap-2 text-xs text-gray-600">
-                                <span class="w-1.5 h-1.5 bg-red-400 rounded-full mt-1.5 flex-shrink-0"></span>
-                                Toute candidature dans plusieurs arrondissements entraîne le <strong class="text-[#204138]">rejet automatique</strong>
-                            </li>
-                            <li class="flex items-start gap-2 text-xs text-gray-600">
-                                <span class="w-1.5 h-1.5 bg-red-400 rounded-full mt-1.5 flex-shrink-0"></span>
-                                Dossier incomplet ou frauduleux = <strong class="text-[#204138]">élimination immédiate</strong>
-                            </li>
-                            <li class="flex items-start gap-2 text-xs text-gray-600">
-                                <span class="w-1.5 h-1.5 bg-[#EDAF11] rounded-full mt-1.5 flex-shrink-0"></span>
-                                Les fonctionnaires doivent fournir une <strong class="text-[#204138]">autorisation hiérarchique</strong>
-                            </li>
-                            <li class="flex items-start gap-2 text-xs text-gray-600">
-                                <span class="w-1.5 h-1.5 bg-[#EDAF11] rounded-full mt-1.5 flex-shrink-0"></span>
-                                Les candidats de 2021/2023 doivent <strong class="text-[#204138]">repostuler</strong>
-                            </li>
-                            <li class="flex items-start gap-2 text-xs text-gray-600">
-                                <span class="w-1.5 h-1.5 bg-[#204138] rounded-full mt-1.5 flex-shrink-0"></span>
-                                Candidature en ligne ou en sous-préfecture (sans accès internet)
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Bouton vers site officiel -->
-                <div class="text-center">
-                    <p class="text-xs text-gray-400 mb-4">Vous pouvez également postuler directement sur le portail officiel du recensement</p>
-                    <a href="https://census-cameroon.com/fr/application_ag.php" target="_blank" rel="noopener noreferrer"
-                       class="inline-flex items-center gap-2 px-6 py-3 bg-white border border-[#204138]/20 text-[#204138] text-sm font-bold rounded-xl hover:border-[#204138]/50 hover:shadow-md transition-all duration-200 no-underline">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                        Postuler sur census-cameroon.com
-                    </a>
-                </div>
+        <!-- Succès -->
+        <div v-if="submitted" class="bg-green-50 border-b border-green-200 py-10 text-center px-4">
+            <div class="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                </svg>
             </div>
-        </section>
+            <h2 class="text-xl font-black text-green-800 mb-2">Candidature soumise avec succès !</h2>
+            <p class="text-sm text-green-700 max-w-md mx-auto">Votre dossier a été enregistré. Vous serez contacté(e) si vous êtes présélectionné(e) pour la phase suivante.</p>
+        </div>
 
-        <!-- Formulaire Multi-étapes -->
-        <section class="candidature-form-section py-20 bg-gray-50 relative">
-            <div class="container max-w-4xl relative z-10">
-                
-                <!-- Stepper Progress -->
-                <div class="stepper-wrapper mb-16 relative">
-                    <div class="progress-bar-bg absolute top-1/2 left-0 w-full h-2 bg-gray-200 rounded-full -translate-y-1/2 z-0"></div>
-                    <div class="progress-bar-fill absolute top-1/2 left-0 h-2 bg-[#EDAF11] rounded-full -translate-y-1/2 z-0 transition-all duration-500" :style="{ width: `${completionPercentage}%` }"></div>
-                    
-                    <div class="flex justify-between relative z-10">
-                        <!-- Step 1 Indicator -->
-                        <div class="step-indicator flex flex-col items-center gap-3">
-                            <div class="w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg shadow-lg transition-colors duration-300"
-                                 :class="currentStep >= 1 ? 'bg-[#EDAF11] text-white' : 'bg-white text-gray-400 border-2 border-gray-200'">
-                                1
+        <!-- Corps principal : sidebar + formulaire -->
+        <div v-else class="bg-[#F7F9F8] py-12">
+            <div class="container max-w-6xl mx-auto px-4">
+                <div class="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-8 items-start">
+
+                    <!-- ═══ SIDEBAR GAUCHE ═══ -->
+                    <aside class="space-y-5 lg:sticky lg:top-24">
+
+                        <!-- Critères d'éligibilité -->
+                        <div class="bg-white rounded-2xl p-6 border border-[#204138]/8">
+                            <div class="flex items-center gap-2.5 mb-5">
+                                <div class="w-7 h-7 bg-[#204138] rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="font-bold text-[#204138] text-sm">Critères d'éligibilité</h3>
                             </div>
-                            <span class="text-sm font-bold" :class="currentStep >= 1 ? 'text-[#204138]' : 'text-gray-400'">{{ __('Identité') }}</span>
+                            <ul class="space-y-2.5">
+                                <li v-for="item in [
+                                    'Être camerounais(e)',
+                                    'Âgé(e) de 18 à 50 ans au 1er janvier',
+                                    'Niveau minimum BEPC ou GCE O-Level',
+                                    'Aptitude physique au travail de terrain',
+                                    'Parler une langue locale de l\'arrondissement ciblé',
+                                    'Posséder un smartphone Android',
+                                    'Disposer d\'une adresse e-mail',
+                                    'Disponible pendant toute la durée de l\'opération',
+                                ]" :key="item" class="flex items-start gap-2 text-xs text-gray-600">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-[#EDAF11] mt-1.5 flex-shrink-0"></span>
+                                    {{ item }}
+                                </li>
+                            </ul>
                         </div>
-                        
-                        <!-- Step 2 Indicator -->
-                        <div class="step-indicator flex flex-col items-center gap-3">
-                            <div class="w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg shadow-lg transition-colors duration-300"
-                                 :class="currentStep >= 2 ? 'bg-[#EDAF11] text-white' : 'bg-white text-gray-400 border-2 border-gray-200'">
-                                2
+
+                        <!-- Pièces à fournir -->
+                        <div class="bg-white rounded-2xl p-6 border border-[#204138]/8">
+                            <div class="flex items-center gap-2.5 mb-4">
+                                <div class="w-7 h-7 bg-[#EDAF11] rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-3.5 h-3.5 text-[#204138]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="font-bold text-[#204138] text-sm">Pièces à fournir</h3>
                             </div>
-                            <span class="text-sm font-bold" :class="currentStep >= 2 ? 'text-[#204138]' : 'text-gray-400'">{{ __('Contact') }}</span>
+                            <p class="text-[10px] text-gray-400 uppercase tracking-wider font-semibold mb-3">Si présélectionné(e)</p>
+                            <ul class="space-y-2.5">
+                                <li v-for="doc in [
+                                    'Lettre de candidature timbrée',
+                                    'CV avec expériences en collecte de données',
+                                    'Photocopie CNI en cours de validité',
+                                    'Photocopie du diplôme le plus élevé',
+                                    'Certificat médical (moins de 3 mois)',
+                                    'Justificatif d\'expérience (si applicable)',
+                                ]" :key="doc" class="flex items-start gap-2 text-xs text-gray-600">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-[#204138] mt-1.5 flex-shrink-0"></span>
+                                    {{ doc }}
+                                </li>
+                            </ul>
                         </div>
 
-                        <!-- Step 3 Indicator -->
-                        <div class="step-indicator flex flex-col items-center gap-3">
-                            <div class="w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg shadow-lg transition-colors duration-300"
-                                 :class="currentStep >= 3 ? 'bg-[#EDAF11] text-white' : 'bg-white text-gray-400 border-2 border-gray-200'">
-                                3
-                            </div>
-                            <span class="text-sm font-bold" :class="currentStep >= 3 ? 'text-[#204138]' : 'text-gray-400'">{{ __('Expérience') }}</span>
+                        <!-- Avertissements -->
+                        <div class="bg-amber-50 rounded-2xl p-5 border border-amber-200">
+                            <h3 class="font-bold text-amber-800 text-xs uppercase tracking-wider mb-3">Points importants</h3>
+                            <ul class="space-y-2.5">
+                                <li class="flex items-start gap-2 text-xs text-amber-800">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500 mt-1.5 flex-shrink-0"></span>
+                                    Formation obligatoire de <strong>28 jours</strong> en chef-lieu d'arrondissement
+                                </li>
+                                <li class="flex items-start gap-2 text-xs text-amber-800">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500 mt-1.5 flex-shrink-0"></span>
+                                    Candidature dans plusieurs arrondissements = <strong>rejet automatique</strong>
+                                </li>
+                                <li class="flex items-start gap-2 text-xs text-amber-800">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500 mt-1.5 flex-shrink-0"></span>
+                                    Dossier incomplet ou frauduleux = <strong>élimination immédiate</strong>
+                                </li>
+                                <li class="flex items-start gap-2 text-xs text-amber-800">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500 mt-1.5 flex-shrink-0"></span>
+                                    Fonctionnaires : autorisation hiérarchique requise
+                                </li>
+                                <li class="flex items-start gap-2 text-xs text-amber-800">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500 mt-1.5 flex-shrink-0"></span>
+                                    Anciens candidats (2021/2023) doivent repostuler
+                                </li>
+                            </ul>
                         </div>
-                    </div>
-                </div>
 
-                <!-- Bandeau de succès -->
-                <transition name="fade-banner">
-                    <div v-if="successMessage" class="mb-8 flex items-center gap-4 bg-green-50 border border-green-200 text-green-800 rounded-2xl px-6 py-4 shadow-sm">
-                        <svg class="w-6 h-6 text-green-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                        <span class="font-semibold">{{ successMessage }}</span>
-                    </div>
-                </transition>
+                    </aside>
 
-                <!-- Form Container -->
-                <div class="form-container bg-white/80 backdrop-blur-xl rounded-[2rem] shadow-2xl border border-white p-8 md:p-14">
-                    <form @submit.prevent="submitForm">
+                    <!-- ═══ FORMULAIRE ═══ -->
+                    <div class="bg-white rounded-2xl border border-[#204138]/8 overflow-hidden">
 
-                        <!-- Steps animés avec une seule transition -->
-                        <transition :name="slideDirection === 'forward' ? 'slide-forward' : 'slide-backward'" mode="out-in">
+                        <!-- En-tête formulaire -->
+                        <div class="bg-[#204138] px-8 py-6">
+                            <h2 class="text-xl font-black text-white">Formulaire de Candidature</h2>
+                            <p class="text-sm text-white/60 mt-1">Remplissez tous les champs marqués d'un astérisque (*)</p>
+                        </div>
 
-                            <!-- STEP 1: Informations Personnelles -->
-                            <div v-if="currentStep === 1" class="form-step">
-                                <h2 class="text-2xl font-black text-[#204138] mb-8 flex items-center gap-3">
-                                    <svg class="w-6 h-6 text-[#EDAF11]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                                    {{ __('Informations Personnelles') }}
-                                </h2>
+                        <form @submit.prevent="submitForm" class="p-8 space-y-8">
 
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div class="input-group">
-                                        <label class="block text-sm font-bold mb-2" :class="form.errors.first_name ? 'text-red-500' : 'text-gray-700'">{{ __('Prénom') }} *</label>
-                                        <input type="text" v-model="form.first_name" class="w-full px-5 py-4 rounded-xl border focus:ring-2 transition-all appearance-none" :class="form.errors.first_name ? 'border-red-300 focus:border-red-500 focus:ring-red-500/20 bg-red-50' : 'border-gray-200 focus:border-[#EDAF11] focus:ring-[#EDAF11]/20 bg-gray-50 focus:bg-white'">
-                                        <p v-if="form.errors.first_name" class="mt-2 text-sm text-red-500">{{ form.errors.first_name }}</p>
-                                    </div>
-                                    <div class="input-group">
-                                        <label class="block text-sm font-bold mb-2" :class="form.errors.last_name ? 'text-red-500' : 'text-gray-700'">{{ __('Nom') }} *</label>
-                                        <input type="text" v-model="form.last_name" class="w-full px-5 py-4 rounded-xl border focus:ring-2 transition-all appearance-none" :class="form.errors.last_name ? 'border-red-300 focus:border-red-500 focus:ring-red-500/20 bg-red-50' : 'border-gray-200 focus:border-[#EDAF11] focus:ring-[#EDAF11]/20 bg-gray-50 focus:bg-white'">
-                                        <p v-if="form.errors.last_name" class="mt-2 text-sm text-red-500">{{ form.errors.last_name }}</p>
-                                    </div>
-                                    <div class="input-group">
-                                        <label class="block text-sm font-bold mb-2" :class="form.errors.gender ? 'text-red-500' : 'text-gray-700'">{{ __('Genre') }} *</label>
-                                        <select v-model="form.gender" class="w-full px-5 py-4 rounded-xl border focus:ring-2 transition-all appearance-none" :class="form.errors.gender ? 'border-red-300 focus:border-red-500 focus:ring-red-500/20 bg-red-50' : 'border-gray-200 focus:border-[#EDAF11] focus:ring-[#EDAF11]/20 bg-gray-50 focus:bg-white'">
-                                            <option value="" disabled>{{ __('Sélectionnez...') }}</option>
-                                            <option value="M">{{ __('Masculin') }}</option>
-                                            <option value="F">{{ __('Féminin') }}</option>
-                                        </select>
-                                        <p v-if="form.errors.gender" class="mt-2 text-sm text-red-500">{{ form.errors.gender }}</p>
-                                    </div>
-                                    <div class="input-group">
-                                        <label class="block text-sm font-bold mb-2" :class="form.errors.birth_date ? 'text-red-500' : 'text-gray-700'">{{ __('Date de naissance') }} *</label>
-                                        <input type="date" v-model="form.birth_date" class="w-full px-5 py-4 rounded-xl border focus:ring-2 transition-all appearance-none" :class="form.errors.birth_date ? 'border-red-300 focus:border-red-500 focus:ring-red-500/20 bg-red-50' : 'border-gray-200 focus:border-[#EDAF11] focus:ring-[#EDAF11]/20 bg-gray-50 focus:bg-white'">
-                                        <p v-if="form.errors.birth_date" class="mt-2 text-sm text-red-500">{{ form.errors.birth_date }}</p>
-                                    </div>
-                                    <div class="input-group md:col-span-2">
-                                        <label class="block text-sm font-bold mb-2" :class="form.errors.id_card_number ? 'text-red-500' : 'text-gray-700'">{{ __('Numéro de CNI / Récépissé') }} *</label>
-                                        <input type="text" v-model="form.id_card_number" class="w-full px-5 py-4 rounded-xl border focus:ring-2 transition-all appearance-none" :class="form.errors.id_card_number ? 'border-red-300 focus:border-red-500 focus:ring-red-500/20 bg-red-50' : 'border-gray-200 focus:border-[#EDAF11] focus:ring-[#EDAF11]/20 bg-gray-50 focus:bg-white'" placeholder="Ex: 123456789">
-                                        <p v-if="form.errors.id_card_number" class="mt-2 text-sm text-red-500">{{ form.errors.id_card_number }}</p>
-                                    </div>
+                            <!-- Erreur globale -->
+                            <div v-if="Object.keys(form.errors).length > 0" class="p-4 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700 flex items-start gap-3">
+                                <svg class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                <div>
+                                    <p class="font-bold">Veuillez corriger les erreurs ci-dessous avant de soumettre.</p>
                                 </div>
                             </div>
 
-                            <!-- STEP 2: Coordonnées & Localisation -->
-                            <div v-else-if="currentStep === 2" class="form-step">
-                                <h2 class="text-2xl font-black text-[#204138] mb-8 flex items-center gap-3">
-                                    <svg class="w-6 h-6 text-[#EDAF11]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                                    {{ __('Coordonnées & Localisation') }}
-                                </h2>
-
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div class="input-group">
-                                        <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('Téléphone') }} *</label>
-                                        <input type="tel" v-model="form.phone" class="w-full px-5 py-4 rounded-xl border border-gray-200 focus:border-[#EDAF11] focus:ring-2 focus:ring-[#EDAF11]/20 transition-all bg-gray-50 focus:bg-white" placeholder="Ex: +237 600 00 00 00">
+                            <!-- ── Section 1 : Identité ── -->
+                            <fieldset>
+                                <legend class="flex items-center gap-2 mb-5 pb-3 border-b border-gray-100 w-full">
+                                    <span class="w-6 h-6 bg-[#204138] rounded-md flex items-center justify-center text-white text-xs font-black flex-shrink-0">1</span>
+                                    <span class="text-sm font-bold text-[#204138] uppercase tracking-wider">Informations personnelles</span>
+                                </legend>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                    <div>
+                                        <label class="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">Prénom *</label>
+                                        <input type="text" v-model="form.first_name" :class="fieldClass(form.errors.first_name)" placeholder="Jean">
+                                        <p v-if="form.errors.first_name" class="mt-1 text-xs text-red-500">{{ form.errors.first_name }}</p>
                                     </div>
-                                    <div class="input-group">
-                                        <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('Email') }}</label>
-                                        <input type="email" v-model="form.email" class="w-full px-5 py-4 rounded-xl border border-gray-200 focus:border-[#EDAF11] focus:ring-2 focus:ring-[#EDAF11]/20 transition-all bg-gray-50 focus:bg-white" placeholder="Ex: e.g@email.com">
+                                    <div>
+                                        <label class="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">Nom *</label>
+                                        <input type="text" v-model="form.last_name" :class="fieldClass(form.errors.last_name)" placeholder="Dupont">
+                                        <p v-if="form.errors.last_name" class="mt-1 text-xs text-red-500">{{ form.errors.last_name }}</p>
                                     </div>
-                                    <div class="input-group">
-                                        <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('Région de résidence') }} *</label>
-                                        <select v-model="form.region" class="w-full px-5 py-4 rounded-xl border border-gray-200 focus:border-[#EDAF11] focus:ring-2 focus:ring-[#EDAF11]/20 transition-all bg-gray-50 focus:bg-white appearance-none">
-                                            <option value="" disabled>{{ __('Sélectionnez...') }}</option>
-                                            <option v-for="reg in regions" :key="reg" :value="reg">{{ reg }}</option>
+                                    <div>
+                                        <label class="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">Genre *</label>
+                                        <select v-model="form.gender" :class="fieldClass(form.errors.gender)">
+                                            <option value="" disabled>Sélectionnez...</option>
+                                            <option value="M">Masculin</option>
+                                            <option value="F">Féminin</option>
                                         </select>
+                                        <p v-if="form.errors.gender" class="mt-1 text-xs text-red-500">{{ form.errors.gender }}</p>
                                     </div>
-                                    <div class="input-group">
-                                        <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('Ville / Arrondissement') }} *</label>
-                                        <input type="text" v-model="form.city" class="w-full px-5 py-4 rounded-xl border border-gray-200 focus:border-[#EDAF11] focus:ring-2 focus:ring-[#EDAF11]/20 transition-all bg-gray-50 focus:bg-white">
+                                    <div>
+                                        <label class="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">Date de naissance *</label>
+                                        <input type="date" v-model="form.birth_date" :class="fieldClass(form.errors.birth_date)">
+                                        <p v-if="form.errors.birth_date" class="mt-1 text-xs text-red-500">{{ form.errors.birth_date }}</p>
                                     </div>
-                                    <div class="input-group md:col-span-2">
-                                        <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('Adresse détaillée (Quartier)') }} *</label>
-                                        <input type="text" v-model="form.address" class="w-full px-5 py-4 rounded-xl border border-gray-200 focus:border-[#EDAF11] focus:ring-2 focus:ring-[#EDAF11]/20 transition-all bg-gray-50 focus:bg-white">
+                                    <div class="sm:col-span-2">
+                                        <label class="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">Numéro CNI *</label>
+                                        <input type="text" v-model="form.id_card_number" :class="fieldClass(form.errors.id_card_number)" placeholder="Ex: 12345678AB">
+                                        <p v-if="form.errors.id_card_number" class="mt-1 text-xs text-red-500">{{ form.errors.id_card_number }}</p>
                                     </div>
                                 </div>
-                            </div>
+                            </fieldset>
 
-                            <!-- STEP 3: Compétences & Expérience -->
-                            <div v-else class="form-step">
-                                <h2 class="text-2xl font-black text-[#204138] mb-8 flex items-center gap-3">
-                                    <svg class="w-6 h-6 text-[#EDAF11]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-                                    {{ __('Compétences & Expérience') }}
-                                </h2>
-
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div class="input-group md:col-span-2">
-                                        <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('Niveau d\'études le plus élevé') }} *</label>
-                                        <select v-model="form.education_level" class="w-full px-5 py-4 rounded-xl border border-gray-200 focus:border-[#EDAF11] focus:ring-2 focus:ring-[#EDAF11]/20 transition-all bg-gray-50 focus:bg-white appearance-none">
-                                            <option value="" disabled>{{ __('Sélectionnez...') }}</option>
-                                            <option value="BEPC">{{ __('BEPC / Equivalent') }}</option>
-                                            <option value="BAC">{{ __('Baccalauréat / Equivalent') }}</option>
-                                            <option value="LICENCE">{{ __('Licence (BAC+3)') }}</option>
-                                            <option value="MASTER">{{ __('Master (BAC+5) et plus') }}</option>
-                                        </select>
+                            <!-- ── Section 2 : Coordonnées ── -->
+                            <fieldset>
+                                <legend class="flex items-center gap-2 mb-5 pb-3 border-b border-gray-100 w-full">
+                                    <span class="w-6 h-6 bg-[#204138] rounded-md flex items-center justify-center text-white text-xs font-black flex-shrink-0">2</span>
+                                    <span class="text-sm font-bold text-[#204138] uppercase tracking-wider">Coordonnées & Localisation</span>
+                                </legend>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                    <div>
+                                        <label class="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">Téléphone *</label>
+                                        <input type="tel" v-model="form.phone" :class="fieldClass(form.errors.phone)" placeholder="6 XX XX XX XX">
+                                        <p v-if="form.errors.phone" class="mt-1 text-xs text-red-500">{{ form.errors.phone }}</p>
                                     </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">Adresse e-mail *</label>
+                                        <input type="email" v-model="form.email" :class="fieldClass(form.errors.email)" placeholder="vous@exemple.cm">
+                                        <p v-if="form.errors.email" class="mt-1 text-xs text-red-500">{{ form.errors.email }}</p>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">Région *</label>
+                                        <select v-model="form.region" :class="fieldClass(form.errors.region)">
+                                            <option value="" disabled>Sélectionnez une région...</option>
+                                            <option v-for="r in regions" :key="r" :value="r">{{ r }}</option>
+                                        </select>
+                                        <p v-if="form.errors.region" class="mt-1 text-xs text-red-500">{{ form.errors.region }}</p>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">Ville / Arrondissement *</label>
+                                        <input type="text" v-model="form.city" :class="fieldClass(form.errors.city)" placeholder="Yaoundé, Douala...">
+                                        <p v-if="form.errors.city" class="mt-1 text-xs text-red-500">{{ form.errors.city }}</p>
+                                    </div>
+                                </div>
+                            </fieldset>
 
-                                    <div class="input-group md:col-span-2">
-                                        <label class="block text-sm font-bold text-gray-700 mb-4">{{ __('Avez-vous déjà participé à un recensement similaire ?') }}</label>
-                                        <div class="flex items-center gap-8">
-                                            <label class="flex items-center gap-3 cursor-pointer">
-                                                <input type="radio" v-model="form.previous_experience" :value="true" class="w-5 h-5 text-[#EDAF11] border-gray-300 focus:ring-[#EDAF11]">
-                                                <span class="text-gray-700 font-semibold">{{ __('Oui') }}</span>
+                            <!-- ── Section 3 : Qualifications ── -->
+                            <fieldset>
+                                <legend class="flex items-center gap-2 mb-5 pb-3 border-b border-gray-100 w-full">
+                                    <span class="w-6 h-6 bg-[#204138] rounded-md flex items-center justify-center text-white text-xs font-black flex-shrink-0">3</span>
+                                    <span class="text-sm font-bold text-[#204138] uppercase tracking-wider">Qualifications & Expérience</span>
+                                </legend>
+                                <div class="space-y-5">
+                                    <div>
+                                        <label class="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">Niveau d'études *</label>
+                                        <select v-model="form.education_level" :class="fieldClass(form.errors.education_level)">
+                                            <option value="" disabled>Sélectionnez votre niveau...</option>
+                                            <option v-for="lvl in educationLevels" :key="lvl" :value="lvl">{{ lvl }}</option>
+                                        </select>
+                                        <p v-if="form.errors.education_level" class="mt-1 text-xs text-red-500">{{ form.errors.education_level }}</p>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">Langues locales parlées *</label>
+                                        <input type="text" v-model="form.languages" :class="fieldClass(form.errors.languages)" placeholder="Ex: Ewondo, Bamiléké, Fulfuldé...">
+                                        <p class="text-[10px] text-gray-400 mt-1">Indiquez les langues locales de votre arrondissement cible</p>
+                                        <p v-if="form.errors.languages" class="mt-1 text-xs text-red-500">{{ form.errors.languages }}</p>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">Possédez-vous un smartphone Android ? *</label>
+                                        <div class="flex gap-4">
+                                            <label class="flex items-center gap-2 cursor-pointer">
+                                                <input type="radio" v-model="form.has_smartphone" value="oui" class="accent-[#204138]">
+                                                <span class="text-sm text-gray-700">Oui</span>
                                             </label>
-                                            <label class="flex items-center gap-3 cursor-pointer">
-                                                <input type="radio" v-model="form.previous_experience" :value="false" class="w-5 h-5 text-[#EDAF11] border-gray-300 focus:ring-[#EDAF11]">
-                                                <span class="text-gray-700 font-semibold">{{ __('Non') }}</span>
+                                            <label class="flex items-center gap-2 cursor-pointer">
+                                                <input type="radio" v-model="form.has_smartphone" value="non" class="accent-[#204138]">
+                                                <span class="text-sm text-gray-700">Non</span>
                                             </label>
                                         </div>
                                     </div>
-
-                                    <div v-if="form.previous_experience" class="input-group md:col-span-2 animate-fade-in">
-                                        <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('Détaillez brièvement votre expérience') }}</label>
-                                        <textarea v-model="form.experience_details" rows="3" class="w-full px-5 py-4 rounded-xl border border-gray-200 focus:border-[#EDAF11] focus:ring-2 focus:ring-[#EDAF11]/20 transition-all bg-gray-50 focus:bg-white" placeholder="Décrivez votre rôle et l'année..."></textarea>
+                                    <div>
+                                        <label class="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">Êtes-vous fonctionnaire ? *</label>
+                                        <div class="flex gap-4">
+                                            <label class="flex items-center gap-2 cursor-pointer">
+                                                <input type="radio" v-model="form.fonctionnaire" value="oui" class="accent-[#204138]">
+                                                <span class="text-sm text-gray-700">Oui</span>
+                                            </label>
+                                            <label class="flex items-center gap-2 cursor-pointer">
+                                                <input type="radio" v-model="form.fonctionnaire" value="non" class="accent-[#204138]">
+                                                <span class="text-sm text-gray-700">Non</span>
+                                            </label>
+                                        </div>
+                                        <p v-if="form.fonctionnaire === 'oui'" class="mt-2 text-xs text-amber-700 bg-amber-50 px-3 py-2 rounded-lg">
+                                            Une autorisation hiérarchique sera exigée lors du dépôt de dossier.
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">Avez-vous une expérience en collecte de données ?</label>
+                                        <select v-model="form.previous_experience" :class="fieldClass(false)">
+                                            <option value="" disabled>Sélectionnez...</option>
+                                            <option value="aucune">Aucune expérience</option>
+                                            <option value="rgph2005">RGPH 2005</option>
+                                            <option value="rgph2021">RGPH 2021 / 2023</option>
+                                            <option value="enquete">Autre enquête statistique</option>
+                                            <option value="autre">Autre</option>
+                                        </select>
+                                    </div>
+                                    <div v-if="form.previous_experience && form.previous_experience !== 'aucune'">
+                                        <label class="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">Détails de l'expérience</label>
+                                        <textarea v-model="form.experience_details" rows="3" :class="fieldClass(false)" placeholder="Décrivez brièvement votre expérience..."></textarea>
                                     </div>
                                 </div>
+                            </fieldset>
+
+                            <!-- ── Consentement + Soumission ── -->
+                            <div class="pt-4 border-t border-gray-100 space-y-5">
+                                <p class="text-xs text-gray-500 leading-relaxed bg-gray-50 p-4 rounded-xl">
+                                    En soumettant ce formulaire, je certifie que les informations fournies sont exactes et complètes. Je reconnais que toute fausse déclaration entraîne l'élimination immédiate de ma candidature.
+                                </p>
+                                <button
+                                    type="submit"
+                                    :disabled="form.processing"
+                                    class="w-full py-4 bg-[#204138] hover:bg-[#2b5549] text-white font-black text-sm uppercase tracking-widest rounded-xl transition-colors duration-200 disabled:opacity-60 cursor-pointer flex items-center justify-center gap-3">
+                                    <svg v-if="form.processing" class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+                                    </svg>
+                                    <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7m0 0l-7 7m7-7H3"/>
+                                    </svg>
+                                    {{ form.processing ? 'Envoi en cours...' : 'Soumettre ma candidature' }}
+                                </button>
                             </div>
 
-                        </transition>
+                        </form>
+                    </div>
 
-                        <!-- FORM CONTROLS -->
-                        <div class="flex items-center justify-between mt-12 pt-8 border-t border-gray-100">
-                            <button type="button" v-if="currentStep > 1" @click="prevStep" 
-                                    class="px-8 py-4 rounded-full font-bold text-gray-600 bg-gray-100 hover:bg-gray-200 transition-colors flex items-center gap-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                                {{ __('Précédent') }}
-                            </button>
-                            <div v-else></div> <!-- Spacer -->
-
-                            <button type="button" v-if="currentStep < totalSteps" @click="nextStep"
-                                    class="px-8 py-4 rounded-full font-bold text-white bg-[#204138] hover:bg-[#2b5549] shadow-lg shadow-[#204138]/20 transition-all flex items-center gap-2 group">
-                                {{ __('Suivant') }}
-                                <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                            </button>
-
-                            <button type="submit" v-if="currentStep === totalSteps" :disabled="form.processing"
-                                    class="px-10 py-4 rounded-full font-black text-[#204138] bg-[#EDAF11] hover:bg-[#f6b713] shadow-lg shadow-[#EDAF11]/30 transition-all flex items-center gap-2 hover:scale-105 disabled:opacity-50">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                {{ __('Soumettre ma candidature') }}
-                            </button>
-                        </div>
-
-                    </form>
                 </div>
             </div>
-        </section>
+        </div>
+
     </MainLayout>
 </template>
-
-<style scoped>
-/* === Transitions directionnelles pour le wizard === */
-
-/* Avancer (étape suivante) : entre par la droite, sort par la gauche */
-.slide-forward-enter-active,
-.slide-forward-leave-active {
-    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.slide-forward-enter-from {
-    transform: translateX(40px);
-    opacity: 0;
-}
-.slide-forward-leave-to {
-    transform: translateX(-40px);
-    opacity: 0;
-}
-
-/* Reculer (étape précédente) : entre par la gauche, sort par la droite */
-.slide-backward-enter-active,
-.slide-backward-leave-active {
-    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.slide-backward-enter-from {
-    transform: translateX(-40px);
-    opacity: 0;
-}
-.slide-backward-leave-to {
-    transform: translateX(40px);
-    opacity: 0;
-}
-
-/* === Bandeau de succès === */
-.fade-banner-enter-active,
-.fade-banner-leave-active {
-    transition: all 0.4s ease;
-}
-.fade-banner-enter-from,
-.fade-banner-leave-to {
-    opacity: 0;
-    transform: translateY(-10px);
-}
-
-/* === Fade-in pour le champ experience_details === */
-.animate-fade-in {
-    animation: fadeIn 0.4s ease-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* === Chevron custom pour les selects === */
-.input-group select {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-    background-position: right 1rem center;
-    background-repeat: no-repeat;
-    background-size: 1.5em 1.5em;
-}
-</style>
