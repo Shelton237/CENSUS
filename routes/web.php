@@ -33,7 +33,7 @@ Route::get('/contact', function () {
 });
 
 Route::get('/candidature', function () {
-    return redirect()->route('accueil');
+    return Inertia::render('Candidature');
 })->name('candidature');
 
 Route::get('/recherche', function (Request $request) {
