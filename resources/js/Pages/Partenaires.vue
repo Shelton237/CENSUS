@@ -38,7 +38,7 @@ const partners = computed(() => [
     },
     {
         id: 3, category: 'financier', name: 'Gouvernement du Cameroun', acronym: 'GVT',
-        logo: resolveLogoFromDb('Gouvernement du Cameroun'),
+        logo: resolveLogoFromDb('Gouvernement du Cameroun') || '/assets/images/partenaire/gvt.png',
         role: 'Financement principal & tutelle', contribution: 'Budget de l\'État',
         desc: 'Le Gouvernement camerounais assure le financement majoritaire via le budget de l\'État et la coordination nationale à travers le MINEPAT, tutelle technique du BUCREP.',
         website: 'https://www.minepat.gov.cm',
