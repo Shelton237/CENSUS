@@ -81,6 +81,7 @@ onMounted(() => {
                             <li><Link href="/activites" class="nav-link" :class="{ active: $page.component === 'Activites' }">{{ __('Activités') }}</Link></li>
                             <li><Link href="/actualites" class="nav-link" :class="{ active: $page.component === 'Actualites' }">{{ __('Actualités / Communiqués') }}</Link></li>
                             <li><Link href="/apropos" class="nav-link" :class="{ active: $page.component === 'Apropos' }">{{ __('À propos') }}</Link></li>
+                            <li><Link href="/candidature" class="nav-link" :class="{ active: $page.component === 'Candidature' }">{{ __('Recrutement') }}</Link></li>
                             <li><Link href="/identification-agents" class="nav-link" :class="{ active: $page.component === 'AgentIdentification' }">{{ __('Identification des Agents') }}</Link></li>
                             <li><Link href="/partenaires" class="nav-link" :class="{ active: $page.component === 'Partenaires' }">{{ __('Partenaires') }}</Link></li>
                             <li><Link href="/phototheque" class="nav-link" :class="{ active: $page.component === 'Phototheque' }">{{ __('Photothèque') }}</Link></li>

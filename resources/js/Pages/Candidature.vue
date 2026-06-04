@@ -98,6 +98,149 @@ const completionPercentage = computed(() => {
             </div>
         </section>
 
+        <!-- ══ INFO RECRUTEMENT ══ -->
+        <section class="bg-[#F7F9F8] border-b border-[#204138]/10 py-14">
+            <div class="container max-w-5xl mx-auto px-4">
+
+                <!-- Chiffre clé -->
+                <div class="text-center mb-12">
+                    <span class="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#EDAF11] block mb-2">Recrutement national 2026</span>
+                    <div class="text-5xl md:text-6xl font-black text-[#204138] tabular-nums">32 059</div>
+                    <p class="text-base text-gray-500 mt-2">agents recenseurs à recruter sur contrat à durée déterminée (CDD)</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+
+                    <!-- Critères d'éligibilité -->
+                    <div class="bg-white rounded-2xl p-6 border border-[#204138]/8">
+                        <div class="w-10 h-10 bg-[#204138] flex items-center justify-center rounded-xl mb-4">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-bold text-[#204138] text-sm mb-4 uppercase tracking-wider">Critères d'éligibilité</h3>
+                        <ul class="space-y-2.5">
+                            <li class="flex items-start gap-2 text-xs text-gray-600">
+                                <span class="w-1.5 h-1.5 bg-[#EDAF11] rounded-full mt-1.5 flex-shrink-0"></span>
+                                Être camerounais(e)
+                            </li>
+                            <li class="flex items-start gap-2 text-xs text-gray-600">
+                                <span class="w-1.5 h-1.5 bg-[#EDAF11] rounded-full mt-1.5 flex-shrink-0"></span>
+                                Âgé(e) de 18 à 50 ans au 1er janvier
+                            </li>
+                            <li class="flex items-start gap-2 text-xs text-gray-600">
+                                <span class="w-1.5 h-1.5 bg-[#EDAF11] rounded-full mt-1.5 flex-shrink-0"></span>
+                                Niveau minimum BEPC, GCE ou équivalent
+                            </li>
+                            <li class="flex items-start gap-2 text-xs text-gray-600">
+                                <span class="w-1.5 h-1.5 bg-[#EDAF11] rounded-full mt-1.5 flex-shrink-0"></span>
+                                Aptitude physique pour le travail de terrain
+                            </li>
+                            <li class="flex items-start gap-2 text-xs text-gray-600">
+                                <span class="w-1.5 h-1.5 bg-[#EDAF11] rounded-full mt-1.5 flex-shrink-0"></span>
+                                Parler au moins une langue locale de l'arrondissement ciblé
+                            </li>
+                            <li class="flex items-start gap-2 text-xs text-gray-600">
+                                <span class="w-1.5 h-1.5 bg-[#EDAF11] rounded-full mt-1.5 flex-shrink-0"></span>
+                                Posséder un smartphone Android
+                            </li>
+                            <li class="flex items-start gap-2 text-xs text-gray-600">
+                                <span class="w-1.5 h-1.5 bg-[#EDAF11] rounded-full mt-1.5 flex-shrink-0"></span>
+                                Disposer d'une adresse e-mail active
+                            </li>
+                            <li class="flex items-start gap-2 text-xs text-gray-600">
+                                <span class="w-1.5 h-1.5 bg-[#EDAF11] rounded-full mt-1.5 flex-shrink-0"></span>
+                                Être disponible pendant toute la durée de l'opération
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Pièces à fournir -->
+                    <div class="bg-white rounded-2xl p-6 border border-[#204138]/8">
+                        <div class="w-10 h-10 bg-[#EDAF11] flex items-center justify-center rounded-xl mb-4">
+                            <svg class="w-5 h-5 text-[#204138]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-bold text-[#204138] text-sm mb-4 uppercase tracking-wider">Pièces à fournir</h3>
+                        <p class="text-[10px] text-gray-400 mb-3 uppercase tracking-wider font-semibold">Pour les candidats présélectionnés</p>
+                        <ul class="space-y-2.5">
+                            <li class="flex items-start gap-2 text-xs text-gray-600">
+                                <span class="w-1.5 h-1.5 bg-[#204138] rounded-full mt-1.5 flex-shrink-0"></span>
+                                Lettre de candidature timbrée
+                            </li>
+                            <li class="flex items-start gap-2 text-xs text-gray-600">
+                                <span class="w-1.5 h-1.5 bg-[#204138] rounded-full mt-1.5 flex-shrink-0"></span>
+                                CV avec expérience en collecte de données statistiques
+                            </li>
+                            <li class="flex items-start gap-2 text-xs text-gray-600">
+                                <span class="w-1.5 h-1.5 bg-[#204138] rounded-full mt-1.5 flex-shrink-0"></span>
+                                Photocopie de la CNI en cours de validité
+                            </li>
+                            <li class="flex items-start gap-2 text-xs text-gray-600">
+                                <span class="w-1.5 h-1.5 bg-[#204138] rounded-full mt-1.5 flex-shrink-0"></span>
+                                Photocopie du diplôme le plus élevé
+                            </li>
+                            <li class="flex items-start gap-2 text-xs text-gray-600">
+                                <span class="w-1.5 h-1.5 bg-[#204138] rounded-full mt-1.5 flex-shrink-0"></span>
+                                Certificat médical de moins de 3 mois
+                            </li>
+                            <li class="flex items-start gap-2 text-xs text-gray-600">
+                                <span class="w-1.5 h-1.5 bg-[#204138] rounded-full mt-1.5 flex-shrink-0"></span>
+                                Justificatif d'expérience (si applicable)
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Informations importantes -->
+                    <div class="bg-white rounded-2xl p-6 border border-[#204138]/8">
+                        <div class="w-10 h-10 bg-[#204138]/10 flex items-center justify-center rounded-xl mb-4">
+                            <svg class="w-5 h-5 text-[#204138]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-bold text-[#204138] text-sm mb-4 uppercase tracking-wider">À noter</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-2 text-xs text-gray-600">
+                                <span class="w-1.5 h-1.5 bg-red-400 rounded-full mt-1.5 flex-shrink-0"></span>
+                                Formation obligatoire de <strong class="text-[#204138]">28 jours</strong> dans les chefs-lieux d'arrondissement
+                            </li>
+                            <li class="flex items-start gap-2 text-xs text-gray-600">
+                                <span class="w-1.5 h-1.5 bg-red-400 rounded-full mt-1.5 flex-shrink-0"></span>
+                                Toute candidature dans plusieurs arrondissements entraîne le <strong class="text-[#204138]">rejet automatique</strong>
+                            </li>
+                            <li class="flex items-start gap-2 text-xs text-gray-600">
+                                <span class="w-1.5 h-1.5 bg-red-400 rounded-full mt-1.5 flex-shrink-0"></span>
+                                Dossier incomplet ou frauduleux = <strong class="text-[#204138]">élimination immédiate</strong>
+                            </li>
+                            <li class="flex items-start gap-2 text-xs text-gray-600">
+                                <span class="w-1.5 h-1.5 bg-[#EDAF11] rounded-full mt-1.5 flex-shrink-0"></span>
+                                Les fonctionnaires doivent fournir une <strong class="text-[#204138]">autorisation hiérarchique</strong>
+                            </li>
+                            <li class="flex items-start gap-2 text-xs text-gray-600">
+                                <span class="w-1.5 h-1.5 bg-[#EDAF11] rounded-full mt-1.5 flex-shrink-0"></span>
+                                Les candidats de 2021/2023 doivent <strong class="text-[#204138]">repostuler</strong>
+                            </li>
+                            <li class="flex items-start gap-2 text-xs text-gray-600">
+                                <span class="w-1.5 h-1.5 bg-[#204138] rounded-full mt-1.5 flex-shrink-0"></span>
+                                Candidature en ligne ou en sous-préfecture (sans accès internet)
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Bouton vers site officiel -->
+                <div class="text-center">
+                    <p class="text-xs text-gray-400 mb-4">Vous pouvez également postuler directement sur le portail officiel du recensement</p>
+                    <a href="https://census-cameroon.com/fr/application_ag.php" target="_blank" rel="noopener noreferrer"
+                       class="inline-flex items-center gap-2 px-6 py-3 bg-white border border-[#204138]/20 text-[#204138] text-sm font-bold rounded-xl hover:border-[#204138]/50 hover:shadow-md transition-all duration-200 no-underline">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                        Postuler sur census-cameroon.com
+                    </a>
+                </div>
+            </div>
+        </section>
+
         <!-- Formulaire Multi-étapes -->
         <section class="candidature-form-section py-20 bg-gray-50 relative">
             <div class="container max-w-4xl relative z-10">
