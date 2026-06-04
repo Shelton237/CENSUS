@@ -17,6 +17,7 @@ Route::get('/resultats-donnees', function () { return Inertia::render('Resultats
 Route::get('/phototheque', function () { return Inertia::render('Phototheque'); })->name('phototheque');
 Route::get('/identification-agents', function () { return Inertia::render('AgentIdentification'); })->name('identification-agents');
 Route::get('/ressources', function () { return Inertia::render('Ressources'); })->name('ressources');
+Route::get('/communication', function () { return Inertia::render('Communication', ['videos' => []]); })->name('communication');
 Route::get('/partenaires', function () {
     return Inertia::render('Partenaires', [
         'dbPartners' => \App\Models\Partner::orderBy('order')->get(['name', 'logo', 'website'])->toArray()

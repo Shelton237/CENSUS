@@ -208,7 +208,6 @@
     "Saisie rigoureuse des formulaires statistiques": "Saisie rigoureuse des formulaires statistiques",
     "Instruction pratique sur le terrain": "Instruction pratique sur le terrain",
     "Validation finale des questionnaires d'enquête": "Validation finale des questionnaires d'enquête",
-    "Tout": "Tout",
     "13 Mai 2026": "13 Mai 2026",
     "14 Mai 2026": "14 Mai 2026",
     "15 Mai 2026": "15 Mai 2026",
@@ -289,10 +288,6 @@
     "Filtrer par Région": "Filtrer par Région",
     "Toutes les activités": "Toutes les activités",
     "Toutes les régions": "Toutes les régions",
-    "Est": "Est",
-    "Littoral": "Littoral",
-    "Ouest": "Ouest",
-    "Centre": "Centre",
     "Célébration patriotique après le défilé à Moloundou": "Célébration patriotique après le défilé à Moloundou",
     "Défilé du 20 Mai des équipes du RGPH à la frontière Congolaise": "Défilé du 20 Mai des équipes du RGPH à la frontière Congolaise",
     "Déploiement festif des équipes de recensement à Moloundou": "Déploiement festif des équipes de recensement à Moloundou",
@@ -322,8 +317,6 @@
     "Minutes": "Minutes",
     "Secondes": "Secondes",
     "Actualités & Communiqués": "Actualités & Communiqués",
-    "Tout": "Tout",
-    "Actualités": "Actualités",
     "Communiqués": "Communiqués",
     "Publications": "Publications",
     "Compte à rebours de l'opération en cours": "Compte à rebours de l'opération en cours",
@@ -369,5 +362,6 @@
     "Technique": "Technique",
     "Institutionnel": "Institutionnel",
     "Visiter le site officiel": "Visiter le site officiel",
-    "Site non disponible": "Site non disponible"
+    "Site non disponible": "Site non disponible",
+    "Communication": "Communication"
 }
