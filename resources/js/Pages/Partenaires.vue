@@ -68,7 +68,7 @@ const partners = computed(() => [
     // ── Institutionnels ─────────────────────────────────────────
     {
         id: 7, category: 'institutionnel', name: 'BUCREP', acronym: 'BUCREP',
-        logo: resolveLogoFromDb('BUCREP'),
+        logo: resolveLogoFromDb('BUCREP') || '/assets/images/partenaire/bucrep.png',
         role: 'Maître d\'œuvre technique officiel', contribution: 'Exécution nationale',
         desc: 'Organisme public créé en 1999, le BUCREP est le bras opérationnel du gouvernement. Il coordonne l\'ensemble des opérations, de la cartographie jusqu\'à la publication des résultats.',
         website: 'https://bucrep.org',
