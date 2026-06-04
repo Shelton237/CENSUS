@@ -36,6 +36,30 @@ Route::get('/candidature', function () {
     return Inertia::render('Candidature');
 })->name('candidature');
 
+Route::post('/candidature', function (Request $request) {
+    $request->validate([
+        'first_name'      => 'required|string|max:100',
+        'last_name'       => 'required|string|max:100',
+        'gender'          => 'required|in:M,F',
+        'birth_date'      => 'required|date',
+        'id_card_number'  => 'required|string|max:50',
+        'phone'           => 'required|string|max:30',
+        'email'           => 'required|email|max:150',
+        'region'          => 'required|string',
+        'city'            => 'required|string|max:100',
+        'education_level' => 'required|string',
+        'languages'       => 'required|string|max:255',
+        'has_smartphone'  => 'required|in:oui,non',
+        'fonctionnaire'   => 'required|in:oui,non',
+    ]);
+
+    \Illuminate\Support\Facades\Log::info('Nouvelle candidature', $request->only([
+        'first_name', 'last_name', 'gender', 'birth_date', 'phone', 'email', 'region', 'city', 'education_level', 'has_smartphone', 'fonctionnaire',
+    ]));
+
+    return back();
+})->name('candidature.store');
+
 Route::get('/recherche', function (Request $request) {
     $query = $request->query('q');
     
