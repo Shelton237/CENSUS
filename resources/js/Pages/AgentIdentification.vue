@@ -99,8 +99,19 @@ const hotspots = [
 
 <template>
     <Head>
-        <title>{{ __('Identification des Agents') }}</title>
-        <meta name="description" :content="__('Comment identifier les agents recenseurs officiels pour le 4ème RGPH et le RGAE afin d\'éviter les fraudes.')">
+        <title>Identification des Agents | RGPH4 & RGAE Cameroun</title>
+        <meta name="description" content="Vérifiez l'identité des agents recenseurs officiels du 4ème RGPH et RGAE afin d'éviter les fraudes.">
+        <meta property="og:title" content="Identification des Agents | RGPH4 & RGAE Cameroun">
+        <meta property="og:description" content="Comment reconnaître et vérifier un agent recenseur officiel du 4ème Recensement Général de la Population et de l'Habitat du Cameroun.">
+        <meta property="og:image" content="https://census.diginova.cm/assets/images/backgrounds/cameroon_people_map.png">
+        <meta property="og:type" content="website">
+        <meta property="og:locale" content="fr_FR">
+        <meta property="og:site_name" content="Recensement Cameroun 2026">
+        <meta property="og:url" content="https://census.diginova.cm/identification-agents">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@recensement90">
+        <meta name="twitter:title" content="Identification des Agents | RGPH4 & RGAE Cameroun">
+        <meta name="twitter:image" content="https://census.diginova.cm/assets/images/backgrounds/cameroon_people_map.png">
     </Head>
 
     <MainLayout>

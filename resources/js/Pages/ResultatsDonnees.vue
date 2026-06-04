@@ -298,8 +298,19 @@ const resetForm = () => {
 
 <template>
     <Head>
-        <title>{{ __('Résultats & Données') }}</title>
-        <meta name="description" :content="__('Accédez aux publications, tableaux statistiques et à la cartographie interactive du double recensement du Cameroun')">
+        <title>Résultats & Données | RGPH4 & RGAE Cameroun</title>
+        <meta name="description" content="Accédez aux publications, tableaux statistiques et à la cartographie interactive du double recensement RGPH4 et RGAE du Cameroun.">
+        <meta property="og:title" content="Résultats & Données | RGPH4 & RGAE Cameroun">
+        <meta property="og:description" content="Données démographiques et agricoles du 4ème Recensement Général de la Population et de l'Habitat et du Recensement Général de l'Agriculture et de l'Élevage.">
+        <meta property="og:image" content="https://census.diginova.cm/assets/images/backgrounds/cameroon_people_map.png">
+        <meta property="og:type" content="website">
+        <meta property="og:locale" content="fr_FR">
+        <meta property="og:site_name" content="Recensement Cameroun 2026">
+        <meta property="og:url" content="https://census.diginova.cm/resultats-donnees">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@recensement90">
+        <meta name="twitter:title" content="Résultats & Données | RGPH4 & RGAE Cameroun">
+        <meta name="twitter:image" content="https://census.diginova.cm/assets/images/backgrounds/cameroon_people_map.png">
     </Head>
 
     <MainLayout>

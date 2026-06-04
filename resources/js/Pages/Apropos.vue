@@ -117,8 +117,19 @@ const partnersList = [
 
 <template>
     <Head>
-        <title>{{ __('À Propos') }}</title>
-        <meta name="description" :content="__('En savoir plus sur le 4ème Recensement Général de la Population et de l\'Habitat et le Recensement Général de l\'Agriculture et de l\'Élevage - Cameroun 2024')">
+        <title>À Propos | RGPH4 Cameroun</title>
+        <meta name="description" content="En savoir plus sur le 4ème RGPH et le RGAE — mission du BUCREP, cadre légal, méthodologie et organisation institutionnelle.">
+        <meta property="og:title" content="À Propos | RGPH4 Cameroun">
+        <meta property="og:description" content="Mission, vision et organisation du BUCREP — maître d'œuvre du 4ème Recensement Général de la Population et de l'Habitat du Cameroun.">
+        <meta property="og:image" content="https://census.diginova.cm/assets/images/backgrounds/cameroon_people_map.png">
+        <meta property="og:type" content="website">
+        <meta property="og:locale" content="fr_FR">
+        <meta property="og:site_name" content="Recensement Cameroun 2026">
+        <meta property="og:url" content="https://census.diginova.cm/apropos">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@recensement90">
+        <meta name="twitter:title" content="À Propos | RGPH4 Cameroun">
+        <meta name="twitter:image" content="https://census.diginova.cm/assets/images/backgrounds/cameroon_people_map.png">
     </Head>
 
     <MainLayout>

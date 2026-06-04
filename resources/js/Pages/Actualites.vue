@@ -17,8 +17,19 @@ const filteredArticles = () => {
 
 <template>
     <Head>
-        <title>{{ __('Actualités') }}</title>
-        <meta name="description" :content="__('Actualites description')">
+        <title>Actualités / Communiqués | RGPH4 Cameroun</title>
+        <meta name="description" content="Découvrez les derniers communiqués, actualités et rapports officiels du recensement national au Cameroun.">
+        <meta property="og:title" content="Actualités / Communiqués | RGPH4 Cameroun">
+        <meta property="og:description" content="Communiqués officiels, activités et publications du 4ème Recensement Général de la Population et de l'Habitat du Cameroun.">
+        <meta property="og:image" content="https://census.diginova.cm/assets/images/backgrounds/cameroon_people_map.png">
+        <meta property="og:type" content="website">
+        <meta property="og:locale" content="fr_FR">
+        <meta property="og:site_name" content="Recensement Cameroun 2026">
+        <meta property="og:url" content="https://census.diginova.cm/actualites">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@recensement90">
+        <meta name="twitter:title" content="Actualités | RGPH4 Cameroun">
+        <meta name="twitter:image" content="https://census.diginova.cm/assets/images/backgrounds/cameroon_people_map.png">
     </Head>
 
     <MainLayout>

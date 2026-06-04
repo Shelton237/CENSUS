@@ -368,8 +368,19 @@ const activeSubTab = ref('phases'); // 'phases' or 'preparatory'
 
 <template>
     <Head>
-        <title>{{ __('Activités') }}</title>
-        <meta name="description" :content="__('Activites description')">
+        <title>Activités | RGPH4 Cameroun</title>
+        <meta name="description" content="Consultez le chronogramme officiel et suivez l'évolution en temps réel des différentes phases du 4ème RGPH au Cameroun.">
+        <meta property="og:title" content="Activités | RGPH4 Cameroun">
+        <meta property="og:description" content="Chronogramme et avancement des phases du 4ème Recensement Général de la Population et de l'Habitat du Cameroun.">
+        <meta property="og:image" content="https://census.diginova.cm/assets/images/backgrounds/cameroon_people_map.png">
+        <meta property="og:type" content="website">
+        <meta property="og:locale" content="fr_FR">
+        <meta property="og:site_name" content="Recensement Cameroun 2026">
+        <meta property="og:url" content="https://census.diginova.cm/activites">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@recensement90">
+        <meta name="twitter:title" content="Activités | RGPH4 Cameroun">
+        <meta name="twitter:image" content="https://census.diginova.cm/assets/images/backgrounds/cameroon_people_map.png">
     </Head>
 
     <MainLayout>

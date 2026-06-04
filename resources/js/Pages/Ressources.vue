@@ -110,8 +110,20 @@ const usefulLinks = [
 
 <template>
     <Head>
-        <title>Ressources — RGPH4 Cameroun</title>
-        <meta name="description" content="Textes réglementaires, manuels de terrain, questionnaires et liens utiles du 4ème Recensement Général de la Population et de l'Habitat du Cameroun.">
+        <title>Ressources | RGPH4 & RGAE Cameroun</title>
+        <meta name="description" content="Textes réglementaires, manuels de terrain, questionnaires et liens utiles du 4ème RGPH et RGAE du Cameroun.">
+        <meta property="og:title" content="Ressources | RGPH4 & RGAE Cameroun">
+        <meta property="og:description" content="Lois, décrets, manuels d'agents, questionnaires officiels et liens institutionnels du recensement camerounais 2026.">
+        <meta property="og:image" content="https://census.diginova.cm/assets/images/backgrounds/cameroon_people_map.png">
+        <meta property="og:type" content="website">
+        <meta property="og:locale" content="fr_FR">
+        <meta property="og:locale:alternate" content="en_US">
+        <meta property="og:site_name" content="Recensement Cameroun 2026">
+        <meta property="og:url" content="https://census.diginova.cm/ressources">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@recensement90">
+        <meta name="twitter:title" content="Ressources | RGPH4 & RGAE Cameroun">
+        <meta name="twitter:image" content="https://census.diginova.cm/assets/images/backgrounds/cameroon_people_map.png">
     </Head>
 
     <MainLayout>

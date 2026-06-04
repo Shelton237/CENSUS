@@ -146,8 +146,19 @@ onUnmounted(() => {
 
 <template>
     <Head>
-        <title>{{ __('Photothèque') }}</title>
-        <meta name="description" :content="__('Consultez les photos et vidéos de nos agents recenseurs déployés sur le terrain dans toutes les régions.')">
+        <title>Photothèque | RGPH4 & RGAE Cameroun</title>
+        <meta name="description" content="Photos et vidéos de terrain du 4ème RGPH et RGAE — agents recenseurs déployés dans toutes les régions du Cameroun.">
+        <meta property="og:title" content="Photothèque | RGPH4 & RGAE Cameroun">
+        <meta property="og:description" content="Galerie officielle du recensement — photos et vidéos de nos équipes de terrain dans les 10 régions du Cameroun.">
+        <meta property="og:image" content="https://census.diginova.cm/assets/images/backgrounds/cameroon_people_map.png">
+        <meta property="og:type" content="website">
+        <meta property="og:locale" content="fr_FR">
+        <meta property="og:site_name" content="Recensement Cameroun 2026">
+        <meta property="og:url" content="https://census.diginova.cm/phototheque">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@recensement90">
+        <meta name="twitter:title" content="Photothèque | RGPH4 & RGAE Cameroun">
+        <meta name="twitter:image" content="https://census.diginova.cm/assets/images/backgrounds/cameroon_people_map.png">
     </Head>
 
     <MainLayout>

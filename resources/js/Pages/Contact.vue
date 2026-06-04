@@ -16,6 +16,22 @@ const submit = () => {
 </script>
 
 <template>
+    <Head>
+        <title>Contact | RGPH4 & RGAE Cameroun</title>
+        <meta name="description" content="Contactez l'équipe du recensement national — formulaire, téléphone, email et Messenger pour toute question sur le 4ème RGPH et RGAE du Cameroun.">
+        <meta property="og:title" content="Contact | RGPH4 & RGAE Cameroun">
+        <meta property="og:description" content="Joignez l'équipe officielle du recensement camerounais par téléphone, email ou Messenger.">
+        <meta property="og:image" content="https://census.diginova.cm/assets/images/backgrounds/cameroon_people_map.png">
+        <meta property="og:type" content="website">
+        <meta property="og:locale" content="fr_FR">
+        <meta property="og:site_name" content="Recensement Cameroun 2026">
+        <meta property="og:url" content="https://census.diginova.cm/contact">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@recensement90">
+        <meta name="twitter:title" content="Contact | RGPH4 & RGAE Cameroun">
+        <meta name="twitter:image" content="https://census.diginova.cm/assets/images/backgrounds/cameroon_people_map.png">
+    </Head>
+
     <MainLayout>
         <!-- Hero -->
         <section class="relative pt-32 pb-20 overflow-hidden bg-[#204138]">
