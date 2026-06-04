@@ -117,37 +117,100 @@ Route::post('/newsletter', [NewsletterController::class, 'store'])->name('newsle
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
+        $c = \App\Models\Candidature::class;
+        $byRegion = \App\Models\Candidature::selectRaw('region, count(*) as total')
+            ->groupBy('region')->orderByDesc('total')->get()->toArray();
+        $byStatus = \App\Models\Candidature::selectRaw('status, count(*) as total')
+            ->groupBy('status')->pluck('total', 'status')->toArray();
+        $byEducation = \App\Models\Candidature::selectRaw('education_level, count(*) as total')
+            ->groupBy('education_level')->orderByDesc('total')->get()->toArray();
+
         return Inertia::render('Dashboard', [
-            'articles_count'      => \App\Models\Article::count(),
-            'partners_count'      => \App\Models\Partner::count(),
-            'candidatures_count'  => \App\Models\Candidature::count(),
-            'pending_count'       => \App\Models\Candidature::where('status', 'pending')->count(),
-            'recent_articles' => \App\Models\Article::latest()->take(3)->get()->map(function($a) {
-                return [
-                    'title' => $a->title_fr,
-                    'created_at' => $a->created_at->diffForHumans(),
-                ];
-            }),
-            'recent_candidatures' => \App\Models\Candidature::latest()->take(5)->get()->map(function($c) {
-                return [
-                    'id'         => $c->id,
-                    'name'       => $c->first_name . ' ' . $c->last_name,
-                    'region'     => $c->region,
-                    'education'  => $c->education_level,
-                    'status'     => $c->status,
-                    'created_at' => $c->created_at->diffForHumans(),
-                ];
-            }),
+            'articles_count'     => \App\Models\Article::count(),
+            'partners_count'     => \App\Models\Partner::count(),
+            'candidatures_count' => \App\Models\Candidature::count(),
+            'pending_count'      => \App\Models\Candidature::where('status', 'pending')->count(),
+            'accepted_count'     => \App\Models\Candidature::where('status', 'accepted')->count(),
+            'rejected_count'     => \App\Models\Candidature::where('status', 'rejected')->count(),
+            'by_region'          => $byRegion,
+            'by_status'          => $byStatus,
+            'by_education'       => $byEducation,
+            'recent_articles'    => \App\Models\Article::latest()->take(3)->get()->map(fn($a) => [
+                'title'      => $a->title_fr,
+                'created_at' => $a->created_at->diffForHumans(),
+            ]),
+            'recent_candidatures' => \App\Models\Candidature::latest()->take(5)->get()->map(fn($c) => [
+                'id'         => $c->id,
+                'name'       => $c->first_name . ' ' . $c->last_name,
+                'region'     => $c->region,
+                'status'     => $c->status,
+                'created_at' => $c->created_at->diffForHumans(),
+            ]),
         ]);
     })->name('dashboard');
 
     Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::resource('articles', \App\Http\Controllers\Admin\ArticleController::class);
         Route::resource('partners', \App\Http\Controllers\Admin\PartnerController::class);
-        Route::get('candidatures', function () {
-            $candidatures = \App\Models\Candidature::latest()->paginate(25);
-            return Inertia::render('Admin/Candidatures', ['candidatures' => $candidatures]);
+
+        Route::get('candidatures', function (Request $request) {
+            $query = \App\Models\Candidature::latest();
+            if ($request->filled('search')) {
+                $s = $request->search;
+                $query->where(fn($q) => $q->where('first_name', 'like', "%$s%")
+                    ->orWhere('last_name', 'like', "%$s%")
+                    ->orWhere('email', 'like', "%$s%")
+                    ->orWhere('id_card_number', 'like', "%$s%"));
+            }
+            if ($request->filled('region'))  $query->where('region', $request->region);
+            if ($request->filled('status'))  $query->where('status', $request->status);
+
+            return Inertia::render('Admin/Candidatures', [
+                'candidatures' => $query->paginate(25)->withQueryString(),
+                'filters'      => $request->only(['search', 'region', 'status']),
+                'stats'        => [
+                    'total'    => \App\Models\Candidature::count(),
+                    'pending'  => \App\Models\Candidature::where('status', 'pending')->count(),
+                    'accepted' => \App\Models\Candidature::where('status', 'accepted')->count(),
+                    'rejected' => \App\Models\Candidature::where('status', 'rejected')->count(),
+                ],
+            ]);
         })->name('candidatures.index');
+
+        Route::get('candidatures/export', function (Request $request) {
+            $query = \App\Models\Candidature::latest();
+            if ($request->filled('region')) $query->where('region', $request->region);
+            if ($request->filled('status')) $query->where('status', $request->status);
+
+            $rows = $query->get();
+            $filename = 'candidatures_' . date('Ymd_His') . '.csv';
+
+            $headers = [
+                'Content-Type'        => 'text/csv; charset=UTF-8',
+                'Content-Disposition' => "attachment; filename=\"$filename\"",
+            ];
+
+            $callback = function () use ($rows) {
+                $handle = fopen('php://output', 'w');
+                fprintf($handle, chr(0xEF).chr(0xBB).chr(0xBF)); // BOM UTF-8 pour Excel
+                fputcsv($handle, ['ID','Prénom','Nom','Genre','Naissance','CNI','Téléphone','Email','Région','Ville','Niveau études','Langues','Smartphone','Fonctionnaire','Expérience','Statut','Date dépôt'], ';');
+                foreach ($rows as $c) {
+                    fputcsv($handle, [
+                        $c->id, $c->first_name, $c->last_name, $c->gender,
+                        $c->birth_date?->format('d/m/Y'), $c->id_card_number,
+                        $c->phone, $c->email, $c->region, $c->city,
+                        $c->education_level, $c->languages,
+                        $c->has_smartphone, $c->fonctionnaire,
+                        $c->previous_experience, $c->status,
+                        $c->created_at->format('d/m/Y H:i'),
+                    ], ';');
+                }
+                fclose($handle);
+            };
+
+            return response()->stream($callback, 200, $headers);
+        })->name('candidatures.export');
+
         Route::patch('candidatures/{candidature}/status', function (Request $request, \App\Models\Candidature $candidature) {
             $request->validate(['status' => 'required|in:pending,reviewed,accepted,rejected']);
             $candidature->update(['status' => $request->status]);

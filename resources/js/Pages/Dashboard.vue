@@ -1,111 +1,230 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
-import PageHeader from '@/Components/PageHeader.vue';
-import AdminCard from '@/Components/AdminCard.vue';
+import { computed } from 'vue';
 
 const props = defineProps({
-    articles_count: Number,
-    partners_count: Number,
-    recent_articles: Array
+    articles_count:      Number,
+    partners_count:      Number,
+    candidatures_count:  Number,
+    pending_count:       Number,
+    accepted_count:      Number,
+    rejected_count:      Number,
+    by_region:           Array,
+    by_status:           Object,
+    by_education:        Array,
+    recent_articles:     Array,
+    recent_candidatures: Array,
 });
 
-const stats = [
-    { title: 'Population Estimée', value: '28 644 120', trend: '+2.4%', icon: 'users' },
-    { title: 'Actualités Publiées', value: props.articles_count, trend: 'En ligne', icon: 'chart' },
-    { title: 'Partenaires Officiels', value: props.partners_count, trend: 'Actifs', icon: 'map' },
-];
+const regionMax = computed(() =>
+    props.by_region?.length ? Math.max(...props.by_region.map(r => r.total)) : 1
+);
+
+const educationMax = computed(() =>
+    props.by_education?.length ? Math.max(...props.by_education.map(e => e.total)) : 1
+);
+
+const statusConfig = {
+    pending:  { label: 'En attente', color: 'bg-yellow-400' },
+    reviewed: { label: 'Examiné',    color: 'bg-blue-400' },
+    accepted: { label: 'Accepté',    color: 'bg-green-500' },
+    rejected: { label: 'Rejeté',     color: 'bg-red-400' },
+};
+
+const total = computed(() => props.candidatures_count || 1);
 </script>
 
 <template>
     <Head title="Tableau de Bord" />
 
     <AuthenticatedLayout>
-        <div class="py-10 bg-[#f8faf9] min-h-[calc(100vh-64px)]">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                
-                <!-- En-tête de page -->
-                <PageHeader 
-                    title="Console d'Administration" 
-                    subtitle="Suivi en temps réel du 4ème Recensement Général de la Population (RGPH 2024)"
-                />
+        <template #header>
+            <h2 class="font-semibold text-xl text-gray-800">Console d'Administration — RGPH4 & RGAE</h2>
+        </template>
 
-                <!-- Grille de Statistique -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-                    <AdminCard 
-                        v-for="stat in stats" 
-                        :key="stat.title"
-                        :title="stat.title"
-                        :value="stat.value"
-                        :trend="stat.trend"
-                        :icon="stat.icon"
-                    />
+        <div class="py-8 bg-gray-50 min-h-screen">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+
+                <!-- ─ KPIs principaux ─ -->
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                    <div class="bg-white border border-gray-200 rounded-lg px-4 py-4 col-span-2 md:col-span-1 lg:col-span-2 flex items-center gap-4 border-l-4 border-l-[#204138]">
+                        <div class="w-10 h-10 bg-[#204138]/8 rounded-lg flex items-center justify-center shrink-0">
+                            <svg class="w-5 h-5 text-[#204138]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-400 uppercase tracking-wider">Candidatures</p>
+                            <p class="text-2xl font-black text-[#204138] tabular-nums">{{ candidatures_count }}</p>
+                        </div>
+                    </div>
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-lg px-4 py-4">
+                        <p class="text-xs text-yellow-600 uppercase tracking-wider mb-1">En attente</p>
+                        <p class="text-2xl font-black text-yellow-700 tabular-nums">{{ pending_count }}</p>
+                    </div>
+                    <div class="bg-green-50 border border-green-200 rounded-lg px-4 py-4">
+                        <p class="text-xs text-green-600 uppercase tracking-wider mb-1">Acceptées</p>
+                        <p class="text-2xl font-black text-green-700 tabular-nums">{{ accepted_count }}</p>
+                    </div>
+                    <div class="bg-white border border-gray-200 rounded-lg px-4 py-4">
+                        <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Articles</p>
+                        <p class="text-2xl font-black text-gray-700 tabular-nums">{{ articles_count }}</p>
+                    </div>
+                    <div class="bg-white border border-gray-200 rounded-lg px-4 py-4">
+                        <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Partenaires</p>
+                        <p class="text-2xl font-black text-gray-700 tabular-nums">{{ partners_count }}</p>
+                    </div>
                 </div>
 
-                <!-- Section Details & Progrès -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    
-                    <!-- Carte Progrès -->
-                    <div class="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm border-l-8 border-[#204138]">
-                        <h3 class="text-xl font-bold text-[#204138] mb-6 flex items-center gap-2">
-                            <span class="w-8 h-8 rounded-lg bg-[#204138]/10 flex items-center justify-center text-[#204138]">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-                            </span>
-                            Progression Globale du Recensement
-                        </h3>
-                        
-                        <div class="space-y-6">
-                            <div>
-                                <div class="flex justify-between text-sm font-bold text-gray-500 mb-2 uppercase">
-                                    <span>Phase de Cartographie</span>
-                                    <span class="text-[#204138]">98%</span>
+                <!-- ─ Graphiques ─ -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                    <!-- Candidatures par région -->
+                    <div class="lg:col-span-2 bg-white border border-gray-200 rounded-lg p-6">
+                        <div class="flex items-center justify-between mb-5">
+                            <h3 class="font-bold text-[#204138] text-sm uppercase tracking-wider">Candidatures par région</h3>
+                            <a :href="route('admin.candidatures.index')" class="text-xs text-[#204138] hover:underline">Voir tout →</a>
+                        </div>
+                        <div v-if="by_region && by_region.length" class="space-y-3">
+                            <div v-for="r in by_region" :key="r.region" class="flex items-center gap-3">
+                                <span class="text-xs text-gray-500 w-28 shrink-0 truncate">{{ r.region }}</span>
+                                <div class="flex-1 h-5 bg-gray-100 rounded overflow-hidden">
+                                    <div class="h-full bg-[#204138] rounded transition-all duration-700"
+                                         :style="`width: ${Math.round((r.total / regionMax) * 100)}%`">
+                                    </div>
                                 </div>
-                                <div class="w-full bg-gray-100 h-3 rounded-full overflow-hidden border border-gray-200">
-                                    <div class="bg-[#204138] h-full w-[98%] transition-all duration-1000"></div>
+                                <span class="text-xs font-bold text-[#204138] tabular-nums w-8 text-right">{{ r.total }}</span>
+                            </div>
+                        </div>
+                        <div v-else class="py-8 text-center text-sm text-gray-400">
+                            Aucune candidature reçue pour le moment.
+                        </div>
+                    </div>
+
+                    <!-- Répartition par statut (donut CSS) -->
+                    <div class="bg-white border border-gray-200 rounded-lg p-6">
+                        <h3 class="font-bold text-[#204138] text-sm uppercase tracking-wider mb-5">Répartition statuts</h3>
+                        <div class="space-y-3">
+                            <div v-for="(cfg, key) in statusConfig" :key="key" class="flex items-center gap-3">
+                                <div class="w-2.5 h-2.5 rounded-full shrink-0" :class="cfg.color"></div>
+                                <span class="text-xs text-gray-500 flex-1">{{ cfg.label }}</span>
+                                <div class="w-24 h-1.5 bg-gray-100 rounded overflow-hidden">
+                                    <div class="h-full rounded transition-all duration-700"
+                                         :class="cfg.color"
+                                         :style="`width: ${total > 0 ? Math.round(((by_status?.[key] ?? 0) / total) * 100) : 0}%`">
+                                    </div>
+                                </div>
+                                <span class="text-xs font-bold text-gray-700 tabular-nums w-8 text-right">{{ by_status?.[key] ?? 0 }}</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 pt-5 border-t border-gray-100">
+                            <h4 class="font-bold text-[#204138] text-xs uppercase tracking-wider mb-3">Niveau d'études</h4>
+                            <div class="space-y-2">
+                                <div v-for="e in by_education?.slice(0,4)" :key="e.education_level" class="flex items-center gap-2">
+                                    <span class="text-[10px] text-gray-500 w-24 truncate shrink-0">{{ e.education_level?.split('/')[0]?.trim() }}</span>
+                                    <div class="flex-1 h-1.5 bg-gray-100 rounded overflow-hidden">
+                                        <div class="h-full bg-[#EDAF11] rounded"
+                                             :style="`width: ${Math.round((e.total / educationMax) * 100)}%`">
+                                        </div>
+                                    </div>
+                                    <span class="text-[10px] font-bold text-gray-600 tabular-nums">{{ e.total }}</span>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
 
-                            <div>
-                                <div class="flex justify-between text-sm font-bold text-gray-500 mb-2 uppercase">
-                                    <span>Recensement Pilote</span>
-                                    <span class="text-[#EDAF11]">45%</span>
+                <!-- ─ Activité récente ─ -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+                    <!-- Dernières candidatures -->
+                    <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
+                        <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+                            <h3 class="font-bold text-[#204138] text-sm uppercase tracking-wider">Dernières candidatures</h3>
+                            <a :href="route('admin.candidatures.index')" class="text-xs text-[#204138] hover:underline">Gérer →</a>
+                        </div>
+                        <div class="divide-y divide-gray-50">
+                            <div v-for="c in recent_candidatures" :key="c.id"
+                                 class="px-6 py-3.5 flex items-center justify-between hover:bg-gray-50 transition-colors">
+                                <div>
+                                    <p class="text-sm font-semibold text-gray-800">{{ c.name }}</p>
+                                    <p class="text-xs text-gray-400">{{ c.region }} · {{ c.created_at }}</p>
                                 </div>
-                                <div class="w-full bg-gray-100 h-3 rounded-full overflow-hidden border border-gray-200">
-                                    <div class="bg-[#EDAF11] h-full w-[45%] transition-all duration-1000 delay-300"></div>
+                                <span :class="{
+                                    'bg-yellow-100 text-yellow-700': c.status === 'pending',
+                                    'bg-blue-100 text-blue-700': c.status === 'reviewed',
+                                    'bg-green-100 text-green-700': c.status === 'accepted',
+                                    'bg-red-100 text-red-600': c.status === 'rejected',
+                                }" class="text-[10px] font-bold px-2 py-1 rounded uppercase">
+                                    {{ { pending:'En attente', reviewed:'Examiné', accepted:'Accepté', rejected:'Rejeté' }[c.status] }}
+                                </span>
+                            </div>
+                            <div v-if="!recent_candidatures?.length" class="px-6 py-8 text-center text-sm text-gray-400">
+                                Aucune candidature reçue.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Derniers articles + progression recensement -->
+                    <div class="space-y-6">
+                        <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
+                            <div class="px-6 py-4 border-b border-gray-100">
+                                <h3 class="font-bold text-[#204138] text-sm uppercase tracking-wider">Progression du recensement</h3>
+                            </div>
+                            <div class="px-6 py-5 space-y-4">
+                                <div>
+                                    <div class="flex justify-between text-xs text-gray-500 mb-1.5">
+                                        <span class="font-semibold">Phase de Cartographie</span>
+                                        <span class="font-bold text-[#204138]">98 %</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
+                                        <div class="bg-[#204138] h-full rounded-full" style="width:98%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs text-gray-500 mb-1.5">
+                                        <span class="font-semibold">Recensement Pilote</span>
+                                        <span class="font-bold text-[#EDAF11]">45 %</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
+                                        <div class="bg-[#EDAF11] h-full rounded-full" style="width:45%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs text-gray-500 mb-1.5">
+                                        <span class="font-semibold">Dénombrement National</span>
+                                        <span class="text-gray-300 font-semibold">Bientôt</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
+                                        <div class="bg-gray-200 h-full rounded-full" style="width:0%"></div>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <div>
-                                <div class="flex justify-between text-sm font-bold text-gray-500 mb-2 uppercase">
-                                    <span>Dénombrement National</span>
-                                    <span class="text-gray-300">Bientôt</span>
-                                </div>
-                                <div class="w-full bg-gray-100 h-3 rounded-full overflow-hidden border border-gray-200 shadow-inner">
-                                    <div class="bg-gray-300 h-full w-[0%]"></div>
+                        <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
+                            <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+                                <h3 class="font-bold text-[#204138] text-sm uppercase tracking-wider">Derniers articles</h3>
+                                <a href="/admin/articles" class="text-xs text-[#204138] hover:underline">Gérer →</a>
+                            </div>
+                            <div class="divide-y divide-gray-50">
+                                <div v-for="a in recent_articles" :key="a.title"
+                                     class="px-6 py-3.5 flex items-center gap-3 hover:bg-gray-50 transition-colors">
+                                    <div class="w-7 h-7 bg-[#204138]/8 rounded-md flex items-center justify-center shrink-0">
+                                        <svg class="w-3.5 h-3.5 text-[#204138]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-sm text-gray-800 font-medium truncate">{{ a.title }}</p>
+                                        <p class="text-xs text-gray-400">{{ a.created_at }}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
-                        <h3 class="text-xl font-bold text-[#204138] mb-6">Dernières Activités</h3>
-                        <div class="space-y-4">
-                            <div v-for="article in recent_articles" :key="article.title" class="flex items-center gap-4 p-4 border-l-2 border-gray-100 hover:border-[#EDAF11] transition-all bg-[#f9fbfb]/50 rounded-r-xl">
-                                <div class="w-10 h-10 rounded-full bg-white border border-[#204138]/10 flex items-center justify-center text-[#204138] shrink-0 shadow-sm">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                </div>
-                                <div class="flex-1">
-                                    <p class="text-sm font-medium text-gray-800">{{ article.title }}</p>
-                                    <p class="text-xs text-gray-400">{{ article.created_at }}</p>
-                                </div>
-                                <span class="text-[10px] font-bold px-2 py-1 rounded bg-[#204138]/5 text-[#204138] uppercase">Article</span>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
+
             </div>
         </div>
     </AuthenticatedLayout>
 </template>
-
