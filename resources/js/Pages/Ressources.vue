@@ -1,6 +1,9 @@
 <script setup>
 import MainLayout from '@/Layouts/MainLayout.vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
+
+const page = usePage();
+const __ = (key) => page.props.translations?.[key] || key;
 
 const legalDocs = [
     {
@@ -131,9 +134,9 @@ const usefulLinks = [
         <section class="relative pt-32 pb-20 overflow-hidden bg-[#204138]">
             <div class="absolute inset-0 z-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
             <div class="container relative z-10 text-center">
-                <span class="inline-block py-1 px-3 rounded-full bg-[#EDAF11]/20 text-[#EDAF11] font-bold text-sm tracking-widest uppercase mb-4">Documentation officielle</span>
-                <h1 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">Ressources</h1>
-                <p class="text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">Textes réglementaires, manuels de terrain, questionnaires et liens institutionnels du 4ème RGPH et RGAE du Cameroun.</p>
+                <span class="inline-block py-1 px-3 rounded-full bg-[#EDAF11]/20 text-[#EDAF11] font-bold text-sm tracking-widest uppercase mb-4">{{ __('Documentation officielle') }}</span>
+                <h1 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">{{ __('Ressources') }}</h1>
+                <p class="text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">{{ __('Textes réglementaires, manuels de terrain, questionnaires et liens institutionnels du 4ème RGPH et RGAE du Cameroun.') }}</p>
             </div>
         </section>
 
@@ -149,8 +152,8 @@ const usefulLinks = [
                             </svg>
                         </div>
                         <div>
-                            <span class="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#EDAF11] block">Cadre juridique</span>
-                            <h2 class="text-xl font-bold text-[#204138] leading-snug">Textes Réglementaires</h2>
+                            <span class="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#EDAF11] block">{{ __('Cadre juridique') }}</span>
+                            <h2 class="text-xl font-bold text-[#204138] leading-snug">{{ __('Textes Réglementaires') }}</h2>
                         </div>
                     </div>
 
@@ -171,7 +174,7 @@ const usefulLinks = [
                                     </div>
                                     <a href="mailto:recensement90@gmail.com?subject=Demande%20document%20officiel%20RGPH4"
                                        class="flex-shrink-0 inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.1em] text-[#204138]/60 hover:text-[#204138] border border-[#204138]/15 hover:border-[#204138]/40 px-3 py-1.5 transition-colors duration-200 no-underline rounded-lg">
-                                        Sur demande
+                                        {{ __('Sur demande') }}
                                     </a>
                                 </div>
                             </div>
@@ -188,8 +191,8 @@ const usefulLinks = [
                             </svg>
                         </div>
                         <div>
-                            <span class="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#EDAF11] block">Outils de terrain</span>
-                            <h2 class="text-xl font-bold text-[#204138] leading-snug">Manuels & Questionnaires</h2>
+                            <span class="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#EDAF11] block">{{ __('Outils de terrain') }}</span>
+                            <h2 class="text-xl font-bold text-[#204138] leading-snug">{{ __('Manuels & Questionnaires') }}</h2>
                         </div>
                     </div>
 
@@ -209,7 +212,7 @@ const usefulLinks = [
                                 <p class="text-xs text-gray-500 leading-relaxed mb-3">{{ manual.desc }}</p>
                                 <span v-if="manual.status === 'a_venir'"
                                       class="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-[0.1em] text-gray-400 border border-gray-200 px-2.5 py-1 rounded-lg">
-                                    À venir
+                                    {{ __('À venir') }}
                                 </span>
                                 <a v-else
                                    href="mailto:recensement90@gmail.com?subject=Demande%20manuel%20RGPH4"
@@ -230,8 +233,8 @@ const usefulLinks = [
                             </svg>
                         </div>
                         <div>
-                            <span class="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#EDAF11] block">Institutions & partenaires</span>
-                            <h2 class="text-xl font-bold text-[#204138] leading-snug">Liens Utiles</h2>
+                            <span class="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#EDAF11] block">{{ __('Institutions & partenaires') }}</span>
+                            <h2 class="text-xl font-bold text-[#204138] leading-snug">{{ __('Liens Utiles') }}</h2>
                         </div>
                     </div>
 

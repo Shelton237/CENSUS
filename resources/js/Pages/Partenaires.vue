@@ -1,7 +1,10 @@
 <script setup>
 import MainLayout from '@/Layouts/MainLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
+
+const page = usePage();
+const __ = (key) => page.props.translations?.[key] || key;
 
 const props = defineProps({ dbPartners: { type: Array, default: () => [] } });
 
@@ -90,21 +93,21 @@ const partners = computed(() => [
 ]);
 
 const filters = computed(() => [
-    { key: 'tous',          label: 'Tous les partenaires', count: partners.value.length },
-    { key: 'financier',     label: 'Financiers',           count: partners.value.filter(p => p.category === 'financier').length },
-    { key: 'technique',     label: 'Techniques',           count: partners.value.filter(p => p.category === 'technique').length },
-    { key: 'institutionnel',label: 'Institutionnels',      count: partners.value.filter(p => p.category === 'institutionnel').length },
+    { key: 'tous',          label: __('Tous les partenaires'), count: partners.value.length },
+    { key: 'financier',     label: __('Financiers'),           count: partners.value.filter(p => p.category === 'financier').length },
+    { key: 'technique',     label: __('Techniques'),           count: partners.value.filter(p => p.category === 'technique').length },
+    { key: 'institutionnel',label: __('Institutionnels'),      count: partners.value.filter(p => p.category === 'institutionnel').length },
 ]);
 
 const filtered = computed(() =>
     activeFilter.value === 'tous' ? partners.value : partners.value.filter(p => p.category === activeFilter.value)
 );
 
-const categoryColors = {
-    financier:      { bg: 'bg-[#EDAF11]/15', text: 'text-[#92660A]', label: 'Financier' },
-    technique:      { bg: 'bg-[#204138]/10', text: 'text-[#204138]', label: 'Technique' },
-    institutionnel: { bg: 'bg-blue-50',       text: 'text-blue-700',  label: 'Institutionnel' },
-};
+const categoryColors = computed(() => ({
+    financier:      { bg: 'bg-[#EDAF11]/15', text: 'text-[#92660A]', label: __('Financier') },
+    technique:      { bg: 'bg-[#204138]/10', text: 'text-[#204138]', label: __('Technique') },
+    institutionnel: { bg: 'bg-blue-50',       text: 'text-blue-700',  label: __('Institutionnel') },
+}));
 
 const logoPartners = computed(() => partners.value.filter(p => p.logo));
 </script>
@@ -134,16 +137,16 @@ const logoPartners = computed(() => partners.value.filter(p => p.logo));
             <!-- Déco dorée -->
             <div class="absolute bottom-0 left-0 right-0 h-1 bg-[#EDAF11]"></div>
             <div class="container relative z-10 text-center max-w-3xl mx-auto px-4">
-                <span class="inline-block py-1.5 px-4 rounded-full bg-[#EDAF11]/20 text-[#EDAF11] font-bold text-xs tracking-widest uppercase mb-5">Transparence & Coopération</span>
-                <h1 class="text-4xl md:text-5xl font-black text-white mb-5 leading-tight">Nos Partenaires</h1>
-                <p class="text-lg text-white/75 leading-relaxed">Le 4ème RGPH et RGAE est le fruit d'une collaboration étroite entre le Gouvernement camerounais et des organisations nationales et internationales de premier plan.</p>
+                <span class="inline-block py-1.5 px-4 rounded-full bg-[#EDAF11]/20 text-[#EDAF11] font-bold text-xs tracking-widest uppercase mb-5">{{ __('Transparence & Coopération') }}</span>
+                <h1 class="text-4xl md:text-5xl font-black text-white mb-5 leading-tight">{{ __('Nos Partenaires') }}</h1>
+                <p class="text-lg text-white/75 leading-relaxed">{{ __('Le 4ème RGPH et RGAE est le fruit d\'une collaboration étroite entre le Gouvernement camerounais et des organisations nationales et internationales de premier plan.') }}</p>
             </div>
         </section>
 
         <!-- ═══════════════ LOGO WALL ═══════════════ -->
         <section class="bg-white border-b border-gray-100 py-10">
             <div class="container max-w-5xl mx-auto px-4">
-                <p class="text-center text-[10px] font-bold uppercase tracking-[0.18em] text-gray-400 mb-8">Ils nous font confiance</p>
+                <p class="text-center text-[10px] font-bold uppercase tracking-[0.18em] text-gray-400 mb-8">{{ __('Ils nous font confiance') }}</p>
                 <div class="flex flex-wrap items-center justify-center gap-6 md:gap-10">
                     <div v-for="p in logoPartners" :key="p.id"
                          class="flex items-center justify-center w-28 h-14 grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-300">
@@ -216,13 +219,13 @@ const logoPartners = computed(() => partners.value.filter(p => p.logo));
                             <!-- Lien site -->
                             <a v-if="p.website" :href="p.website" target="_blank" rel="noopener noreferrer"
                                class="flex items-center justify-between pt-4 border-t border-gray-100 text-xs font-bold text-[#204138] hover:text-[#EDAF11] transition-colors duration-200 no-underline group cursor-pointer">
-                                <span>Visiter le site officiel</span>
+                                <span>{{ __('Visiter le site officiel') }}</span>
                                 <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
                                 </svg>
                             </a>
                             <div v-else class="pt-4 border-t border-gray-100">
-                                <span class="text-[10px] text-gray-300 uppercase tracking-wider">Site non disponible</span>
+                                <span class="text-[10px] text-gray-300 uppercase tracking-wider">{{ __('Site non disponible') }}</span>
                             </div>
                         </div>
                     </article>
