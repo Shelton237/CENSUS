@@ -9,7 +9,7 @@
     "Accéder au site en Français": "Access the French site",
     "Accéder au site en Anglais": "Access the English site",
     "Recensement Général de la Population et de l'Habitat": "4th General Population and Housing Census",
-    "Recensement Général de l'Agriculture et de l'Élevage": "4th General Agriculture and Livestock Census",
+    "Recensement Général de l'Agriculture et de l'Élevage": "General Agriculture and Livestock Census",
     "Besoin d'informations ?": "Need information?",
     "Le recensement est notre avenir, tous concernés, tous gagnants": "The census is our future, let's all contribute to its success",
     "Contactez nous via le numéro vert dédié": "Contact us via the official assistance shortcode (INFO LINE 8585)",
@@ -535,5 +535,7 @@
     "comm_press_li3": "Preliminary data and statistics",
     "comm_press_contact_label": "Contact us",
     "comm_press_phone_label": "Phone",
-    "comm_press_email_label": "Email"
+    "comm_press_email_label": "Email",
+    "Numéro Vert": "Green Number",
+    "Appel gratuit, 24h/24 · 7j/7": "Free call, 24/7"
 }

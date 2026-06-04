@@ -6,10 +6,10 @@ const page = usePage();
 const __ = (key) => page.props.translations?.[key] || key;
 
 const legalDocs = [
-    { ref: 'Loi N°91/023',        titleKey: 'doc_loi_1991_title',        descKey: 'doc_loi_1991_desc',        status: 'sur_demande' },
-    { ref: 'Décret N°2015/397',   titleKey: 'doc_decret_2015_397_title', descKey: 'doc_decret_2015_397_desc', status: 'sur_demande' },
-    { ref: 'Décret N°2015/292',   titleKey: 'doc_decret_2015_292_title', descKey: 'doc_decret_2015_292_desc', status: 'sur_demande' },
-    { ref: 'Arrêté N°039/CAB/PM', titleKey: 'doc_arrete_2026_title',     descKey: 'doc_arrete_2026_desc',     status: 'sur_demande' },
+    { ref: 'Loi N°91/023',        titleKey: 'doc_loi_1991_title',        descKey: 'doc_loi_1991_desc',        status: 'sur_demande', url: null },
+    { ref: 'Décret N°2015/397',   titleKey: 'doc_decret_2015_397_title', descKey: 'doc_decret_2015_397_desc', status: 'disponible',  url: '/assets/documents/decrets/D%C3%A9cret%20N%C2%B02015-397%20du%2015-09-2015%20instituant%20le%204e%20RGPH.pdf' },
+    { ref: 'Décret N°2015/292',   titleKey: 'doc_decret_2015_292_title', descKey: 'doc_decret_2015_292_desc', status: 'disponible',  url: '/assets/documents/decrets/DECRET%20INSTITUANT%20LE%20RGAE_CMR.pdf' },
+    { ref: 'Arrêté N°039/CAB/PM', titleKey: 'doc_arrete_2026_title',     descKey: 'doc_arrete_2026_desc',     status: 'disponible',  url: '/assets/documents/decrets/Arr%C3%AAt%C3%A9%20fixant%20date%20de%20d%C3%A9but%20et%20fin%20des%20op%C3%A9rations%20de%20recensement.pdf' },
 ];
 
 const manuals = [
@@ -92,7 +92,12 @@ const usefulLinks = [
                                         <h3 class="text-sm font-bold text-[#204138] leading-snug mb-1">{{ __(doc.titleKey) }}</h3>
                                         <p class="text-xs text-gray-500 leading-relaxed">{{ __(doc.descKey) }}</p>
                                     </div>
-                                    <a href="mailto:recensement90@gmail.com?subject=Demande%20document%20officiel%20RGPH4"
+                                    <a v-if="doc.url" :href="doc.url" target="_blank" rel="noopener"
+                                       class="flex-shrink-0 inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.1em] text-white bg-[#204138] hover:bg-[#2b5549] px-3 py-1.5 transition-colors duration-200 no-underline rounded-lg">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                                        {{ __('Télécharger') }}
+                                    </a>
+                                    <a v-else href="mailto:recensement90@gmail.com?subject=Demande%20document%20officiel%20RGPH4"
                                        class="flex-shrink-0 inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.1em] text-[#204138]/60 hover:text-[#204138] border border-[#204138]/15 hover:border-[#204138]/40 px-3 py-1.5 transition-colors duration-200 no-underline rounded-lg">
                                         {{ __('Sur demande') }}
                                     </a>

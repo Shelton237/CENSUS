@@ -607,6 +607,20 @@ onUnmounted(() => {
             </div>
         </div>
 
+        <!-- ===================== NUMÉRO VERT ===================== -->
+        <div class="bg-[#EDAF11]">
+            <div class="container max-w-7xl mx-auto px-4 py-2.5 flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
+                <div class="flex items-center gap-2">
+                    <svg class="w-4 h-4 text-[#204138] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                    </svg>
+                    <span class="text-[#204138] text-xs font-bold uppercase tracking-wider">{{ __('Numéro Vert') }}</span>
+                </div>
+                <a href="tel:8585" class="text-[#204138] font-black text-xl leading-none tracking-tight hover:opacity-75 transition-opacity">8585</a>
+                <span class="text-[#204138]/70 text-xs hidden sm:inline">— {{ __('Appel gratuit, 24h/24 · 7j/7') }}</span>
+            </div>
+        </div>
+
         <!-- ===================== SECTION LIVE HUB (COUNTDOWN & ACCÈS RAPIDE) ===================== -->
         <section class="py-14 bg-[#F7F9F8] border-t border-b border-[#204138]/10">
             <div class="container mx-auto px-4 md:px-6 max-w-7xl">
