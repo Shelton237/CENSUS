@@ -117,12 +117,24 @@ Route::post('/newsletter', [NewsletterController::class, 'store'])->name('newsle
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard', [
-            'articles_count' => \App\Models\Article::count(),
-            'partners_count' => \App\Models\Partner::count(),
+            'articles_count'      => \App\Models\Article::count(),
+            'partners_count'      => \App\Models\Partner::count(),
+            'candidatures_count'  => \App\Models\Candidature::count(),
+            'pending_count'       => \App\Models\Candidature::where('status', 'pending')->count(),
             'recent_articles' => \App\Models\Article::latest()->take(3)->get()->map(function($a) {
                 return [
                     'title' => $a->title_fr,
                     'created_at' => $a->created_at->diffForHumans(),
+                ];
+            }),
+            'recent_candidatures' => \App\Models\Candidature::latest()->take(5)->get()->map(function($c) {
+                return [
+                    'id'         => $c->id,
+                    'name'       => $c->first_name . ' ' . $c->last_name,
+                    'region'     => $c->region,
+                    'education'  => $c->education_level,
+                    'status'     => $c->status,
+                    'created_at' => $c->created_at->diffForHumans(),
                 ];
             }),
         ]);
@@ -131,6 +143,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::resource('articles', \App\Http\Controllers\Admin\ArticleController::class);
         Route::resource('partners', \App\Http\Controllers\Admin\PartnerController::class);
+        Route::get('candidatures', function () {
+            $candidatures = \App\Models\Candidature::latest()->paginate(25);
+            return Inertia::render('Admin/Candidatures', ['candidatures' => $candidatures]);
+        })->name('candidatures.index');
+        Route::patch('candidatures/{candidature}/status', function (Request $request, \App\Models\Candidature $candidature) {
+            $request->validate(['status' => 'required|in:pending,reviewed,accepted,rejected']);
+            $candidature->update(['status' => $request->status]);
+            return back();
+        })->name('candidatures.status');
     });
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
