@@ -29,21 +29,21 @@ const partners = computed(() => [
         id: 1, category: 'financier', name: 'Banque Mondiale', acronym: 'WB',
         logo: resolveLogoFromDb('Banque Mondiale') || '/assets/images/partenaire/worldbank.svg',
         role: 'Partenaire financier — Projet HISWACA', contribution: '7 milliards FCFA',
-        desc: 'La Banque Mondiale soutient le recensement à travers le projet HISWACA, apportant un financement clé pour les équipements numériques, les tablettes CAPI et la formation des agents de terrain.',
+        descKey: 'partner_wb_desc',
         website: 'https://www.banquemondiale.org/fr/country/cameroon',
     },
     {
         id: 2, category: 'financier', name: 'HISWACA', acronym: 'HIS',
         logo: resolveLogoFromDb('HISWACA') || '/assets/images/partenaire/hiswaca-e1770819554832.jpg',
         role: 'Programme régional de statistiques', contribution: 'Coordination régionale',
-        desc: 'Le programme HISWACA coordonne l\'appui technique et financier aux opérations statistiques des pays d\'Afrique Centrale, dont le Cameroun, dans le cadre d\'un effort de coopération régionale.',
+        descKey: 'partner_hiswaca_desc',
         website: null,
     },
     {
         id: 3, category: 'financier', name: 'Gouvernement du Cameroun', acronym: 'GVT',
         logo: resolveLogoFromDb('Gouvernement du Cameroun') || '/assets/images/partenaire/gvt.png',
         role: 'Financement principal & tutelle', contribution: 'Budget de l\'État',
-        desc: 'Le Gouvernement camerounais assure le financement majoritaire via le budget de l\'État et la coordination nationale à travers le MINEPAT, tutelle technique du BUCREP.',
+        descKey: 'partner_gvt_desc',
         website: 'https://www.minepat.gov.cm',
     },
     // ── Techniques ──────────────────────────────────────────────
@@ -51,21 +51,21 @@ const partners = computed(() => [
         id: 4, category: 'technique', name: 'UNFPA', acronym: 'UNFPA',
         logo: resolveLogoFromDb('UNFPA') || '/assets/images/partenaire/unfpa.png',
         role: 'Assistance technique démographique', contribution: 'Expertise & outils SIG',
-        desc: 'L\'UNFPA fournit une expertise démographique de pointe pour la conception des outils de collecte, la cartographie numérique et le suivi en temps réel des opérations de terrain.',
+        descKey: 'partner_unfpa_desc',
         website: 'https://cameroon.unfpa.org/',
     },
     {
         id: 5, category: 'technique', name: 'FAO', acronym: 'FAO',
         logo: resolveLogoFromDb('FAO') || '/assets/images/partenaire/fao.svg',
         role: 'Appui méthodologique agricole', contribution: 'Supervision RGAE',
-        desc: 'La FAO supervise le volet agricole du recensement (RGAE), en fournissant les méthodologies standardisées, les nomenclatures agricoles internationales et un appui technique pour les données agropastorales.',
+        descKey: 'partner_fao_desc',
         website: 'https://www.fao.org/cameroon/fr/',
     },
     {
         id: 6, category: 'technique', name: 'OMS', acronym: 'OMS',
         logo: resolveLogoFromDb('OMS') || '/assets/images/partenaire/oms.gif',
         role: 'Logistique & matériel technique', contribution: 'Appui opérationnel',
-        desc: 'L\'OMS contribue à la logistique opérationnelle du recensement, notamment pour la mise à disposition de matériel technique et l\'appui aux opérations dans les zones à accès difficile.',
+        descKey: 'partner_oms_desc',
         website: 'https://www.who.int/fr/countries/cmr',
     },
     // ── Institutionnels ─────────────────────────────────────────
@@ -73,21 +73,21 @@ const partners = computed(() => [
         id: 7, category: 'institutionnel', name: 'BUCREP', acronym: 'BUCREP',
         logo: resolveLogoFromDb('BUCREP') || '/assets/images/partenaire/bucrep.png',
         role: 'Maître d\'œuvre technique officiel', contribution: 'Exécution nationale',
-        desc: 'Organisme public créé en 1999, le BUCREP est le bras opérationnel du gouvernement. Il coordonne l\'ensemble des opérations, de la cartographie jusqu\'à la publication des résultats.',
+        descKey: 'partner_bucrep_desc',
         website: 'https://bucrep.org',
     },
     {
         id: 8, category: 'institutionnel', name: 'MINEPAT', acronym: 'MINEPAT',
         logo: resolveLogoFromDb('MINEPAT') || '/assets/images/partenaire/minepat.jpg',
         role: 'Tutelle technique du BUCREP', contribution: 'Pilotage stratégique',
-        desc: 'Le MINEPAT supervise l\'orientation stratégique du recensement et veille à son intégration dans les politiques nationales de planification et de développement durable.',
+        descKey: 'partner_minepat_desc',
         website: 'https://www.minepat.gov.cm',
     },
     {
         id: 9, category: 'institutionnel', name: 'INS', acronym: 'INS',
         logo: resolveLogoFromDb('INS') || '/assets/images/partenaire/ins.png',
         role: 'Partenaire statistique national', contribution: 'Validation méthodologique',
-        desc: 'L\'Institut National de la Statistique collabore avec le BUCREP pour la validation méthodologique, la cohérence des nomenclatures et la diffusion des résultats auprès des utilisateurs.',
+        descKey: 'partner_ins_desc',
         website: 'https://www.statistics-cameroon.org',
     },
 ]);
@@ -214,7 +214,7 @@ const logoPartners = computed(() => partners.value.filter(p => p.logo));
                             </div>
 
                             <!-- Description -->
-                            <p class="text-sm text-gray-500 leading-relaxed flex-1 mb-5">{{ p.desc }}</p>
+                            <p class="text-sm text-gray-500 leading-relaxed flex-1 mb-5">{{ __(p.descKey) }}</p>
 
                             <!-- Lien site -->
                             <a v-if="p.website" :href="p.website" target="_blank" rel="noopener noreferrer"

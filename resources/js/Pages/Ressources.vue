@@ -6,108 +6,28 @@ const page = usePage();
 const __ = (key) => page.props.translations?.[key] || key;
 
 const legalDocs = [
-    {
-        ref: 'Loi N°91/023',
-        title: 'Loi N°91/023 du 16 décembre 1991',
-        desc: 'Relative aux recensements et enquêtes statistiques — fondement juridique de la statistique officielle au Cameroun et garantie du secret statistique.',
-        status: 'sur_demande',
-    },
-    {
-        ref: 'Décret N°2015/397',
-        title: 'Décret Présidentiel N°2015/397 du 15 septembre 2015',
-        desc: 'Institution du 4ème Recensement Général de la Population et de l\'Habitat (RGPH) — désigne le BUCREP comme maître d\'œuvre sous tutelle MINEPAT.',
-        status: 'sur_demande',
-    },
-    {
-        ref: 'Décret N°2015/292',
-        title: 'Décret Présidentiel N°2015/292 du 29 juin 2015',
-        desc: 'Institution du Recensement Général de l\'Agriculture et de l\'Élevage (RGAE) — statistiques structurelles sur les exploitations agropastorales.',
-        status: 'sur_demande',
-    },
-    {
-        ref: 'Arrêté N°039/CAB/PM',
-        title: 'Arrêté N°039/CAB/PM du 06 mars 2026',
-        desc: 'Fixation de la période de dénombrement principal mutualisé RGPH/RGAE du 24 avril au 29 mai 2026, signé par le Premier Ministre.',
-        status: 'sur_demande',
-    },
+    { ref: 'Loi N°91/023',        titleKey: 'doc_loi_1991_title',        descKey: 'doc_loi_1991_desc',        status: 'sur_demande' },
+    { ref: 'Décret N°2015/397',   titleKey: 'doc_decret_2015_397_title', descKey: 'doc_decret_2015_397_desc', status: 'sur_demande' },
+    { ref: 'Décret N°2015/292',   titleKey: 'doc_decret_2015_292_title', descKey: 'doc_decret_2015_292_desc', status: 'sur_demande' },
+    { ref: 'Arrêté N°039/CAB/PM', titleKey: 'doc_arrete_2026_title',     descKey: 'doc_arrete_2026_desc',     status: 'sur_demande' },
 ];
 
 const manuals = [
-    {
-        title: 'Manuel de l\'agent recenseur (RGPH)',
-        desc: 'Guide complet pour la collecte des données démographiques — questionnaire, procédures, cas particuliers.',
-        status: 'sur_demande',
-        icon: 'user',
-    },
-    {
-        title: 'Manuel de l\'agent recenseur (RGAE)',
-        desc: 'Guide pour la collecte des données agricoles — exploitation agropastorale, aquaculture, nomenclatures.',
-        status: 'sur_demande',
-        icon: 'user',
-    },
-    {
-        title: 'Manuel du contrôleur',
-        desc: 'Procédures de supervision, de contrôle qualité et de coordination des équipes de terrain.',
-        status: 'sur_demande',
-        icon: 'check',
-    },
-    {
-        title: 'Guide de cartographie numérique',
-        desc: 'Utilisation des outils SIG, délimitation des zones de dénombrement et saisie sur tablette.',
-        status: 'a_venir',
-        icon: 'map',
-    },
-    {
-        title: 'Questionnaire ménage RGPH',
-        desc: 'Formulaire officiel de collecte des données démographiques et d\'habitat par ménage.',
-        status: 'sur_demande',
-        icon: 'doc',
-    },
-    {
-        title: 'Questionnaire exploitation RGAE',
-        desc: 'Formulaire officiel de collecte des données agricoles, pastorales et aquacoles.',
-        status: 'sur_demande',
-        icon: 'doc',
-    },
+    { titleKey: 'manual_rgph_title',    descKey: 'manual_rgph_desc',    status: 'sur_demande', icon: 'user' },
+    { titleKey: 'manual_rgae_title',    descKey: 'manual_rgae_desc',    status: 'sur_demande', icon: 'user' },
+    { titleKey: 'manual_controleur_title', descKey: 'manual_controleur_desc', status: 'sur_demande', icon: 'check' },
+    { titleKey: 'manual_carto_title',   descKey: 'manual_carto_desc',   status: 'a_venir',     icon: 'map' },
+    { titleKey: 'manual_q_rgph_title',  descKey: 'manual_q_rgph_desc',  status: 'sur_demande', icon: 'doc' },
+    { titleKey: 'manual_q_rgae_title',  descKey: 'manual_q_rgae_desc',  status: 'sur_demande', icon: 'doc' },
 ];
 
 const usefulLinks = [
-    {
-        name: 'BUCREP',
-        desc: 'Bureau Central des Recensements et des Études de Population — site officiel',
-        url: 'https://bucrep.org',
-        color: '#204138',
-    },
-    {
-        name: 'INS Cameroun',
-        desc: 'Institut National de la Statistique du Cameroun',
-        url: 'https://www.statistics-cameroon.org',
-        color: '#204138',
-    },
-    {
-        name: 'UNFPA Cameroun',
-        desc: 'Fonds des Nations Unies pour la Population — partenaire technique',
-        url: 'https://cameroon.unfpa.org',
-        color: '#1B6CA8',
-    },
-    {
-        name: 'FAO Cameroun',
-        desc: 'Organisation des Nations Unies pour l\'Alimentation et l\'Agriculture',
-        url: 'https://www.fao.org/cameroon',
-        color: '#1B6CA8',
-    },
-    {
-        name: 'Banque Mondiale',
-        desc: 'Partenaire financier du projet HISWACA (7 milliards FCFA)',
-        url: 'https://www.worldbank.org/fr/country/cameroon',
-        color: '#009FDA',
-    },
-    {
-        name: 'MINEPAT',
-        desc: 'Ministère de l\'Économie, de la Planification et de l\'Aménagement du Territoire',
-        url: 'https://www.minepat.gov.cm',
-        color: '#204138',
-    },
+    { name: 'BUCREP',         descKey: 'link_bucrep_desc',   url: 'https://bucrep.org',                        color: '#204138' },
+    { name: 'INS Cameroun',   descKey: 'link_ins_desc',      url: 'https://www.statistics-cameroon.org',       color: '#204138' },
+    { name: 'UNFPA Cameroun', descKey: 'link_unfpa_desc',    url: 'https://cameroon.unfpa.org',                color: '#1B6CA8' },
+    { name: 'FAO Cameroun',   descKey: 'link_fao_desc',      url: 'https://www.fao.org/cameroon',              color: '#1B6CA8' },
+    { name: 'Banque Mondiale',descKey: 'link_wb_desc',       url: 'https://www.worldbank.org/fr/country/cameroon', color: '#009FDA' },
+    { name: 'MINEPAT',        descKey: 'link_minepat_desc',  url: 'https://www.minepat.gov.cm',                color: '#204138' },
 ];
 </script>
 
@@ -169,8 +89,8 @@ const usefulLinks = [
                                 <div class="flex items-start justify-between gap-4 flex-wrap">
                                     <div>
                                         <p class="text-[10px] font-bold uppercase tracking-[0.12em] text-[#EDAF11] mb-0.5">{{ doc.ref }}</p>
-                                        <h3 class="text-sm font-bold text-[#204138] leading-snug mb-1">{{ doc.title }}</h3>
-                                        <p class="text-xs text-gray-500 leading-relaxed">{{ doc.desc }}</p>
+                                        <h3 class="text-sm font-bold text-[#204138] leading-snug mb-1">{{ __(doc.titleKey) }}</h3>
+                                        <p class="text-xs text-gray-500 leading-relaxed">{{ __(doc.descKey) }}</p>
                                     </div>
                                     <a href="mailto:recensement90@gmail.com?subject=Demande%20document%20officiel%20RGPH4"
                                        class="flex-shrink-0 inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.1em] text-[#204138]/60 hover:text-[#204138] border border-[#204138]/15 hover:border-[#204138]/40 px-3 py-1.5 transition-colors duration-200 no-underline rounded-lg">
@@ -197,7 +117,7 @@ const usefulLinks = [
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <div v-for="manual in manuals" :key="manual.title"
+                        <div v-for="manual in manuals" :key="manual.titleKey"
                              class="flex items-start gap-4 p-5 bg-white border border-[#204138]/8 hover:border-[#204138]/20 transition-colors duration-200">
                             <div class="w-10 h-10 bg-[#F7F9F8] border border-[#204138]/10 flex items-center justify-center flex-shrink-0 rounded-lg">
                                 <svg class="w-4 h-4 text-[#204138]/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -208,8 +128,8 @@ const usefulLinks = [
                                 </svg>
                             </div>
                             <div class="flex-1 min-w-0">
-                                <h3 class="text-sm font-bold text-[#204138] leading-snug mb-1">{{ manual.title }}</h3>
-                                <p class="text-xs text-gray-500 leading-relaxed mb-3">{{ manual.desc }}</p>
+                                <h3 class="text-sm font-bold text-[#204138] leading-snug mb-1">{{ __(manual.titleKey) }}</h3>
+                                <p class="text-xs text-gray-500 leading-relaxed mb-3">{{ __(manual.descKey) }}</p>
                                 <span v-if="manual.status === 'a_venir'"
                                       class="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-[0.1em] text-gray-400 border border-gray-200 px-2.5 py-1 rounded-lg">
                                     {{ __('À venir') }}
@@ -250,7 +170,7 @@ const usefulLinks = [
                             </div>
                             <div class="flex-1 min-w-0">
                                 <p class="text-sm font-bold text-[#204138] leading-snug group-hover:text-[#2b5549]">{{ link.name }}</p>
-                                <p class="text-xs text-gray-400 leading-snug mt-0.5 truncate">{{ link.desc }}</p>
+                                <p class="text-xs text-gray-400 leading-snug mt-0.5 truncate">{{ __(link.descKey) }}</p>
                             </div>
                             <svg class="w-3.5 h-3.5 text-gray-300 group-hover:text-[#EDAF11] flex-shrink-0 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
