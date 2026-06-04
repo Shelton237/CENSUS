@@ -60,7 +60,7 @@ const partners = computed(() => [
     },
     {
         id: 6, category: 'technique', name: 'OMS', acronym: 'OMS',
-        logo: resolveLogoFromDb('OMS'),
+        logo: resolveLogoFromDb('OMS') || '/assets/images/partenaire/oms.gif',
         role: 'Logistique & matériel technique', contribution: 'Appui opérationnel',
         desc: 'L\'OMS contribue à la logistique opérationnelle du recensement, notamment pour la mise à disposition de matériel technique et l\'appui aux opérations dans les zones à accès difficile.',
         website: 'https://www.who.int/fr/countries/cmr',
@@ -75,14 +75,14 @@ const partners = computed(() => [
     },
     {
         id: 8, category: 'institutionnel', name: 'MINEPAT', acronym: 'MINEPAT',
-        logo: resolveLogoFromDb('MINEPAT'),
+        logo: resolveLogoFromDb('MINEPAT') || '/assets/images/partenaire/minepat.jpg',
         role: 'Tutelle technique du BUCREP', contribution: 'Pilotage stratégique',
         desc: 'Le MINEPAT supervise l\'orientation stratégique du recensement et veille à son intégration dans les politiques nationales de planification et de développement durable.',
         website: 'https://www.minepat.gov.cm',
     },
     {
         id: 9, category: 'institutionnel', name: 'INS', acronym: 'INS',
-        logo: resolveLogoFromDb('INS'),
+        logo: resolveLogoFromDb('INS') || '/assets/images/partenaire/ins.png',
         role: 'Partenaire statistique national', contribution: 'Validation méthodologique',
         desc: 'L\'Institut National de la Statistique collabore avec le BUCREP pour la validation méthodologique, la cohérence des nomenclatures et la diffusion des résultats auprès des utilisateurs.',
         website: 'https://www.statistics-cameroon.org',
