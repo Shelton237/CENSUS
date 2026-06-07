@@ -1,6 +1,5 @@
 <script setup>
 import { ref, nextTick, onMounted } from 'vue';
-import axios from 'axios';
 
 const props = defineProps({
     botName:        { type: String, default: 'Assistant RGPH' },
@@ -24,6 +23,9 @@ const scrollToBottom = () => {
     });
 };
 
+const csrfToken = () =>
+    document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ?? '';
+
 const send = async () => {
     const text = input.value.trim();
     if (!text || loading.value) return;
@@ -37,14 +39,54 @@ const send = async () => {
         .slice(-11, -1)
         .map(m => ({ role: m.role, content: m.content }));
 
+    // Ajoute un message assistant vide — on le remplit token par token
+    messages.value.push({ role: 'assistant', content: '' });
+    const idx = messages.value.length - 1;
+
     try {
-        const { data } = await axios.post('/chat', { message: text, history });
-        messages.value.push({ role: 'assistant', content: data.reply });
-    } catch {
-        messages.value.push({
-            role: 'assistant',
-            content: 'Désolé, le service est temporairement indisponible. Réessayez dans un instant.',
+        const response = await fetch('/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type':  'application/json',
+                'X-CSRF-TOKEN':  csrfToken(),
+                'Accept':        'text/event-stream',
+            },
+            body: JSON.stringify({ message: text, history }),
         });
+
+        if (!response.ok || !response.body) throw new Error('stream error');
+
+        const reader  = response.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer    = '';
+
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            buffer += decoder.decode(value, { stream: true });
+
+            const lines = buffer.split('\n');
+            buffer = lines.pop() ?? '';
+
+            for (const line of lines) {
+                if (!line.startsWith('data: ')) continue;
+                const raw = line.slice(6).trim();
+                if (raw === '[DONE]') { loading.value = false; break; }
+                try {
+                    const parsed = JSON.parse(raw);
+                    if (parsed.token) {
+                        messages.value[idx].content += parsed.token;
+                        scrollToBottom();
+                    }
+                    if (parsed.error) {
+                        messages.value[idx].content = parsed.error;
+                    }
+                } catch { /* chunk incomplet, ignoré */ }
+            }
+        }
+    } catch {
+        messages.value[idx].content = 'Désolé, le service est temporairement indisponible. Réessayez dans un instant.';
     } finally {
         loading.value = false;
         scrollToBottom();
@@ -116,8 +158,8 @@ onMounted(scrollToBottom);
                         >{{ msg.content }}</div>
                     </div>
 
-                    <!-- Indicateur typing -->
-                    <div v-if="loading" class="flex justify-start">
+                    <!-- Indicateur typing : uniquement avant le premier token -->
+                    <div v-if="loading && messages[messages.length - 1]?.content === ''" class="flex justify-start">
                         <div class="w-6 h-6 rounded-full bg-[#204138] flex items-center justify-center flex-shrink-0 mr-2 mt-0.5">
                             <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
