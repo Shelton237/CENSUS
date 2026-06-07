@@ -53,7 +53,7 @@ const submit = () => {
                                 v-model="form.title"
                                 type="text"
                                 placeholder="Ex : Qu'est-ce que le RGPH ?"
-                                class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#204138]/30 focus:border-[#204138]"
+                                class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-[#204138]/30 focus:border-[#204138]"
                             />
                             <p v-if="form.errors.title" class="mt-1 text-xs text-red-500">{{ form.errors.title }}</p>
                         </div>
@@ -65,7 +65,7 @@ const submit = () => {
                                 v-model="form.category"
                                 type="text"
                                 placeholder="Ex : FAQ, Procédures, Contact..."
-                                class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#204138]/30 focus:border-[#204138]"
+                                class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-[#204138]/30 focus:border-[#204138]"
                             />
                         </div>
 
@@ -76,7 +76,7 @@ const submit = () => {
                                 v-model="form.content"
                                 rows="8"
                                 placeholder="Rédigez ici la connaissance que le chatbot doit maîtriser..."
-                                class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#204138]/30 focus:border-[#204138] resize-y"
+                                class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-[#204138]/30 focus:border-[#204138] resize-y"
                             ></textarea>
                             <p class="mt-1 text-xs text-gray-400">{{ form.content.length }} caractères</p>
                             <p v-if="form.errors.content" class="mt-1 text-xs text-red-500">{{ form.errors.content }}</p>
@@ -90,7 +90,7 @@ const submit = () => {
                                     v-model.number="form.sort_order"
                                     type="number"
                                     min="0"
-                                    class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#204138]/30 focus:border-[#204138]"
+                                    class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-[#204138]/30 focus:border-[#204138]"
                                 />
                                 <p class="mt-1 text-xs text-gray-400">Les entrées de plus petit ordre sont injectées en premier.</p>
                             </div>
