@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use App\Models\ChatbotSetting;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -35,6 +36,10 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'locale' => app()->getLocale(),
+            'chatbot' => [
+                'bot_name'        => ChatbotSetting::get('bot_name', 'Assistant RGPH'),
+                'welcome_message' => ChatbotSetting::get('welcome_message', "Bonjour ! Je suis l'assistant virtuel du RGPH. Comment puis-je vous aider ?"),
+            ],
             'translations' => array_merge(
                 json_decode(file_get_contents(lang_path(app()->getLocale() . '.json')), true) ?? [],
                 // Optionnel: charger aussi les fichiers php habituels si besoin

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ChatController;
 
 Route::get('/', function () {
     return Inertia::render('Landing');
@@ -115,6 +116,8 @@ Route::get('/set-locale/{locale}', function ($locale, Request $request) {
 
 Route::post('/newsletter', [NewsletterController::class, 'store'])->name('newsletter.store');
 
+Route::post('/chat', [ChatController::class, 'chat'])->name('chat');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         $c = \App\Models\Candidature::class;
@@ -152,6 +155,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::resource('articles', \App\Http\Controllers\Admin\ArticleController::class);
         Route::resource('partners', \App\Http\Controllers\Admin\PartnerController::class);
+
+        Route::get('chatbot', [\App\Http\Controllers\Admin\ChatbotController::class, 'index'])->name('chatbot.index');
+        Route::get('chatbot/create', [\App\Http\Controllers\Admin\ChatbotController::class, 'create'])->name('chatbot.create');
+        Route::post('chatbot', [\App\Http\Controllers\Admin\ChatbotController::class, 'store'])->name('chatbot.store');
+        Route::get('chatbot/{chatbot}/edit', [\App\Http\Controllers\Admin\ChatbotController::class, 'edit'])->name('chatbot.edit');
+        Route::patch('chatbot/{chatbot}', [\App\Http\Controllers\Admin\ChatbotController::class, 'update'])->name('chatbot.update');
+        Route::delete('chatbot/{chatbot}', [\App\Http\Controllers\Admin\ChatbotController::class, 'destroy'])->name('chatbot.destroy');
+        Route::patch('chatbot/{chatbot}/toggle', [\App\Http\Controllers\Admin\ChatbotController::class, 'toggle'])->name('chatbot.toggle');
+        Route::get('chatbot-settings', [\App\Http\Controllers\Admin\ChatbotController::class, 'settings'])->name('chatbot.settings');
+        Route::patch('chatbot-settings', [\App\Http\Controllers\Admin\ChatbotController::class, 'updateSettings'])->name('chatbot.settings.update');
 
         Route::get('candidatures', function (Request $request) {
             $query = \App\Models\Candidature::latest();

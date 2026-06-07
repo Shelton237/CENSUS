@@ -1,6 +1,10 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { Link, useForm, usePage, router } from '@inertiajs/vue3';
+import FloatingChatbot from '@/Components/FloatingChatbot.vue';
+
+const page = usePage();
+const chatbot = computed(() => page.props.chatbot ?? {});
 
 const isMenuOpen = ref(false);
 const isSearchOpen = ref(false);
@@ -208,6 +212,12 @@ onMounted(() => {
                 </div>
             </div>
         </footer>
+
+        <!-- Chatbot IA flottant -->
+        <FloatingChatbot
+            :bot-name="chatbot.bot_name"
+            :welcome-message="chatbot.welcome_message"
+        />
 
     </div>
 </template>

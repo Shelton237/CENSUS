@@ -55,6 +55,13 @@ const showingNavigationDropdown = ref(false);
                                     Partenaires
                                 </NavLink>
                                 <NavLink
+                                    :href="route('admin.chatbot.index')"
+                                    :active="route().current('admin.chatbot.*')"
+                                    class="text-[#204138] font-bold"
+                                >
+                                    Chatbot IA
+                                </NavLink>
+                                <NavLink
                                     href="#"
                                     class="text-gray-400 cursor-not-allowed"
                                 >
