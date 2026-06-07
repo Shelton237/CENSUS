@@ -159,28 +159,62 @@ onMounted(scrollToBottom);
         </Transition>
 
         <!-- Bouton bulle -->
-        <button
-            @click="toggle"
-            class="w-14 h-14 bg-[#204138] hover:bg-[#2b5549] text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95"
-            :title="isOpen ? 'Fermer' : botName"
-        >
+        <div class="flex items-center gap-3">
+
+            <!-- Label flottant (visible uniquement quand fermé) -->
             <Transition
-                enter-active-class="transition-all duration-200"
-                enter-from-class="opacity-0 rotate-90 scale-50"
-                enter-to-class="opacity-100 rotate-0 scale-100"
+                enter-active-class="transition-all duration-300 ease-out"
+                enter-from-class="opacity-0 translate-x-4"
+                enter-to-class="opacity-100 translate-x-0"
                 leave-active-class="transition-all duration-200"
-                leave-from-class="opacity-100 rotate-0 scale-100"
-                leave-to-class="opacity-0 -rotate-90 scale-50"
-                mode="out-in"
+                leave-from-class="opacity-100 translate-x-0"
+                leave-to-class="opacity-0 translate-x-4"
             >
-                <svg v-if="isOpen" key="close" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-                <svg v-else key="chat" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-                </svg>
+                <div
+                    v-if="!isOpen"
+                    class="bg-white text-[#204138] text-sm font-bold px-4 py-2 rounded-full shadow-lg border border-gray-100 whitespace-nowrap cursor-pointer select-none"
+                    @click="toggle"
+                >
+                    {{ botName }}
+                </div>
             </Transition>
-        </button>
+
+            <!-- Bouton rond avec effet ping -->
+            <div class="relative">
+                <!-- Anneau ping (disparaît une fois ouvert) -->
+                <span
+                    v-if="!isOpen"
+                    class="absolute inset-0 rounded-full bg-[#DAA520] opacity-60 animate-ping"
+                ></span>
+
+                <button
+                    @click="toggle"
+                    class="relative w-16 h-16 rounded-full text-white flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95 shadow-xl"
+                    :style="{ background: 'linear-gradient(135deg, #295E4D 0%, #204138 100%)' }"
+                    :title="isOpen ? 'Fermer' : botName"
+                >
+                    <!-- Point vert statut actif -->
+                    <span class="absolute top-1 right-1 w-3 h-3 bg-emerald-400 border-2 border-white rounded-full"></span>
+
+                    <Transition
+                        enter-active-class="transition-all duration-200"
+                        enter-from-class="opacity-0 rotate-90 scale-50"
+                        enter-to-class="opacity-100 rotate-0 scale-100"
+                        leave-active-class="transition-all duration-200"
+                        leave-from-class="opacity-100 rotate-0 scale-100"
+                        leave-to-class="opacity-0 -rotate-90 scale-50"
+                        mode="out-in"
+                    >
+                        <svg v-if="isOpen" key="close" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                        <svg v-else key="chat" class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                        </svg>
+                    </Transition>
+                </button>
+            </div>
+        </div>
 
     </div>
 </template>
