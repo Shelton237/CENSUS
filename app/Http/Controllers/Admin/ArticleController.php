@@ -34,17 +34,20 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title_fr' => 'required|string|max:255',
-            'title_en' => 'nullable|string|max:255',
-            'content_fr' => 'required|string',
-            'content_en' => 'nullable|string',
-            'category' => 'required|string',
-            'media_type' => 'required|in:image,video',
+            'title_fr'     => 'required|string|max:255',
+            'title_en'     => 'nullable|string|max:255',
+            'content_fr'   => 'required|string',
+            'content_en'   => 'nullable|string',
+            'category'     => 'required|in:communique,activite,publication',
+            'media_type'   => 'required|in:image,video',
             'published_at' => 'nullable|date',
+            'image'        => 'nullable|file|mimes:jpg,jpeg,png,webp,gif|max:5120',
+            'video'        => 'nullable|file|mimes:mp4,mov,avi,webm|max:102400',
+            'images.*'     => 'nullable|file|mimes:jpg,jpeg,png,webp,gif|max:5120',
         ]);
 
         $validated['slug'] = Str::slug($validated['title_fr']);
-        
+
         if ($request->hasFile('image')) {
             $validated['image'] = $request->file('image')->store('articles', 'public');
         }
@@ -82,13 +85,16 @@ class ArticleController extends Controller
     public function update(Request $request, Article $article)
     {
         $validated = $request->validate([
-            'title_fr' => 'required|string|max:255',
-            'title_en' => 'nullable|string|max:255',
-            'content_fr' => 'required|string',
-            'content_en' => 'nullable|string',
-            'category' => 'required|string',
-            'media_type' => 'required|in:image,video',
+            'title_fr'     => 'required|string|max:255',
+            'title_en'     => 'nullable|string|max:255',
+            'content_fr'   => 'required|string',
+            'content_en'   => 'nullable|string',
+            'category'     => 'required|in:communique,activite,publication',
+            'media_type'   => 'required|in:image,video',
             'published_at' => 'nullable|date',
+            'image'        => 'nullable|file|mimes:jpg,jpeg,png,webp,gif|max:5120',
+            'video'        => 'nullable|file|mimes:mp4,mov,avi,webm|max:102400',
+            'images.*'     => 'nullable|file|mimes:jpg,jpeg,png,webp,gif|max:5120',
         ]);
 
         if ($article->title_fr !== $validated['title_fr']) {

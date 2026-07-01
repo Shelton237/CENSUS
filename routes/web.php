@@ -118,7 +118,7 @@ Route::post('/newsletter', [NewsletterController::class, 'store'])->name('newsle
 
 Route::post('/chat', [ChatController::class, 'chat'])->name('chat');
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     Route::get('/dashboard', function () {
         $c = \App\Models\Candidature::class;
         $byRegion = \App\Models\Candidature::selectRaw('region, count(*) as total')
